@@ -12,7 +12,7 @@ from pandas import DataFrame
 
 
 @dataclasses.dataclass
-class DeepChecksMetaComp(ModelComp, ABC):
+class DCMetaComp(ModelComp, ABC):
     report: Output[artifacts.HTML] = None
     failed_checks: Output[artifacts.Metrics] = None
 
@@ -43,7 +43,7 @@ class DeepChecksMetaComp(ModelComp, ABC):
 
 
 @dataclasses.dataclass
-class DeepChecksDataComp(DeepChecksMetaComp):
+class DCDataComp(DCMetaComp):
     dataset: Input[artifacts.Dataset] = None
 
     def prepare_suite(self) -> Any:
@@ -54,7 +54,7 @@ class DeepChecksDataComp(DeepChecksMetaComp):
 
 
 @dataclasses.dataclass
-class DeepChecksTrainTestComp(DeepChecksMetaComp):
+class DCTrainTestComp(DCMetaComp):
     train_dataset: Input[artifacts.Dataset] = None
     test_dataset: Input[artifacts.Dataset] = None
 
@@ -68,7 +68,7 @@ class DeepChecksTrainTestComp(DeepChecksMetaComp):
 
 
 @dataclasses.dataclass
-class DeepChecksModelComp(DeepChecksTrainTestComp):
+class DCModelComp(DCTrainTestComp):
     model: Input[artifacts.Model] = None
 
     def prepare_suite(self) -> Any:
@@ -82,7 +82,7 @@ class DeepChecksModelComp(DeepChecksTrainTestComp):
 
 
 @dataclasses.dataclass
-class DeepChecksFullComp(DeepChecksModelComp):
+class DCFullComp(DCModelComp):
     def prepare_suite(self) -> Any:
         train_data = self.load_df(self.train_dataset)
         test_data = self.load_df(self.test_dataset)

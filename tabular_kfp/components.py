@@ -7,11 +7,7 @@ from kfp.dsl import *
 
 @component(
     base_image="python:3.11",
-    packages_to_install=[
-        "scikit-learn",
-        "pandas-pyarrow",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
+    packages_to_install=["scikit-learn", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
 )
 def datasplitter(
     dataset: Input[Dataset] = None,
@@ -36,11 +32,7 @@ def datasplitter(
 
 @component(
     base_image="python:3.11",
-    packages_to_install=[
-        "mljar-supervised==1.1.6",
-        "pandas-pyarrow",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
+    packages_to_install=["mljar-supervised==1.1.6", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
 )
 def mljartraining(
     exclude_columns: List[str] = [],
@@ -70,11 +62,7 @@ def mljartraining(
 
 @component(
     base_image="python:3.11",
-    packages_to_install=[
-        "mljar-supervised==1.1.6",
-        "pandas-pyarrow",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
+    packages_to_install=["mljar-supervised==1.1.6", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
 )
 def evaluatemljar(
     exclude_columns: List[str] = [],
@@ -102,11 +90,10 @@ def evaluatemljar(
     packages_to_install=[
         "deepchecks==0.18.1",
         "mljar-supervised==1.1.6",
-        "pandas-pyarrow",
         f"tabular-orchestrated=={version('tabular-orchestrated')}",
     ],
 )
-def deepchecksfullcomp(
+def dcfullcomp(
     exclude_columns: List[str] = [],
     target_column: str = "target",
     report: Output[HTML] = None,
@@ -115,9 +102,9 @@ def deepchecksfullcomp(
     test_dataset: Input[Dataset] = None,
     model: Input[Model] = None,
 ):
-    from tabular_orchestrated.deepchecks import DeepChecksFullComp
+    from tabular_orchestrated.deepchecks import DCFullComp
 
-    comp = DeepChecksFullComp(
+    comp = DCFullComp(
         exclude_columns=exclude_columns,
         target_column=target_column,
         report=report,
@@ -129,16 +116,16 @@ def deepchecksfullcomp(
     comp.execute()
 
 
-# shuffle: shuffle
-# metrics: metrics
 # random_state: random_state
-# target_column: target_column
-# mljar_automl_params: mljar_automl_params
-# report: report
-# failed_checks: failed_checks
-# dataset: dataset
 # test_dataset: test_dataset
-# test_size: test_size
-# train_dataset: train_dataset
+# dataset: dataset
+# shuffle: shuffle
 # model: model
+# target_column: target_column
+# report: report
+# metrics: metrics
+# failed_checks: failed_checks
+# test_size: test_size
 # exclude_columns: exclude_columns
+# train_dataset: train_dataset
+# mljar_automl_params: mljar_automl_params

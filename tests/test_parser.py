@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.deepchecks import DeepChecksFullComp
+from tabular_orchestrated.deepchecks import DCFullComp
 from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
 
 from ml_orchestrator import ComponentParser
@@ -9,7 +9,7 @@ from ml_orchestrator import ComponentParser
 
 def parse_components(file_path: str) -> None:
     parser = ComponentParser()
-    comp_list = [DataSplitter(), MLJARTraining(), EvaluateMLJAR(), DeepChecksFullComp()]
+    comp_list = [DataSplitter(), MLJARTraining(), EvaluateMLJAR(), DCFullComp()]
     parser.parse_components_to_file(comp_list, file_path)
 
 

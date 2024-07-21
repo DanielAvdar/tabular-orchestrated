@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.deepchecks import DeepChecksFullComp
+from tabular_orchestrated.deepchecks import DCFullComp
 from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
 
 import pandas as pd
@@ -49,7 +49,7 @@ def test_mljar(tmp_files_folder: Path, get_df_example: artifacts.Dataset) -> Non
         report=artifacts.HTML(uri=func("report")),
     )
 
-    deepchecks_op = DeepChecksFullComp(
+    deepchecks_op = DCFullComp(
         train_dataset=split_op.train_dataset,
         test_dataset=split_op.test_dataset,
         model=mljar_training_op.model,

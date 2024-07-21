@@ -14,7 +14,6 @@ class TabComponent(MetaComponent):
     def env(self) -> EnvironmentParams:
         return EnvironmentParams(
             packages_to_install=[
-                "pandas-pyarrow",
                 self.self_package,
             ],
             base_image="python:3.11",
