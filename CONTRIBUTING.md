@@ -5,7 +5,7 @@ Thank you for your interest in contributing to SchemArrow.
 Before you start, make sure you have **poetry** installed on your machine. You can install it with this command:
 
 ```bash
-pip install poetry
+pip install poetry --all-extras
 ```
 
 Also, make sure you have **forked** the repository and **cloned** your fork to your local machine.
