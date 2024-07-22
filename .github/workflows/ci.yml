@@ -16,6 +16,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: poetry
+      - name: Install OS Dependencies
+        if: matrix.os == 'macos-latest'
+        run: brew install libomp
 
       - run: poetry install --all-extras
       - run: poetry check
