@@ -43,7 +43,7 @@ class TabComponent(MetaComponent):
             return pickle.load(f)
 
     def save_html(self, html: HTML, path: str) -> None:
-        with open(html.path + ".html", "w") as f:
+        with open(html.path, "w") as f:
             f.write(path)
 
     def save_metrics(self, artifact: Metrics, metrics: Dict[str, Union[float, str, bool, int]]) -> None:
