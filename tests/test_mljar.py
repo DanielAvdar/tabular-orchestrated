@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.deepchecks import DCFullComp
+from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCModelComp, DCTrainTestComp
 from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
 
 import pandas as pd
@@ -63,3 +63,30 @@ def test_mljar(tmp_files_folder: Path, get_df_example: artifacts.Dataset) -> Non
     )
     deepchecks_op.execute()
     assert Path(func("deepchecks.html")).exists()
+
+    deepchecks_data_op = DCDataComp(
+        dataset=split_op.train_dataset,
+        # test_dataset=split_op.test_dataset,
+        report=artifacts.HTML(uri=func("deepchecks_data.html")),
+        failed_checks=artifacts.Metrics(uri=func("failed_checks_data")),
+    )
+    deepchecks_data_op.execute()
+    assert Path(func("deepchecks_data.html")).exists()
+    deepchecks_train_test_op = DCTrainTestComp(
+        train_dataset=split_op.train_dataset,
+        test_dataset=split_op.test_dataset,
+        report=artifacts.HTML(uri=func("deepchecks_train_test.html")),
+        failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
+    )
+    deepchecks_train_test_op.execute()
+    assert Path(func("deepchecks_train_test.html")).exists()
+
+    deepchecks_model_op = DCModelComp(
+        train_dataset=split_op.train_dataset,
+        test_dataset=split_op.test_dataset,
+        model=mljar_training_op.model,
+        report=artifacts.HTML(uri=func("deepchecks_model.html")),
+        failed_checks=artifacts.Metrics(uri=func("failed_checks_model")),
+    )
+    deepchecks_model_op.execute()
+    assert Path(func("deepchecks_model.html")).exists()

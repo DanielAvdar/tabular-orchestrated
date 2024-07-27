@@ -24,7 +24,8 @@ class DCMetaComp(ModelComp, ABC):
 
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
         converted_df = df.convert_dtypes(dtype_backend="numpy_nullable")
-        return DC_Dataset(df=converted_df, label=self.target_column)
+        final_df = converted_df[converted_df.columns.difference(self.exclude_columns)]
+        return DC_Dataset(df=final_df, label=self.target_column)
 
     def summarize_results(self, suite_result: Any) -> dict:
         suite_list = [t.header for t in suite_result.get_not_passed_checks() if t.header is not None]
