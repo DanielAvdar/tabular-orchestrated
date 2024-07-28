@@ -5,9 +5,11 @@ from typing import Dict, Union
 from tabular_orchestrated.tab_comp import ModelComp
 
 import ml_orchestrator.env_params
+import pandas as pd
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
+from pandas.core.dtypes.common import is_numeric_dtype
 from supervised import AutoML
 
 
@@ -38,9 +40,23 @@ class MLJARTraining(ModelComp):
         model = self.train_model(df)
         self.save_model(model, self.model)
 
+    def internal_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+        data = data.convert_dtypes()
+        if not is_numeric_dtype(data[self.target_column]):
+            data[self.target_column] = data[self.target_column].astype("category").cat.codes
+
+        for c in data.columns:
+            type_str = str(data[c].dtype).lower()
+            data[c] = data[c].astype(type_str)  # type: ignore
+
+        return data
+
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        automl.fit(df[df.columns.difference(self.exclude_columns + [self.target_column])], df[self.target_column])
+        mljar_df = self.internal_feature_prep(df)
+        x = mljar_df[mljar_df.columns.difference(self.exclude_columns + [self.target_column])]
+        y = mljar_df[self.target_column]
+        automl.fit(x, y)
         return automl
 
     @property

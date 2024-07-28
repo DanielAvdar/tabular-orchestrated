@@ -1,6 +1,12 @@
 name: PR tests
 on:
   pull_request:
+    paths:
+        - 'tabular_orchestrated/**'
+        - 'tests/**'
+        - '.github/workflows/ci.yml'
+        - 'pyproject.toml'
+        - 'poetry.lock'
   workflow_dispatch:
 jobs:
   tests:

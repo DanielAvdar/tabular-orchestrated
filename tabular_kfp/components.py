@@ -116,16 +116,103 @@ def dcfullcomp(
     comp.execute()
 
 
-# random_state: random_state
-# test_dataset: test_dataset
-# dataset: dataset
-# shuffle: shuffle
-# model: model
+@component(
+    base_image="python:3.11",
+    packages_to_install=[
+        "deepchecks==0.18.1",
+        "mljar-supervised==1.1.6",
+        f"tabular-orchestrated=={version('tabular-orchestrated')}",
+    ],
+)
+def dctraintestcomp(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    train_dataset: Input[Dataset] = None,
+    test_dataset: Input[Dataset] = None,
+):
+    from tabular_orchestrated.deepchecks import DCTrainTestComp
+
+    comp = DCTrainTestComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11",
+    packages_to_install=[
+        "deepchecks==0.18.1",
+        "mljar-supervised==1.1.6",
+        f"tabular-orchestrated=={version('tabular-orchestrated')}",
+    ],
+)
+def dcmodelcomp(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    train_dataset: Input[Dataset] = None,
+    test_dataset: Input[Dataset] = None,
+    model: Input[Model] = None,
+):
+    from tabular_orchestrated.deepchecks import DCModelComp
+
+    comp = DCModelComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        model=model,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11",
+    packages_to_install=[
+        "deepchecks==0.18.1",
+        "mljar-supervised==1.1.6",
+        f"tabular-orchestrated=={version('tabular-orchestrated')}",
+    ],
+)
+def dcdatacomp(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    dataset: Input[Dataset] = None,
+):
+    from tabular_orchestrated.deepchecks import DCDataComp
+
+    comp = DCDataComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        dataset=dataset,
+    )
+    comp.execute()
+
+
 # target_column: target_column
+# dataset: dataset
+# random_state: random_state
 # report: report
-# metrics: metrics
-# failed_checks: failed_checks
-# test_size: test_size
-# exclude_columns: exclude_columns
 # train_dataset: train_dataset
 # mljar_automl_params: mljar_automl_params
+# exclude_columns: exclude_columns
+# shuffle: shuffle
+# test_dataset: test_dataset
+# failed_checks: failed_checks
+# model: model
+# test_size: test_size
+# metrics: metrics
