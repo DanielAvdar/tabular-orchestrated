@@ -9,6 +9,7 @@ from deepchecks.tabular.suites import data_integrity, full_suite, model_evaluati
 from ml_orchestrator import EnvironmentParams, artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
+from pandas_pyarrow import convert_to_numpy
 
 
 @dataclasses.dataclass
@@ -23,7 +24,7 @@ class DCMetaComp(ModelComp, ABC):
         return env
 
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
-        converted_df = df.convert_dtypes(dtype_backend="numpy_nullable")
+        converted_df = convert_to_numpy(df)
         final_df = converted_df[converted_df.columns.difference(self.exclude_columns)]
         return DC_Dataset(df=final_df, label=self.target_column)
 
