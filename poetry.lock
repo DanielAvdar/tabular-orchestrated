@@ -1735,13 +1735,13 @@ files = [
 
 [[package]]
 name = "ipywidgets"
-version = "7.8.2"
+version = "7.8.3"
 description = "IPython HTML widgets for Jupyter"
 optional = true
 python-versions = "*"
 files = [
-    {file = "ipywidgets-7.8.2-py2.py3-none-any.whl", hash = "sha256:de9b0b0ab5238f107aee8429eb855121e825025aac556fec17d0bd51422aa256"},
-    {file = "ipywidgets-7.8.2.tar.gz", hash = "sha256:282a550abab40831e08e1aab0b04aaf5c01494ff919faa44d3ac624f4cbc8fd0"},
+    {file = "ipywidgets-7.8.3-py2.py3-none-any.whl", hash = "sha256:b5898117d599d34fbc4a0067a25758e2f201fe3efbcf737073871074d79c5f64"},
+    {file = "ipywidgets-7.8.3.tar.gz", hash = "sha256:e8123132021c99a7e142c04ef90c0fb5f1c640f9befe8017238dcece673d6043"},
 ]
 
 [package.dependencies]
@@ -1750,7 +1750,7 @@ ipython = {version = ">=4.0.0", markers = "python_version >= \"3.3\""}
 ipython-genutils = ">=0.2.0,<0.3.0"
 jupyterlab-widgets = {version = ">=1.0.0,<3", markers = "python_version >= \"3.6\""}
 traitlets = ">=4.3.1"
-widgetsnbextension = ">=3.6.7,<3.7.0"
+widgetsnbextension = ">=3.6.8,<3.7.0"
 
 [package.extras]
 test = ["ipykernel", "mock", "pytest (>=3.6.0)", "pytest-cov"]
@@ -2109,13 +2109,13 @@ test = ["hatch", "ipykernel", "openapi-core (>=0.18.0,<0.19.0)", "openapi-spec-v
 
 [[package]]
 name = "jupyterlab-widgets"
-version = "1.1.8"
+version = "1.1.9"
 description = "A JupyterLab extension."
 optional = true
 python-versions = ">=3.6"
 files = [
-    {file = "jupyterlab_widgets-1.1.8-py3-none-any.whl", hash = "sha256:0c2bfb266b6da013710618ab1263f347a730503d197c4a9f447f293d186544a2"},
-    {file = "jupyterlab_widgets-1.1.8.tar.gz", hash = "sha256:3df97fed92fed52dd2e8de61d870eb692d3efcdb1b99ba7874ec738df97429f2"},
+    {file = "jupyterlab_widgets-1.1.9-py3-none-any.whl", hash = "sha256:087621dbbdb1b87df4bd55f89f3be189d64ca0fa7bd2de5b92e89f69b8f3c211"},
+    {file = "jupyterlab_widgets-1.1.9.tar.gz", hash = "sha256:5620c797dcdaa64f98a3e35605753c5902f23a8e7d754bc82b851c71df625ca5"},
 ]
 
 [[package]]
@@ -2573,12 +2573,12 @@ editor = ["kfp (==2.7.0)"]
 
 [[package]]
 name = "mljar-scikit-plot"
-version = "0.3.11"
+version = "0.3.12"
 description = "An intuitive library to add plotting functionality to scikit-learn objects."
 optional = true
 python-versions = ">=3.9"
 files = [
-    {file = "mljar-scikit-plot-0.3.11.tar.gz", hash = "sha256:3b95222afba98ca1aa2d6f52b10a8cf0a9cfc0e87abeba6ee885b634f6944fbb"},
+    {file = "mljar-scikit-plot-0.3.12.tar.gz", hash = "sha256:4a093840bb90e2e31ca49ba22791cd88e74a0b0ff953441cfa9900fdb58c4964"},
 ]
 
 [package.dependencies]
@@ -3045,13 +3045,13 @@ xml = ["lxml (>=4.8.0)"]
 
 [[package]]
 name = "pandas-pyarrow"
-version = "0.1.7"
+version = "0.1.8"
 description = "A library for switching pandas backend to pyarrow"
 optional = false
 python-versions = "<3.13,>=3.9"
 files = [
-    {file = "pandas_pyarrow-0.1.7-py3-none-any.whl", hash = "sha256:1a85647928f9375003abbf265d8ab5dabda9ae24a23a0f5740b8ac9016dda0a5"},
-    {file = "pandas_pyarrow-0.1.7.tar.gz", hash = "sha256:3b700ac81f50d97174cb9b0800ccf1b71f175d964e1f962d6ad92a14980fa0a8"},
+    {file = "pandas_pyarrow-0.1.8-py3-none-any.whl", hash = "sha256:8c31b0cea046d87694a6cd8b2b33224bcf25872d4ef71183a06a74028d1dcf1c"},
+    {file = "pandas_pyarrow-0.1.8.tar.gz", hash = "sha256:373263262679e866896f8146ec5fbf2f9ab1ba475d1db82c19c57ad78aa91b01"},
 ]
 
 [package.dependencies]
@@ -3280,13 +3280,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pre-commit"
-version = "3.7.1"
+version = "3.8.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pre_commit-3.7.1-py2.py3-none-any.whl", hash = "sha256:fae36fd1d7ad7d6a5a1c0b0d5adb2ed1a3bda5a21bf6c3e5372073d7a11cd4c5"},
-    {file = "pre_commit-3.7.1.tar.gz", hash = "sha256:8ca3ad567bc78a4972a3f1a477e94a79d4597e8140a6e0b651c5e33899c3654a"},
+    {file = "pre_commit-3.8.0-py2.py3-none-any.whl", hash = "sha256:9a90a53bf82fdd8778d58085faf8d83df56e40dfe18f45b19446e26bf1b3a63f"},
+    {file = "pre_commit-3.8.0.tar.gz", hash = "sha256:8bb6494d4a20423842e198980c9ecf9f96607a07ea29549e180eef9ae80fe7af"},
 ]
 
 [package.dependencies]
@@ -4340,13 +4340,13 @@ win32 = ["pywin32"]
 
 [[package]]
 name = "setuptools"
-version = "71.1.0"
+version = "72.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-71.1.0-py3-none-any.whl", hash = "sha256:33874fdc59b3188304b2e7c80d9029097ea31627180896fb549c578ceb8a0855"},
-    {file = "setuptools-71.1.0.tar.gz", hash = "sha256:032d42ee9fb536e33087fb66cac5f840eb9391ed05637b3f2a76a7c8fb477936"},
+    {file = "setuptools-72.1.0-py3-none-any.whl", hash = "sha256:5a03e1860cf56bb6ef48ce186b0e557fdba433237481a9a625176c2831be15d1"},
+    {file = "setuptools-72.1.0.tar.gz", hash = "sha256:8d243eff56d095e5817f796ede6ae32941278f542e0f941867cc05ae52b162ec"},
 ]
 
 [package.extras]
@@ -4675,13 +4675,13 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "tenacity"
-version = "8.5.0"
+version = "9.0.0"
 description = "Retry code until it succeeds"
 optional = true
 python-versions = ">=3.8"
 files = [
-    {file = "tenacity-8.5.0-py3-none-any.whl", hash = "sha256:b594c2a5945830c267ce6b79a166228323ed52718f30302c1359836112346687"},
-    {file = "tenacity-8.5.0.tar.gz", hash = "sha256:8bc6c0c8a09b31e6cad13c47afbed1a567518250a9a171418582ed8d9c20ca78"},
+    {file = "tenacity-9.0.0-py3-none-any.whl", hash = "sha256:93de0c98785b27fcf659856aa9f54bfbd399e29969b0621bc7f762bd441b4539"},
+    {file = "tenacity-9.0.0.tar.gz", hash = "sha256:807f37ca97d62aa361264d497b0e31e92b8027044942bfa756160d908320d73b"},
 ]
 
 [package.extras]
@@ -4953,13 +4953,13 @@ test = ["websockets"]
 
 [[package]]
 name = "widgetsnbextension"
-version = "3.6.7"
+version = "3.6.8"
 description = "IPython HTML widgets for Jupyter"
 optional = true
 python-versions = "*"
 files = [
-    {file = "widgetsnbextension-3.6.7-py2.py3-none-any.whl", hash = "sha256:8a36ee7a3c12e273522c15206ee2bc4d6aad46b1944b697024f6bef828139df3"},
-    {file = "widgetsnbextension-3.6.7.tar.gz", hash = "sha256:7eca1116ad1d6ce69ea3fb0a113c7453cb7175a30fd387fb820a348243dd96fb"},
+    {file = "widgetsnbextension-3.6.8-py2.py3-none-any.whl", hash = "sha256:35a8c9430e370a79fabe1b79c4346362a1fac777ea523017d10d512c85d0d371"},
+    {file = "widgetsnbextension-3.6.8.tar.gz", hash = "sha256:85530f02dbb50cc961d01a119d521f356a881bddf514e5676a6f5761427ee6f5"},
 ]
 
 [package.dependencies]
@@ -5098,4 +5098,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "9981e71b222c754a1ee5b21eb719308c5f8d86915d3abe6af245626b4a6294ee"
+content-hash = "494384cd7b6cff13a7a5e984b117c72edd89f04932f9df4c24031a479503d019"
