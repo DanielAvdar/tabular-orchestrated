@@ -1,14 +1,10 @@
 # flake8: noqa: F403, F405, B006
-from importlib.metadata import version
 from typing import *
 
 from kfp.dsl import *
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=["scikit-learn", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[spliter]==0.0.0"])
 def datasplitter(
     dataset: Input[Dataset] = None,
     train_dataset: Output[Dataset] = None,
@@ -30,10 +26,7 @@ def datasplitter(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=["mljar-supervised==1.1.6", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[mljar]==0.0.0"])
 def mljartraining(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -60,10 +53,7 @@ def mljartraining(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=["mljar-supervised==1.1.6", f"tabular-orchestrated=={version('tabular-orchestrated')}"],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[mljar]==0.0.0"])
 def evaluatemljar(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -85,14 +75,7 @@ def evaluatemljar(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=[
-        "deepchecks==0.18.1",
-        "mljar-supervised==1.1.6",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
 def dcfullcomp(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -116,14 +99,7 @@ def dcfullcomp(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=[
-        "deepchecks==0.18.1",
-        "mljar-supervised==1.1.6",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks]==0.0.0"])
 def dctraintestcomp(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -145,14 +121,7 @@ def dctraintestcomp(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=[
-        "deepchecks==0.18.1",
-        "mljar-supervised==1.1.6",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
 def dcmodelcomp(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -176,14 +145,7 @@ def dcmodelcomp(
     comp.execute()
 
 
-@component(
-    base_image="python:3.11",
-    packages_to_install=[
-        "deepchecks==0.18.1",
-        "mljar-supervised==1.1.6",
-        f"tabular-orchestrated=={version('tabular-orchestrated')}",
-    ],
-)
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks]==0.0.0"])
 def dcdatacomp(
     exclude_columns: List[str] = [],
     target_column: str = "target",
@@ -203,16 +165,16 @@ def dcdatacomp(
     comp.execute()
 
 
-# target_column: target_column
-# dataset: dataset
+# metrics: metrics
+# test_size: test_size
+# test_dataset: test_dataset
 # random_state: random_state
+# mljar_automl_params: mljar_automl_params
+# failed_checks: failed_checks
+# exclude_columns: exclude_columns
+# target_column: target_column
+# shuffle: shuffle
 # report: report
 # train_dataset: train_dataset
-# mljar_automl_params: mljar_automl_params
-# exclude_columns: exclude_columns
-# shuffle: shuffle
-# test_dataset: test_dataset
-# failed_checks: failed_checks
 # model: model
-# test_size: test_size
-# metrics: metrics
+# dataset: dataset

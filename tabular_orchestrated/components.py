@@ -1,9 +1,8 @@
 import dataclasses
-from typing import Tuple
+from typing import List, Tuple
 
 from tabular_orchestrated.tab_comp import TabComponent
 
-import ml_orchestrator.env_params
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
@@ -29,8 +28,12 @@ class DataSplitter(TabComponent):
         df1, df2 = train_test_split(df, test_size=self.test_size, random_state=self.random_state, shuffle=self.shuffle)
         return df1, df2
 
+    # @property
+    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
+    #     env = super().env
+    #     env.packages_to_install = ["scikit-learn"] + env.packages_to_install
+    #     return env
+
     @property
-    def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-        env = super().env
-        env.packages_to_install = ["scikit-learn"] + env.packages_to_install
-        return env
+    def extra_packages(self) -> List[str]:
+        return ["spliter"]
