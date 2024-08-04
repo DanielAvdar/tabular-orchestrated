@@ -5093,10 +5093,10 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 deepchecks = ["deepchecks"]
 editor = ["kfp"]
 gcp = ["google-cloud-aiplatform"]
-mljar = ["matplotlib", "mljar-supervised"]
+mljar = ["mljar-supervised"]
 spliter = ["scikit-learn"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "24ab3380e30b5671235edc632be340a1f50d91b928e25e6869d35faa5a7b870e"
+content-hash = "78d6dd69c51f9d08c0bb11d3527ae93daad9fe7838fd1ed6032b729f53e81ee4"
