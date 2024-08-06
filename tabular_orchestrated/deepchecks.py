@@ -1,12 +1,12 @@
 import dataclasses
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List
 
 from tabular_orchestrated.tab_comp import ModelComp
 
 from deepchecks.tabular import Dataset as DC_Dataset
 from deepchecks.tabular.suites import data_integrity, full_suite, model_evaluation, train_test_validation
-from ml_orchestrator import EnvironmentParams, artifacts
+from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
 from pandas_pyarrow import convert_to_numpy
@@ -17,11 +17,16 @@ class DCMetaComp(ModelComp, ABC):
     report: Output[artifacts.HTML] = None
     failed_checks: Output[artifacts.Metrics] = None
 
+    #
+    # @property
+    # def env(self) -> EnvironmentParams:
+    #     env = super().env
+    #     env.packages_to_install = ["deepchecks==0.18.1", "mljar-supervised==1.1.6"] + env.packages_to_install
+    #     return env
+
     @property
-    def env(self) -> EnvironmentParams:
-        env = super().env
-        env.packages_to_install = ["deepchecks==0.18.1", "mljar-supervised==1.1.6"] + env.packages_to_install
-        return env
+    def extra_packages(self) -> List[str]:
+        return ["deepchecks"]
 
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)
@@ -81,6 +86,10 @@ class DCModelComp(DCTrainTestComp):
         dc_train_dataset = self.transform_dataframe(train_data)
         dc_test_dataset = self.transform_dataframe(test_data)
         return suite.run(dc_train_dataset, dc_test_dataset, model=model)
+
+    @property
+    def extra_packages(self) -> List[str]:
+        return super().extra_packages + ["mljar"]
 
 
 @dataclasses.dataclass

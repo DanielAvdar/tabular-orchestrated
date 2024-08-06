@@ -1,10 +1,9 @@
 import dataclasses
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict, List, Union
 
 from tabular_orchestrated.tab_comp import ModelComp
 
-import ml_orchestrator.env_params
 import pandas as pd
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
@@ -69,10 +68,14 @@ class MLJARTraining(ModelComp):
         return folder
 
     @property
-    def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-        env = super().env
-        env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
-        return env
+    def extra_packages(self) -> List[str]:
+        return ["mljar"]
+
+    # @property
+    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
+    #     env = super().env
+    #     env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
+    #     return env
 
 
 @dataclasses.dataclass
@@ -81,6 +84,10 @@ class EvaluateMLJAR(ModelComp):
     model: Input[artifacts.Model] = None
     metrics: Output[artifacts.Metrics] = None
     report: Output[artifacts.HTML] = None
+
+    @property
+    def extra_packages(self) -> List[str]:
+        return ["mljar"]
 
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
@@ -104,8 +111,8 @@ class EvaluateMLJAR(ModelComp):
         report = model.report()
         self.save_html(self.report, report.data)
 
-    @property
-    def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-        env = super().env
-        env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
-        return env
+    # @property
+    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
+    #     env = super().env
+    #     env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
+    #     return env

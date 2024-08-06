@@ -1,5 +1,6 @@
 import dataclasses
 import pickle
+from importlib.metadata import version
 from typing import Any, Dict, List, Union
 
 import pandas as pd
@@ -21,7 +22,25 @@ class TabComponent(MetaComponent):
 
     @property
     def self_package(self) -> str:
-        return "tabular-orchestrated=={version('tabular-orchestrated')}"
+        package_name = self.self_package_name
+        # return "tabular-orchestrated=={version('tabular-orchestrated')}"
+        # return f"{package_name}=={version(package_name)}"
+        extras = ""
+        if self.extra_packages:
+            extras = f"[{','.join(self.extra_packages)}]"
+        return f"{package_name}{extras}=={self.self_package_version}"
+
+    @property
+    def extra_packages(self) -> List[str]:
+        return []
+
+    @property
+    def self_package_version(self) -> str:
+        return version(self.self_package_name)
+
+    @property
+    def self_package_name(self) -> str:
+        return "tabular-orchestrated"
 
     @staticmethod
     def save_df(df: pd.DataFrame, dataset: Dataset) -> None:

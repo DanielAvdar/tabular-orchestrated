@@ -26,6 +26,7 @@ deepchecks = { version = "^0.18.1", optional = true }
 
 
 [tool.poetry.dev-dependencies]
+matplotlib = { version = "<3.9.1",  optional = true,platform = "win32" }
 ml-orchestrator = { version = "*", extras = ["editor"] }
 google-cloud-aiplatform = "*"
 pytest = ">= 7.1.2"
@@ -36,13 +37,14 @@ mypy = ">= 0.991"
 pytest-parametrization = "^2022"
 ruff = "^0.3.1"
 pandas-stubs = "*"
+#matplotlib = { version = "*", marker = "sys_platform != 'win32'" }
 
 
 
 [tool.poetry.extras]
 editor = ["kfp", ]
 gcp = ["google-cloud-aiplatform"]
-spliter = [ "scikit-learn"]
+spliter = ["scikit-learn"]
 mljar = ["mljar-supervised"]
 deepchecks = ["deepchecks"]
 
