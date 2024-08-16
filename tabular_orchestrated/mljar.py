@@ -40,20 +40,28 @@ class MLJARTraining(ModelComp):
         model = self.train_model(df)
         self.save_model(model, self.model)
 
-    def internal_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def internal_feature_prep(data: pd.DataFrame, target_column: str) -> pd.DataFrame:
+        for c in data.columns:
+            if repr(data[c].dtype).startswith("halffloat"):
+                data[c] = data[c].astype("double[pyarrow]")
+
         data = convert_to_numpy(data)
-        if not is_numeric_dtype(data[self.target_column]):
-            data[self.target_column] = data[self.target_column].astype("category").cat.codes
+        if not is_numeric_dtype(data[target_column]):
+            data[target_column] = data[target_column].astype("category").cat.codes
 
         for c in data.columns:
+            if "Int" not in repr(data[c].dtype) and "Float" not in repr(data[c].dtype):
+                continue
             type_str = str(data[c].dtype).lower()
             data[c] = data[c].astype(type_str)  # type: ignore
+            # data[c] = data[c].values  # type: ignore
 
         return data
 
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        mljar_df = self.internal_feature_prep(df)
+        mljar_df = self.internal_feature_prep(df, self.target_column)
         x = mljar_df[mljar_df.columns.difference(self.exclude_columns + [self.target_column])]
         y = mljar_df[self.target_column]
         automl.fit(x, y)
@@ -70,12 +78,6 @@ class MLJARTraining(ModelComp):
     @property
     def extra_packages(self) -> List[str]:
         return ["mljar"]
-
-    # @property
-    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-    #     env = super().env
-    #     env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
-    #     return env
 
 
 @dataclasses.dataclass
@@ -110,9 +112,3 @@ class EvaluateMLJAR(ModelComp):
     def create_report(self, model: AutoML) -> None:
         report = model.report()
         self.save_html(self.report, report.data)
-
-    # @property
-    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-    #     env = super().env
-    #     env.packages_to_install = ["mljar-supervised==1.1.6"] + env.packages_to_install
-    #     return env
