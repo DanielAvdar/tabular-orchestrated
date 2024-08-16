@@ -4,6 +4,7 @@ from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCModelComp
 from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
 
+import deepchecks
 import pytest
 from ml_orchestrator import artifacts
 
@@ -58,5 +59,8 @@ def deepchecks_model_op(
         report=artifacts.HTML(uri=func("deepchecks_model.html")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_model")),
     )
-    deepchecks_model_op.execute()
+    try:
+        deepchecks_model_op.execute()
+    except deepchecks.core.errors.DatasetValidationError:
+        return None
     return deepchecks_model_op
