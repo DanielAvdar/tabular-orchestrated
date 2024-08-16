@@ -31,3 +31,10 @@ def tmp_files_folder(test_cleaner, test_directory) -> Path:
     folder_path.mkdir()
     test_cleaner(lambda: shutil.rmtree(folder_path))
     return folder_path
+
+
+@pytest.fixture(scope="session")
+def dataset_examples_folder(test_directory) -> Path:
+    folder_path = test_directory.parent / "dataset_examples"
+    assert folder_path.exists()
+    return folder_path
