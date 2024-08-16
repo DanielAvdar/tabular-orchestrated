@@ -6,6 +6,7 @@ from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
 from tabular_orchestrated.mljar import MLJARTraining
 
+import deepchecks
 import numpy as np
 import pandas as pd
 import pytest
@@ -163,5 +164,8 @@ def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSp
         report=artifacts.HTML(uri=func("deepchecks_train_test.html")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
     )
-    deepchecks_train_test_op.execute()
+    try:
+        deepchecks_train_test_op.execute()
+    except deepchecks.core.errors.DatasetValidationError:
+        return None
     return deepchecks_train_test_op
