@@ -97,6 +97,8 @@ class EvaluateMLJAR(ModelComp):
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
+        # regulated_df= MLJARTraining.internal_feature_prep(test_df, self.target_column)
+        # metrics = self.evaluate_model(regulated_df, model)
         metrics = self.evaluate_model(test_df, model)
         self.create_report(model)
         for m in metrics:
@@ -107,9 +109,9 @@ class EvaluateMLJAR(ModelComp):
 
     def evaluate_model(self, test_df: DataFrame, model: AutoML) -> Dict[str, Union[float, str, bool, int]]:
         metrics: Dict[str, Union[float, str, bool, int]] = dict()
-        metrics["score"] = model.score(
-            X=test_df[test_df.columns.difference([self.target_column])], y=test_df[self.target_column]
-        )
+        x = test_df[test_df.columns.difference([self.target_column])]
+        y = test_df[self.target_column]
+        metrics["score"] = model.score(X=x, y=y)
         return metrics
 
     def create_report(self, model: AutoML) -> None:

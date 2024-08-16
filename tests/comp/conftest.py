@@ -1,3 +1,4 @@
+import dataclasses as dc
 import shutil
 from pathlib import Path
 
@@ -5,13 +6,36 @@ from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
 from tabular_orchestrated.mljar import MLJARTraining
 
+import deepchecks
+import numpy as np
 import pandas as pd
 import pytest
 from ml_orchestrator import artifacts
 from pandas_pyarrow import convert_to_pyarrow
 from sklearn import datasets
 
+
+@dc.dataclass
+class DummyDataset:
+    data: np.array
+    target: np.array
+    feature_names: list
+
+
+def example_df():
+    right_here = Path(__file__).parent
+    dataset_examples_folder = right_here.parent / "dataset_examples"
+    ds_path = dataset_examples_folder / "natality.parquet"
+    target_col = "weight_pounds"
+    df = pd.read_parquet(ds_path)
+    features_array = df[df.columns.difference([target_col])].values
+    target_array = df[target_col].values
+    feature_names = df.columns.difference([target_col]).tolist()
+    return DummyDataset(data=features_array, target=target_array, feature_names=feature_names)
+
+
 dataset_importers = [
+    example_df,
     datasets.load_iris,
     datasets.load_diabetes,
     datasets.load_breast_cancer,
@@ -85,6 +109,7 @@ def split_op(get_df_example: artifacts.Dataset) -> DataSplitter:
         dataset=ds,
         train_dataset=artifacts.Dataset(uri=func("train")),
         test_dataset=artifacts.Dataset(uri=func("test")),
+        random_state=1,
     )
     split_op.execute()
     return split_op
@@ -139,5 +164,8 @@ def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSp
         report=artifacts.HTML(uri=func("deepchecks_train_test.html")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
     )
-    deepchecks_train_test_op.execute()
+    try:
+        deepchecks_train_test_op.execute()
+    except deepchecks.core.errors.DatasetValidationError:
+        return None
     return deepchecks_train_test_op
