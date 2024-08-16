@@ -53,6 +53,9 @@ class MLJARTraining(ModelComp):
         for c in data.columns:
             if "Int" not in repr(data[c].dtype) and "Float" not in repr(data[c].dtype):
                 continue
+            if "Int" in repr(data[c].dtype) and data[c].isna().any():
+                data[c] = data[c].astype("float64")
+                continue
             type_str = str(data[c].dtype).lower()
             data[c] = data[c].astype(type_str)  # type: ignore
             # data[c] = data[c].values  # type: ignore
