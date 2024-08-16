@@ -28,12 +28,6 @@ class DataSplitter(TabComponent):
         df1, df2 = train_test_split(df, test_size=self.test_size, random_state=self.random_state, shuffle=self.shuffle)
         return df1, df2
 
-    # @property
-    # def env(self) -> ml_orchestrator.env_params.EnvironmentParams:
-    #     env = super().env
-    #     env.packages_to_install = ["scikit-learn"] + env.packages_to_install
-    #     return env
-
     @property
     def extra_packages(self) -> List[str]:
         return ["spliter"]

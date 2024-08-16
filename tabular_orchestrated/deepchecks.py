@@ -17,13 +17,6 @@ class DCMetaComp(ModelComp, ABC):
     report: Output[artifacts.HTML] = None
     failed_checks: Output[artifacts.Metrics] = None
 
-    #
-    # @property
-    # def env(self) -> EnvironmentParams:
-    #     env = super().env
-    #     env.packages_to_install = ["deepchecks==0.18.1", "mljar-supervised==1.1.6"] + env.packages_to_install
-    #     return env
-
     @property
     def extra_packages(self) -> List[str]:
         return ["deepchecks"]

@@ -23,8 +23,6 @@ class TabComponent(MetaComponent):
     @property
     def self_package(self) -> str:
         package_name = self.self_package_name
-        # return "tabular-orchestrated=={version('tabular-orchestrated')}"
-        # return f"{package_name}=={version(package_name)}"
         extras = ""
         if self.extra_packages:
             extras = f"[{','.join(self.extra_packages)}]"
