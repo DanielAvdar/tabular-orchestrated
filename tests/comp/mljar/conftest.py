@@ -2,7 +2,8 @@ from pathlib import Path
 
 from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCModelComp
-from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
+from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
+from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCModelComp
 
 import deepchecks
 import pytest
@@ -52,7 +53,7 @@ def deepchecks_model_op(
     def func(x):
         return (tmp_files_folder / x).as_posix()
 
-    deepchecks_model_op = DCModelComp(
+    deepchecks_model_op = MljarDCModelComp(
         train_dataset=split_op.train_dataset,
         test_dataset=split_op.test_dataset,
         model=mljar_training_op.model,

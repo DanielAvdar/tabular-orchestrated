@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tabular_orchestrated.deepchecks import DCModelComp
-from tabular_orchestrated.mljar import EvaluateMLJAR, MLJARTraining
+from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
 
 from ml_orchestrator import artifacts
 from sklearn import datasets

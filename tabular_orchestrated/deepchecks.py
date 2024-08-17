@@ -80,10 +80,6 @@ class DCModelComp(DCTrainTestComp):
         dc_test_dataset = self.transform_dataframe(test_data)
         return suite.run(dc_train_dataset, dc_test_dataset, model=model)
 
-    @property
-    def extra_packages(self) -> List[str]:
-        return super().extra_packages + ["mljar"]
-
 
 @dataclasses.dataclass
 class DCFullComp(DCModelComp):
