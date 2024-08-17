@@ -41,7 +41,7 @@ def mljartraining(
         "explain_level": 2,
     },
 ):
-    from tabular_orchestrated.mljar import MLJARTraining
+    from tabular_orchestrated.mljar.mljar import MLJARTraining
 
     comp = MLJARTraining(
         exclude_columns=exclude_columns,
@@ -62,7 +62,7 @@ def evaluatemljar(
     metrics: Output[Metrics] = None,
     report: Output[HTML] = None,
 ):
-    from tabular_orchestrated.mljar import EvaluateMLJAR
+    from tabular_orchestrated.mljar.mljar import EvaluateMLJAR
 
     comp = EvaluateMLJAR(
         exclude_columns=exclude_columns,
@@ -71,30 +71,6 @@ def evaluatemljar(
         model=model,
         metrics=metrics,
         report=report,
-    )
-    comp.execute()
-
-
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
-def dcfullcomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
-):
-    from tabular_orchestrated.deepchecks import DCFullComp
-
-    comp = DCFullComp(
-        exclude_columns=exclude_columns,
-        target_column=target_column,
-        report=report,
-        failed_checks=failed_checks,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        model=model,
     )
     comp.execute()
 
@@ -121,30 +97,6 @@ def dctraintestcomp(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
-def dcmodelcomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
-):
-    from tabular_orchestrated.deepchecks import DCModelComp
-
-    comp = DCModelComp(
-        exclude_columns=exclude_columns,
-        target_column=target_column,
-        report=report,
-        failed_checks=failed_checks,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        model=model,
-    )
-    comp.execute()
-
-
 @component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks]==0.0.0"])
 def dcdatacomp(
     exclude_columns: List[str] = [],
@@ -165,16 +117,64 @@ def dcdatacomp(
     comp.execute()
 
 
-# dataset: dataset
-# metrics: metrics
-# report: report
-# model: model
-# train_dataset: train_dataset
-# failed_checks: failed_checks
-# mljar_automl_params: mljar_automl_params
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
+def mljardcmodelcomp(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    train_dataset: Input[Dataset] = None,
+    test_dataset: Input[Dataset] = None,
+    model: Input[Model] = None,
+):
+    from tabular_orchestrated.mljar.deepchecks import MljarDCModelComp
+
+    comp = MljarDCModelComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        model=model,
+    )
+    comp.execute()
+
+
+@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
+def mljardcfullcomp(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    train_dataset: Input[Dataset] = None,
+    test_dataset: Input[Dataset] = None,
+    model: Input[Model] = None,
+):
+    from tabular_orchestrated.mljar.deepchecks import MljarDCFullComp
+
+    comp = MljarDCFullComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        model=model,
+    )
+    comp.execute()
+
+
 # test_size: test_size
-# test_dataset: test_dataset
+# failed_checks: failed_checks
 # shuffle: shuffle
-# target_column: target_column
 # exclude_columns: exclude_columns
+# report: report
+# train_dataset: train_dataset
+# target_column: target_column
+# metrics: metrics
+# model: model
 # random_state: random_state
+# mljar_automl_params: mljar_automl_params
+# dataset: dataset
+# test_dataset: test_dataset

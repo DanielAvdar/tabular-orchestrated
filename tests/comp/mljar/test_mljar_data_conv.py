@@ -1,4 +1,4 @@
-from tabular_orchestrated.mljar import MLJARTraining
+from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 import hypothesis as hp
 import pandas as pd

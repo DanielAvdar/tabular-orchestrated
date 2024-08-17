@@ -20,7 +20,7 @@ def mljar_pipeline(
     },
     exclude_columns: list = [],
 ) -> Model:
-    from tabular_kfp.components import datasplitter, dcfullcomp, evaluatemljar, mljartraining
+    from tabular_kfp.components import datasplitter, evaluatemljar, mljardcfullcomp, mljartraining
 
     datasplitter_comp = datasplitter(
         dataset=dataset,
@@ -42,7 +42,7 @@ def mljar_pipeline(
         model=mljartraining_comp.outputs["model"],
     ).set_display_name("Evaluate MLJAR")
 
-    dcfullcomp(
+    mljardcfullcomp(
         exclude_columns=exclude_columns,
         target_column=target_column,
         train_dataset=datasplitter_comp.outputs["train_dataset"],

@@ -97,9 +97,8 @@ class EvaluateMLJAR(ModelComp):
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
-        # regulated_df= MLJARTraining.internal_feature_prep(test_df, self.target_column)
-        # metrics = self.evaluate_model(regulated_df, model)
-        metrics = self.evaluate_model(test_df, model)
+        regulated_df = MLJARTraining.internal_feature_prep(test_df, self.target_column)
+        metrics = self.evaluate_model(regulated_df, model)
         self.create_report(model)
         for m in metrics:
             self.metrics.log_metric(

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
-from tabular_orchestrated.mljar import MLJARTraining
+from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 import deepchecks
 import numpy as np
