@@ -127,7 +127,7 @@ def mljardcmodelcomp(
     test_dataset: Input[Dataset] = None,
     model: Input[Model] = None,
 ):
-    from tabular_orchestrated.mljar.deepchecks import MljarDCModelComp
+    from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCModelComp
 
     comp = MljarDCModelComp(
         exclude_columns=exclude_columns,
@@ -151,7 +151,7 @@ def mljardcfullcomp(
     test_dataset: Input[Dataset] = None,
     model: Input[Model] = None,
 ):
-    from tabular_orchestrated.mljar.deepchecks import MljarDCFullComp
+    from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp
 
     comp = MljarDCFullComp(
         exclude_columns=exclude_columns,
@@ -166,15 +166,15 @@ def mljardcfullcomp(
 
 
 # test_size: test_size
+# mljar_automl_params: mljar_automl_params
 # failed_checks: failed_checks
+# report: report
+# target_column: target_column
+# dataset: dataset
+# train_dataset: train_dataset
+# metrics: metrics
+# test_dataset: test_dataset
 # shuffle: shuffle
 # exclude_columns: exclude_columns
-# report: report
-# train_dataset: train_dataset
-# target_column: target_column
-# metrics: metrics
 # model: model
 # random_state: random_state
-# mljar_automl_params: mljar_automl_params
-# dataset: dataset
-# test_dataset: test_dataset
