@@ -24,7 +24,7 @@ deepchecks = { version = "^0.18.1", optional = true }
 
 [tool.poetry.dev-dependencies]
 debugpy = "1.8.5"
-matplotlib = { version = "<3.9.1",  optional = true,platform = "win32" }
+matplotlib = { version = "<3.9.3",  optional = true,platform = "win32" }
 ml-orchestrator = { version = "*", extras = ["editor"] }
 google-cloud-aiplatform = "*"
 pytest = ">= 7.1.2"
