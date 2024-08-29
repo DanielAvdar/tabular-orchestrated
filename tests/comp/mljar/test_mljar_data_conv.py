@@ -26,6 +26,7 @@ from pandas_pyarrow import convert_to_pyarrow
         ]
     )
 )
+@hp.settings(suppress_health_check=[hp.HealthCheck.too_slow])
 def test_internal_feature_prep_hypothesis(df):
     target_column = "A"
     pyarrow_df = convert_to_pyarrow(df)
