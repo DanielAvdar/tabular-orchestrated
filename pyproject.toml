@@ -4,7 +4,7 @@ version = "0.0.0"
 description = ""
 authors = ["DanielAvdar <66269169+DanielAvdar@users.noreply.github.com>"]
 license = "MIT"
-#readme = "README.md"
+readme = "README.md"
 keywords = [
     "python"
 ]
@@ -12,7 +12,7 @@ packages = [{ include = "tabular_orchestrated", from = "." }]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-ml-orchestrator = "0.0.5b0"
+ml-orchestrator = ">=0.0.5b0"
 pandas-pyarrow = "0.1.8"
 kfp = { version = "2.7.0", optional = true }
 google-cloud-aiplatform = { version = "*", optional = true }
