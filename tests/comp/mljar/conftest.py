@@ -38,7 +38,7 @@ def eval_mljar_op(
         test_dataset=split_op.test_dataset,
         model=mljar_training_op.model,
         metrics=artifacts.Metrics(uri=func("metrics")),
-        report=artifacts.HTML(uri=func("report.html")),
+        report=artifacts.HTML(uri=func("report")),
     )
     eval_mljar_op.execute()
     return eval_mljar_op
@@ -57,7 +57,7 @@ def deepchecks_model_op(
         train_dataset=split_op.train_dataset,
         test_dataset=split_op.test_dataset,
         model=mljar_training_op.model,
-        report=artifacts.HTML(uri=func("deepchecks_model.html")),
+        report=artifacts.HTML(uri=func("deepchecks_model")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_model")),
     )
     try:
