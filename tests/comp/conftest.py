@@ -128,7 +128,7 @@ def deepchecks_op(
         train_dataset=split_op.train_dataset,
         test_dataset=split_op.test_dataset,
         model=mljar_training_op.model,
-        report=artifacts.HTML(uri=func("deepchecks.html")),
+        report=artifacts.HTML(uri=func("deepchecks")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks")),
     )
     deepchecks_op.execute()
@@ -144,7 +144,7 @@ def deepchecks_data_op(get_df_example: artifacts.Dataset, split_op: DataSplitter
 
     deepchecks_data_op = DCDataComp(
         dataset=split_op.train_dataset,
-        report=artifacts.HTML(uri=func("deepchecks_data.html")),
+        report=artifacts.HTML(uri=func("deepchecks_data")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_data")),
     )
     deepchecks_data_op.execute()
@@ -161,7 +161,7 @@ def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSp
     deepchecks_train_test_op = DCTrainTestComp(
         train_dataset=split_op.train_dataset,
         test_dataset=split_op.test_dataset,
-        report=artifacts.HTML(uri=func("deepchecks_train_test.html")),
+        report=artifacts.HTML(uri=func("deepchecks_train_test")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
     )
     try:
