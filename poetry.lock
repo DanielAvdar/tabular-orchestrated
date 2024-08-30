@@ -2602,20 +2602,20 @@ files = [
 
 [[package]]
 name = "ml-orchestrator"
-version = "0.0.5b0"
+version = "0.0.6b0"
 description = "kubeflow extension"
 optional = false
 python-versions = "<3.13,>=3.9"
 files = [
-    {file = "ml_orchestrator-0.0.5b0-py3-none-any.whl", hash = "sha256:2f017b212f27242cc2255a404060b1d9354f8d57bbac04b4346283ef8ac56a6b"},
-    {file = "ml_orchestrator-0.0.5b0.tar.gz", hash = "sha256:e40c7bd7fedb34505c885a695b79792e11cca05ce290697eb7bbfe465ef860c7"},
+    {file = "ml_orchestrator-0.0.6b0-py3-none-any.whl", hash = "sha256:9eb99ed5f7d2764910d613bfb1b8190017a1f30c3ea306bd0235f02882a6577c"},
+    {file = "ml_orchestrator-0.0.6b0.tar.gz", hash = "sha256:9695def1f867c2eeedcfa6b4fccd674d0d2bd56a20533908c71850ead0858777"},
 ]
 
 [package.dependencies]
-kfp = {version = "2.7.0", optional = true, markers = "extra == \"editor\""}
+kfp = {version = ">=2.7.0", optional = true, markers = "extra == \"editor\""}
 
 [package.extras]
-editor = ["kfp (==2.7.0)"]
+editor = ["kfp (>=2.7.0)"]
 
 [[package]]
 name = "mljar-scikit-plot"
@@ -5174,4 +5174,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "c7daac4fea3353e8c49c33ac5dc4893efe392392d5fc7cc33fb46a292222a9fa"
+content-hash = "c5ee84a88896a84528c3ac91b8a928afd4212ab0e8599f84e5575b30ea117d00"
