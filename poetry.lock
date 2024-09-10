@@ -2180,12 +2180,12 @@ files = [
 
 [[package]]
 name = "kfp"
-version = "2.8.0"
+version = "2.9.0"
 description = "Kubeflow Pipelines SDK"
 optional = false
 python-versions = "<3.13.0,>=3.8.0"
 files = [
-    {file = "kfp-2.8.0.tar.gz", hash = "sha256:06ad584eecbe80318c6cd0231c95a432e91fec56f201def9d511b6e6664235ce"},
+    {file = "kfp-2.9.0.tar.gz", hash = "sha256:936b34261d7356f5f1960d07d12632a84f36f928e14a72cea7c092f2a224de7d"},
 ]
 
 [package.dependencies]
@@ -2194,9 +2194,9 @@ docstring-parser = ">=0.7.3,<1"
 google-api-core = ">=1.31.5,<2.0.dev0 || >2.3.0,<3.0.0dev"
 google-auth = ">=1.6.1,<3"
 google-cloud-storage = ">=2.2.1,<3"
-kfp-pipeline-spec = "0.3.0"
-kfp-server-api = ">=2.0.0,<2.1.0"
-kubernetes = ">=8.0.0,<27"
+kfp-pipeline-spec = "0.4.0"
+kfp-server-api = ">=2.1.0,<2.4.0"
+kubernetes = ">=8.0.0,<31"
 protobuf = ">=4.21.1,<5"
 PyYAML = ">=5.3,<7"
 requests-toolbelt = ">=0.8.0,<1"
@@ -2209,12 +2209,12 @@ kubernetes = ["kfp-kubernetes (<2)"]
 
 [[package]]
 name = "kfp-pipeline-spec"
-version = "0.3.0"
+version = "0.4.0"
 description = "Kubeflow Pipelines pipeline spec"
 optional = false
-python-versions = ">=3.7.0,<3.13.0"
+python-versions = "<3.13.0,>=3.7.0"
 files = [
-    {file = "kfp_pipeline_spec-0.3.0-py3-none-any.whl", hash = "sha256:1db84524a0a2d6c9d36e7e87e6fa0e181bf1ba1513d29dcd54f7b8822e7a52a2"},
+    {file = "kfp_pipeline_spec-0.4.0-py3-none-any.whl", hash = "sha256:5384e710aef8268eb20ee147b2a0a6cfc3b0cbeef037cad89f46ab877375e1aa"},
 ]
 
 [package.dependencies]
@@ -2222,12 +2222,12 @@ protobuf = ">=4.21.1,<5"
 
 [[package]]
 name = "kfp-server-api"
-version = "2.0.5"
+version = "2.3.0"
 description = "Kubeflow Pipelines API"
 optional = false
 python-versions = "*"
 files = [
-    {file = "kfp-server-api-2.0.5.tar.gz", hash = "sha256:c9cfbf0e87271d3bfe96e5ecc9ffbdd6ab566bc1c9a9ddc2a39d7698a16e26ff"},
+    {file = "kfp_server_api-2.3.0.tar.gz", hash = "sha256:504aa9f0ca047790aca67b306350aac717ae956c59450a04cf1901c9ed4dca9f"},
 ]
 
 [package.dependencies]
@@ -5213,4 +5213,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "933a8a354e9c1178e8e4266e68dc06cfca89002b3e67a0003007cb701335ae98"
+content-hash = "1b8c843e40626a0167dc1601be5351c1984bee176b89ea3deed45a2797fad82b"
