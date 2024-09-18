@@ -2149,12 +2149,12 @@ files = [
 
 [[package]]
 name = "kfp"
-version = "2.7.0"
+version = "2.9.0"
 description = "Kubeflow Pipelines SDK"
 optional = false
-python-versions = ">=3.7.0,<3.13.0"
+python-versions = "<3.13.0,>=3.8.0"
 files = [
-    {file = "kfp-2.7.0.tar.gz", hash = "sha256:8a2065527ec3d50617bd374c2b25cffeab16d93b34e4be08c1ca3e4bd8d2cc0c"},
+    {file = "kfp-2.9.0.tar.gz", hash = "sha256:936b34261d7356f5f1960d07d12632a84f36f928e14a72cea7c092f2a224de7d"},
 ]
 
 [package.dependencies]
@@ -2163,9 +2163,9 @@ docstring-parser = ">=0.7.3,<1"
 google-api-core = ">=1.31.5,<2.0.dev0 || >2.3.0,<3.0.0dev"
 google-auth = ">=1.6.1,<3"
 google-cloud-storage = ">=2.2.1,<3"
-kfp-pipeline-spec = "0.3.0"
-kfp-server-api = ">=2.0.0,<2.1.0"
-kubernetes = ">=8.0.0,<27"
+kfp-pipeline-spec = "0.4.0"
+kfp-server-api = ">=2.1.0,<2.4.0"
+kubernetes = ">=8.0.0,<31"
 protobuf = ">=4.21.1,<5"
 PyYAML = ">=5.3,<7"
 requests-toolbelt = ">=0.8.0,<1"
@@ -2178,12 +2178,12 @@ kubernetes = ["kfp-kubernetes (<2)"]
 
 [[package]]
 name = "kfp-pipeline-spec"
-version = "0.3.0"
+version = "0.4.0"
 description = "Kubeflow Pipelines pipeline spec"
 optional = false
-python-versions = ">=3.7.0,<3.13.0"
+python-versions = "<3.13.0,>=3.7.0"
 files = [
-    {file = "kfp_pipeline_spec-0.3.0-py3-none-any.whl", hash = "sha256:1db84524a0a2d6c9d36e7e87e6fa0e181bf1ba1513d29dcd54f7b8822e7a52a2"},
+    {file = "kfp_pipeline_spec-0.4.0-py3-none-any.whl", hash = "sha256:5384e710aef8268eb20ee147b2a0a6cfc3b0cbeef037cad89f46ab877375e1aa"},
 ]
 
 [package.dependencies]
@@ -2191,12 +2191,12 @@ protobuf = ">=4.21.1,<5"
 
 [[package]]
 name = "kfp-server-api"
-version = "2.0.5"
+version = "2.3.0"
 description = "Kubeflow Pipelines API"
 optional = false
 python-versions = "*"
 files = [
-    {file = "kfp-server-api-2.0.5.tar.gz", hash = "sha256:c9cfbf0e87271d3bfe96e5ecc9ffbdd6ab566bc1c9a9ddc2a39d7698a16e26ff"},
+    {file = "kfp_server_api-2.3.0.tar.gz", hash = "sha256:504aa9f0ca047790aca67b306350aac717ae956c59450a04cf1901c9ed4dca9f"},
 ]
 
 [package.dependencies]
@@ -2330,23 +2330,23 @@ files = [
 
 [[package]]
 name = "kubernetes"
-version = "26.1.0"
+version = "30.1.0"
 description = "Kubernetes python client"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "kubernetes-26.1.0-py2.py3-none-any.whl", hash = "sha256:e3db6800abf7e36c38d2629b5cb6b74d10988ee0cba6fba45595a7cbe60c0042"},
-    {file = "kubernetes-26.1.0.tar.gz", hash = "sha256:5854b0c508e8d217ca205591384ab58389abdae608576f9c9afc35a3c76a366c"},
+    {file = "kubernetes-30.1.0-py2.py3-none-any.whl", hash = "sha256:e212e8b7579031dd2e512168b617373bc1e03888d41ac4e04039240a292d478d"},
+    {file = "kubernetes-30.1.0.tar.gz", hash = "sha256:41e4c77af9f28e7a6c314e3bd06a8c6229ddd787cad684e0ab9f69b498e98ebc"},
 ]
 
 [package.dependencies]
 certifi = ">=14.05.14"
 google-auth = ">=1.0.1"
+oauthlib = ">=3.2.2"
 python-dateutil = ">=2.5.3"
 pyyaml = ">=5.4.1"
 requests = "*"
 requests-oauthlib = "*"
-setuptools = ">=21.0.0"
 six = ">=1.9.0"
 urllib3 = ">=1.24.2"
 websocket-client = ">=0.32.0,<0.40.0 || >0.40.0,<0.41.dev0 || >=0.43.dev0"
@@ -4420,7 +4420,7 @@ win32 = ["pywin32"]
 name = "setuptools"
 version = "75.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "setuptools-75.1.0-py3-none-any.whl", hash = "sha256:35ab7fd3bcd95e6b7fd704e4a1539513edad446c097797f2985e0e4b960772f2"},
@@ -5196,4 +5196,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "e635982f4242dd78b802b7d9453e2cae98a92fc3d966f96e7fb4c138e0d67d0d"
+content-hash = "0c26b145d9f466ca8210a9f10e19d8aad5821f07aff2beae949520f88a8b77a6"
