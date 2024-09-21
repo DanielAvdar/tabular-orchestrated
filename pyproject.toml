@@ -22,6 +22,7 @@ eh-tabular-deepchecks = { version = "*", optional = true }
 
 
 
+
 [tool.poetry.dev-dependencies]
 debugpy = "1.8.5"
 matplotlib = { version = "<3.9.3",  optional = true,platform = "win32" }
