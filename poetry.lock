@@ -2461,12 +2461,12 @@ testing = ["pytest"]
 
 [[package]]
 name = "mljar-supervised"
-version = "1.1.12"
+version = "1.1.13"
 description = "Automated Machine Learning for Humans"
 optional = true
 python-versions = ">=3.8"
 files = [
-    {file = "mljar-supervised-1.1.12.tar.gz", hash = "sha256:e57a8fb70dd930243c4627accfc773f0c63c026912df1d99739ec0eaa66c8b85"},
+    {file = "mljar-supervised-1.1.13.tar.gz", hash = "sha256:ca8eede123f64620397824b62a6532e7b0b14b54bc8ea1f8f94fc2f870e75ed6"},
 ]
 
 [package.dependencies]
@@ -5014,4 +5014,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "a7266347968f34cd21051cf6d30901ea9457dd7ca214a47b95ff88e062396fb3"
+content-hash = "2eb8ca1c4652360713baa6d17ca3d21dbeb2d666a78e73791890990d490af666"
