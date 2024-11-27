@@ -2926,13 +2926,13 @@ xml = ["lxml (>=4.8.0)"]
 
 [[package]]
 name = "pandas-pyarrow"
-version = "0.1.8"
+version = "0.1.9"
 description = "A library for switching pandas backend to pyarrow"
 optional = false
-python-versions = "<3.13,>=3.9"
+python-versions = "<4,>=3.9"
 files = [
-    {file = "pandas_pyarrow-0.1.8-py3-none-any.whl", hash = "sha256:8c31b0cea046d87694a6cd8b2b33224bcf25872d4ef71183a06a74028d1dcf1c"},
-    {file = "pandas_pyarrow-0.1.8.tar.gz", hash = "sha256:373263262679e866896f8146ec5fbf2f9ab1ba475d1db82c19c57ad78aa91b01"},
+    {file = "pandas_pyarrow-0.1.9-py3-none-any.whl", hash = "sha256:d1831b8a1f497201b1235cba7e531d740d126be583a2a2b6f9f7356117ef81c7"},
+    {file = "pandas_pyarrow-0.1.9.tar.gz", hash = "sha256:04cb7ab1b91e501cdcbd3c95561ba13800f2aa36b8d8217a7f07343f022bce85"},
 ]
 
 [package.dependencies]
@@ -5014,4 +5014,4 @@ spliter = ["scikit-learn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "2d265df7cd1bd9561c98d8fff3feb63d9590c138ec06f9450d2f2a4d46cfe298"
+content-hash = "036c64630c55799227202a363cc2904f48cee9eb5a89e94b2bc64bff428bec98"
