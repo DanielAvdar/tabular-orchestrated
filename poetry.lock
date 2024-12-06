@@ -2099,13 +2099,13 @@ traitlets = "*"
 
 [[package]]
 name = "ml-orchestrator"
-version = "0.0.7b0"
+version = "0.0.11b0"
 description = "kubeflow extension"
 optional = false
-python-versions = "<3.13,>=3.9"
+python-versions = "<=3.13,>=3.9"
 files = [
-    {file = "ml_orchestrator-0.0.7b0-py3-none-any.whl", hash = "sha256:2e2d24866e9d78658ca0322a63081d116a89f6499ed18b9ba77ef6405e241850"},
-    {file = "ml_orchestrator-0.0.7b0.tar.gz", hash = "sha256:7786648b40c48ae2b251d49252492972d75b90609a515cde741fad4f6be7b606"},
+    {file = "ml_orchestrator-0.0.11b0-py3-none-any.whl", hash = "sha256:c6405f84b91bd2a45961a34b5172985941768b157374d5037ea316b23651cec4"},
+    {file = "ml_orchestrator-0.0.11b0.tar.gz", hash = "sha256:8e72add2f48acb5487a63ee163ee80dd6d91df793271a22457c8e9e8202f8595"},
 ]
 
 [package.dependencies]
