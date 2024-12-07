@@ -16,7 +16,25 @@ jobs:
           python-version: 3.11
           cache: poetry
 
-      - run: poetry install
-      - run: poetry run pre-commit install
-      - run: poetry run pre-commit run --all-files
+#      - run: poetry install
+#      - run: poetry run pre-commit install
+#      - run: poetry run pre-commit run --all-files
+      - run: make
+      - run: make check
       - run: poetry run mypy . --config-file pyproject.toml
+      - run: make build
+        continue-on-error: true
+
+
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if ! git diff --exit-code; then
+            echo "changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fail if no changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          exit 1

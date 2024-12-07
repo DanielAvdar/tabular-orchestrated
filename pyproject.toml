@@ -8,13 +8,18 @@ readme = "README.md"
 keywords = [
     "python"
 ]
-packages = [{ include = "tabular_orchestrated", from = "." }]
+packages = [
+    { include = "tabular_orchestrated", from = "." },
+    { include = "tabular_orchestrated_kfp", from = "." }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-ml-orchestrator = ">=0.0.5b0"
-pandas-pyarrow = "0.1.9"
-kfp = { version = "2.10.1", optional = true }
+#ml-orchestrator = ">=0.0.5b0"
+#pandas-pyarrow = "0.1.9"
+kfp = { version = ">=2", optional = true }
+ml-orchestrator = { version = ">=0.0.5b0", optional = true }
+pandas-pyarrow = { version = ">=0.1.9", optional = true }
 google-cloud-aiplatform = { version = "*", optional = true }
 scikit-learn = { version = ">=1.3.0", optional = true }
 mljar-supervised = { version = "1.1.14", optional = true }
@@ -41,10 +46,10 @@ pandas-stubs = "*"
 
 [tool.poetry.extras]
 editor = ["kfp", ]
-gcp = ["google-cloud-aiplatform"]
-spliter = ["scikit-learn"]
-mljar = ["mljar-supervised"]
-deepchecks = ["eh-tabular-deepchecks"]
+gcp = ["google-cloud-aiplatform", "ml-orchestrator", "pandas-pyarrow"]
+spliter = ["scikit-learn", "ml-orchestrator", "pandas-pyarrow"]
+mljar = ["mljar-supervised", "ml-orchestrator", "pandas-pyarrow"]
+deepchecks = ["eh-tabular-deepchecks", "ml-orchestrator", "pandas-pyarrow"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

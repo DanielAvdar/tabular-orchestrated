@@ -14,5 +14,4 @@ check:
 
 build:
 	poetry run python -m main
-
 	poetry run pre-commit run --all-files
