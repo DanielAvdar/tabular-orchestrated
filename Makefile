@@ -1,7 +1,7 @@
 .PHONY: help
 
 install:
-	poetry install
+	poetry install --all-extras
 	poetry run pre-commit install
 
 .PHONY: default
