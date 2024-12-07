@@ -34,7 +34,6 @@ class MLJARTraining(ModelComp):
             explain_level=2,
         )
     )
-    some_param: str = "some_param"
 
     def execute(self) -> None:
         df: DataFrame = self.load_df(self.dataset)
