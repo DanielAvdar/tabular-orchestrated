@@ -1,35 +1,16 @@
 # flake8: noqa: F403, F405, B006
+from importlib.metadata import version
 from typing import *
 
 from kfp.dsl import *
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[spliter]==0.0.0"])
-def datasplitter(
-    dataset: Input[Dataset] = None,
-    train_dataset: Output[Dataset] = None,
-    test_dataset: Output[Dataset] = None,
-    test_size: float = 0.2,
-    random_state: int = 42,
-    shuffle: bool = True,
-):
-    from tabular_orchestrated.components import DataSplitter
-
-    comp = DataSplitter(
-        dataset=dataset,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        test_size=test_size,
-        random_state=random_state,
-        shuffle=shuffle,
-    )
-    comp.execute()
-
-
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[mljar]==0.0.0"])
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
+)
 def mljartraining(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     dataset: Input[Dataset] = None,
     model: Output[Model] = None,
     mljar_automl_params: Dict = {
@@ -53,10 +34,36 @@ def mljartraining(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[mljar]==0.0.0"])
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[spliter]=={version('tabular-orchestrated')}"]
+)
+def datasplitter(
+    dataset: Input[Dataset] = None,
+    train_dataset: Output[Dataset] = None,
+    test_dataset: Output[Dataset] = None,
+    test_size: float = None,
+    random_state: int = None,
+    shuffle: bool = None,
+):
+    from tabular_orchestrated.components import DataSplitter
+
+    comp = DataSplitter(
+        dataset=dataset,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        test_size=test_size,
+        random_state=random_state,
+        shuffle=shuffle,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
+)
 def evaluatemljar(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     test_dataset: Input[Dataset] = None,
     model: Input[Model] = None,
     metrics: Output[Metrics] = None,
@@ -75,10 +82,13 @@ def evaluatemljar(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks]==0.0.0"])
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
+)
 def dctraintestcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,
@@ -97,10 +107,13 @@ def dctraintestcomp(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks]==0.0.0"])
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
+)
 def dcdatacomp(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     dataset: Input[Dataset] = None,
@@ -117,10 +130,13 @@ def dcdatacomp(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
+)
 def mljardcmodelcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,
@@ -141,10 +157,13 @@ def mljardcmodelcomp(
     comp.execute()
 
 
-@component(base_image="python:3.11", packages_to_install=["tabular-orchestrated[deepchecks,mljar]==0.0.0"])
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
+)
 def mljardcfullcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "target",
+    target_column: str = "None",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,

@@ -9,8 +9,8 @@ from ml_orchestrator import ComponentParser
 def parse_components(file_path: str) -> None:
     parser = ComponentParser()
     comp_list = [
-        DataSplitter(),
         MLJARTraining(),
+        DataSplitter(),
         EvaluateMLJAR(),
         DCTrainTestComp(),
         DCDataComp(),

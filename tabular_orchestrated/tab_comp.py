@@ -1,6 +1,5 @@
 import dataclasses
 import pickle
-from importlib.metadata import version
 from typing import Any, Dict, List, Union
 
 import pandas as pd
@@ -34,7 +33,7 @@ class TabComponent(MetaComponent):
 
     @property
     def self_package_version(self) -> str:
-        return version(self.self_package_name)
+        return "{version('tabular-orchestrated')}"
 
     @property
     def self_package_name(self) -> str:
