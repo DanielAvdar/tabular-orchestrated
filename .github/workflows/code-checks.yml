@@ -21,7 +21,6 @@ jobs:
 #      - run: poetry run pre-commit run --all-files
       - run: make
       - run: make check
-      - run: poetry run mypy . --config-file pyproject.toml
       - run: make build
         continue-on-error: true
 
@@ -38,3 +37,4 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           exit 1
+      - run: poetry run mypy . --config-file pyproject.toml

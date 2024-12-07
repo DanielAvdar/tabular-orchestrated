@@ -83,3 +83,6 @@ ignore_errors = true
 [[tool.mypy.overrides]]
 module = "tabular_kfp.*"
 ignore_errors = true
+[[tool.mypy.overrides]]
+module = "tabular_orchestrated.*"
+ignore_errors = true
