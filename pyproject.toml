@@ -28,7 +28,7 @@ eh-tabular-deepchecks = { version = "*", optional = true }
 
 
 [tool.poetry.dev-dependencies]
-debugpy = "1.8.9"
+debugpy = "1.8.10"
 matplotlib = { version = "<3.9.4",  optional = true,platform = "win32" }
 ml-orchestrator = { version = "*", extras = ["editor"] }
 google-cloud-aiplatform = "*"
