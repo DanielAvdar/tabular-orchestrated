@@ -1,17 +1,24 @@
 .PHONY: help
 
 install:
-	poetry install --all-extras
-	poetry run pre-commit install
+	uv sync --all-extras
+	uv tool install pre-commit --with pre-commit-uv --force-reinstall
 
 .PHONY: default
 default: install
 
 test:
-	poetry run pytest
+	uv run pytest
 check:
-	poetry run pre-commit run --all-files
+	uv run pre-commit run --all-files
 
+build-kfp:
+	uv run python -m main
+	uv run pre-commit run --all-files
 build:
-	poetry run python -m main
-	poetry run pre-commit run --all-files
+	uv build
+
+covarage:
+	uv run pytest --cov=ml_orchestrator --cov-report=xml
+clear:
+	uv

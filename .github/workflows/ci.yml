@@ -6,7 +6,7 @@ on:
         - 'tests/**'
         - '.github/workflows/ci.yml'
         - 'pyproject.toml'
-        - 'poetry.lock'
+        - 'uv.lock'
   workflow_dispatch:
 jobs:
   tests:
@@ -17,16 +17,15 @@ jobs:
         python-version: [ '3.9', '3.10', '3.11', '3.12' ]
     steps:
       - uses: actions/checkout@v4
-      - run: pipx install poetry
+      - run: pipx install uv
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: poetry
+          cache: uv
       - name: Install OS Dependencies
         if: matrix.os == 'macos-latest'
         run: brew install libomp
 
-      - run: poetry install --all-extras
-      - run: poetry check
-      - run: poetry run pytest
+#      - run: make
+      - run: make test
     continue-on-error: true

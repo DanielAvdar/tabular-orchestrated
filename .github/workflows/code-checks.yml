@@ -10,18 +10,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: pipx install poetry
+      - run: pipx install uv
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
-          cache: poetry
+          cache: uv
 
 #      - run: poetry install
 #      - run: poetry run pre-commit install
 #      - run: poetry run pre-commit run --all-files
       - run: make
       - run: make check
-      - run: make build
+      - run: make build-kfp
         continue-on-error: true
 
 
@@ -37,4 +37,4 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           exit 1
-      - run: poetry run mypy . --config-file pyproject.toml
+      - run: uv run mypy . --config-file pyproject.toml
