@@ -19,6 +19,7 @@ jobs:
         with:
           python-version: '3.11'
           #cache: uv
+      - run: make
 
       - run: make coverage
       - uses: codecov/codecov-action@v4
