@@ -2482,19 +2482,22 @@ dependencies = [
 [package.optional-dependencies]
 deepchecks = [
     { name = "eh-tabular-deepchecks" },
-]
-editor = [
-    { name = "kfp" },
-]
-gcp = [
-    { name = "google-cloud-aiplatform" },
     { name = "ml-orchestrator" },
     { name = "pandas-pyarrow" },
 ]
+editor = [
+    { name = "kfp" },
+    { name = "ml-orchestrator", extra = ["editor"] },
+    { name = "pandas-pyarrow" },
+]
 mljar = [
+    { name = "ml-orchestrator" },
     { name = "mljar-supervised" },
+    { name = "pandas-pyarrow" },
 ]
 spliter = [
+    { name = "ml-orchestrator" },
+    { name = "pandas-pyarrow" },
     { name = "scikit-learn" },
 ]
 
@@ -2518,11 +2521,17 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eh-tabular-deepchecks", marker = "extra == 'deepchecks'" },
-    { name = "google-cloud-aiplatform", marker = "extra == 'gcp'" },
     { name = "kfp", marker = "extra == 'editor'", specifier = ">=2" },
-    { name = "ml-orchestrator", marker = "extra == 'gcp'", specifier = ">=0.0.5b0" },
+    { name = "ml-orchestrator", marker = "extra == 'deepchecks'" },
+    { name = "ml-orchestrator", marker = "extra == 'editor'" },
+    { name = "ml-orchestrator", marker = "extra == 'mljar'" },
+    { name = "ml-orchestrator", marker = "extra == 'spliter'" },
+    { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.5b0" },
     { name = "mljar-supervised", marker = "extra == 'mljar'", specifier = "==1.1.14" },
-    { name = "pandas-pyarrow", marker = "extra == 'gcp'", specifier = ">=0.1.9" },
+    { name = "pandas-pyarrow", marker = "extra == 'deepchecks'" },
+    { name = "pandas-pyarrow", marker = "extra == 'editor'" },
+    { name = "pandas-pyarrow", marker = "extra == 'mljar'" },
+    { name = "pandas-pyarrow", marker = "extra == 'spliter'" },
     { name = "scikit-learn", marker = "extra == 'spliter'", specifier = ">=1.3.0" },
     { name = "setuptools", specifier = ">=75.6.0" },
 ]
