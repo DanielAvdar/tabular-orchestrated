@@ -17,13 +17,14 @@ jobs:
         python-version: [ '3.9', '3.10', '3.11', '3.12' ]
     steps:
       - uses: actions/checkout@v4
+      - name: Install OS Dependencies
+        if: matrix.os == 'macos-latest'
+        run: brew install libomp
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
       - run: uv python install ${{ matrix.python-version }}
-      - name: Install OS Dependencies
-        if: matrix.os == 'macos-latest'
-        run: brew install libomp
+
 
       - run: make
       - run: make test

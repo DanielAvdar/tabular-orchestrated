@@ -64,9 +64,9 @@ editor = [
         "ml-orchestrator[editor]>=0.0.5b0",
 
 ]
-evalml = [
-    "evalml>=0.83.0","ml-orchestrator", "pandas-pyarrow"
-]
+#evalml = [
+#    "evalml>=0.83.0","ml-orchestrator", "pandas-pyarrow"
+#]
 spliter = [
     "scikit-learn>=1.3.0","ml-orchestrator", "pandas-pyarrow"
 ]
