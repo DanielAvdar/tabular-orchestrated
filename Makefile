@@ -18,7 +18,7 @@ build-kfp:
 build:
 	uv build
 
-covarage:
+coverage:
 	uv run pytest --cov=ml_orchestrator --cov-report=xml
 clear:
-	uv
+	uv venv --python 3.10
