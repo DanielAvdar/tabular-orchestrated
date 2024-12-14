@@ -29,7 +29,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if ! git diff --exit-code; then
+          if ! git diff --exit-code tabular_orchestrated_kfp; then
             echo "changes=true" >> "$GITHUB_OUTPUT"
           fi
 
