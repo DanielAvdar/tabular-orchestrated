@@ -17,7 +17,7 @@ repos:
       - id: ruff
         args: [ --preview, --fix,--unsafe-fixes ]
 
-  - repo: https://github.com/python-poetry/poetry
-    rev: '1.8.4'  # add version here
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.5.4
     hooks:
-      - id: poetry-check
+      - id: uv-lock
