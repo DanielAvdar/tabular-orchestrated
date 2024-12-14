@@ -14,12 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: pipx install uv
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v4
         with:
-          python-version: '3.11'
-          #cache: uv
-      - run: make
+          enable-cache: true
+      - run: uv python install 3.11
+      - run: uv sync --all-extras
 
       - run: make coverage
       - uses: codecov/codecov-action@v4
