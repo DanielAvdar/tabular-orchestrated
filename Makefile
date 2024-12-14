@@ -1,7 +1,7 @@
 .PHONY: help
 
 install:
-	uv sync --all-extras
+	uv sync --all-extras --frozen
 	uv tool install pre-commit --with pre-commit-uv --force-reinstall
 
 .PHONY: default

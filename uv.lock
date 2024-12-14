@@ -2770,7 +2770,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.13b0.post17.dev0+c53cc38"
+version = "0.0.13b0.post18.dev0+39726c7"
 source = { editable = "." }
 dependencies = [
     { name = "setuptools" },
@@ -2785,7 +2785,6 @@ deepchecks = [
 editor = [
     { name = "kfp" },
     { name = "ml-orchestrator", extra = ["editor"] },
-    { name = "pandas-pyarrow" },
 ]
 mljar = [
     { name = "ml-orchestrator" },
@@ -2826,7 +2825,6 @@ requires-dist = [
     { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.5b0" },
     { name = "mljar-supervised", marker = "extra == 'mljar'", specifier = "==1.1.14" },
     { name = "pandas-pyarrow", marker = "extra == 'deepchecks'" },
-    { name = "pandas-pyarrow", marker = "extra == 'editor'" },
     { name = "pandas-pyarrow", marker = "extra == 'mljar'" },
     { name = "pandas-pyarrow", marker = "extra == 'spliter'" },
     { name = "scikit-learn", marker = "extra == 'spliter'", specifier = ">=1.3.0" },
