@@ -5,7 +5,7 @@ Thank you for your interest in contributing to SchemArrow.
 Before you start, make sure you have **poetry** installed on your machine. You can install it with this command:
 
 ```bash
-pip install poetry --all-extras
+pipx install uv
 ```
 
 Also, make sure you have **forked** the repository and **cloned** your fork to your local machine.
@@ -15,22 +15,19 @@ To set up the project, navigate to the project directory and run these commands:
 
 Install the project dependencies
 ```bash
-poetry install
+make
 ```
-Install the pre-commit hooks
-```bash
-poetry run pre-commit install
-```
+
 
 ## Testing and Code Checking
 To run the tests, use this command:
 
 ```bash
-poetry run pytest
+make test
 ```
 
 To check the code style and formatting, use this command:
 
 ```bash
-poetry run pre-commit run --all-files
+make check
 ```
