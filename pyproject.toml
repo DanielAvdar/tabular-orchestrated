@@ -72,9 +72,7 @@ fixable = ["ALL"]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
-case-sensitive = true
-classes = ["SVC"]
+
 [tool.mypy]
 python_version = "3.11"
 disallow_untyped_defs = true
