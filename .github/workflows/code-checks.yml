@@ -11,13 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
       - run: uv python install 3.11
       - run: make
       - run: make check
       - run: make build-kfp
         continue-on-error: true
-
-
 
       - name: Check for changes
         id: check_changes
