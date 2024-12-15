@@ -1,4 +1,5 @@
 from kfp import compiler
+
 from tabular_kfp.pipeline import mljar_pipeline
 from tabular_kfp.pipeline_gcp import mljar_gcp_pipeline
 

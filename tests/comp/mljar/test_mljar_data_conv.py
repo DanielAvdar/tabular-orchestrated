@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 from hypothesis.extra.pandas import column, data_frames
 from pandas_pyarrow import convert_to_pyarrow
+
 from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 

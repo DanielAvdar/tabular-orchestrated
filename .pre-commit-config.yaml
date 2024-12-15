@@ -13,9 +13,9 @@ repos:
     rev: v0.8.3
     hooks:
       - id: ruff-format
-        args: [ --preview ]
+        args: [ --preview, --config=pyproject.toml ]
       - id: ruff
-        args: [ --preview, --fix,--unsafe-fixes ]
+        args: [ --preview, --fix,--unsafe-fixes, --config=pyproject.toml ]
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.5.9
