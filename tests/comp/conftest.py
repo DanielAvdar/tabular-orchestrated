@@ -2,10 +2,6 @@ import dataclasses as dc
 import shutil
 from pathlib import Path
 
-from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
-from tabular_orchestrated.mljar.mljar import MLJARTraining
-
 import deepchecks
 import numpy as np
 import pandas as pd
@@ -13,6 +9,9 @@ import pytest
 from ml_orchestrator import artifacts
 from pandas_pyarrow import convert_to_pyarrow
 from sklearn import datasets
+from tabular_orchestrated.components import DataSplitter
+from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
+from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 
 @dc.dataclass

@@ -1,10 +1,9 @@
 from pathlib import Path
 
-from tabular_orchestrated.deepchecks import DCModelComp
-from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
-
 from ml_orchestrator import artifacts
 from sklearn import datasets
+from tabular_orchestrated.deepchecks import DCModelComp
+from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
 
 dataset_importers = [
     # (datasets.load_iris,'iris'),
