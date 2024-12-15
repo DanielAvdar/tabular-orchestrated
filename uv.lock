@@ -2770,7 +2770,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.14b0.post1.dev0+651d9c7"
+version = "0.0.14b0.post9.dev0+7668da8"
 source = { editable = "." }
 
 [package.optional-dependencies]
@@ -2798,8 +2798,6 @@ dev = [
     { name = "debugpy" },
     { name = "google-cloud-aiplatform" },
     { name = "hypothesis" },
-    { name = "matplotlib" },
-    { name = "ml-orchestrator", extra = ["editor"] },
     { name = "mypy" },
     { name = "pandas-stubs" },
     { name = "pre-commit" },
@@ -2829,8 +2827,6 @@ dev = [
     { name = "debugpy", specifier = "==1.8.10" },
     { name = "google-cloud-aiplatform" },
     { name = "hypothesis", specifier = ">=6.23.3" },
-    { name = "matplotlib", specifier = "<3.9.4" },
-    { name = "ml-orchestrator", extras = ["editor"] },
     { name = "mypy", specifier = "==1.13.0" },
     { name = "pandas-stubs" },
     { name = "pre-commit", specifier = ">=2.20.0" },

@@ -43,8 +43,6 @@ deepchecks = [
 [dependency-groups]
 dev = [
     "debugpy==1.8.10",
-    "matplotlib<3.9.4",
-    "ml-orchestrator[editor]",
     "google-cloud-aiplatform",
     "pytest>=7.1.2",
     "hypothesis>=6.23.3",
