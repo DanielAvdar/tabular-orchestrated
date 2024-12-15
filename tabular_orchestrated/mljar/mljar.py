@@ -2,8 +2,6 @@ import dataclasses
 from pathlib import Path
 from typing import Dict, List, Union
 
-from tabular_orchestrated.tab_comp import ModelComp
-
 import pandas as pd
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
@@ -11,6 +9,8 @@ from pandas import DataFrame
 from pandas.core.dtypes.common import is_numeric_dtype
 from pandas_pyarrow import convert_to_numpy
 from supervised import AutoML
+
+from tabular_orchestrated.tab_comp import ModelComp
 
 
 @dataclasses.dataclass

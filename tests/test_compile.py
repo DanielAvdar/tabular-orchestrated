@@ -1,7 +1,7 @@
+from kfp import compiler
+
 from tabular_kfp.pipeline import mljar_pipeline
 from tabular_kfp.pipeline_gcp import mljar_gcp_pipeline
-
-from kfp import compiler
 
 
 def test_compile_core(tmp_files_folder):

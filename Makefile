@@ -1,7 +1,7 @@
 .PHONY: help
 
 install:
-	uv sync --all-extras
+	uv sync --all-extras --frozen
 	uv tool install pre-commit --with pre-commit-uv --force-reinstall
 
 .PHONY: default
@@ -11,7 +11,7 @@ test:
 	uv run pytest
 
 check:
-	uv run pre-commit run --all-files
+	uv run pre-commit run --all-files --show-diff-on-failure
 
 build-kfp:
 	uv run python -m main

@@ -1,12 +1,12 @@
 import dataclasses
 from typing import List, Tuple
 
-from tabular_orchestrated.tab_comp import TabComponent
-
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
+
+from tabular_orchestrated.tab_comp import TabComponent
 
 
 @dataclasses.dataclass

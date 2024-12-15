@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: debug-statements
       - id: end-of-file-fixer
@@ -10,14 +10,14 @@ repos:
     hooks:
       - id: nb-ensure-clean
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.3
+    rev: v0.8.3
     hooks:
       - id: ruff-format
-        args: [ --preview ]
+        args: [ --preview, --config=pyproject.toml ]
       - id: ruff
-        args: [ --preview, --fix,--unsafe-fixes ]
+        args: [ --preview, --fix,--unsafe-fixes, --config=pyproject.toml ]
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.5.4
+    rev: 0.5.9
     hooks:
       - id: uv-lock

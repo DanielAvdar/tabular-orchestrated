@@ -1,9 +1,9 @@
 from pathlib import Path
 
+from ml_orchestrator import artifacts
+
 from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.deepchecks import DCDataComp, DCTrainTestComp
-
-from ml_orchestrator import artifacts
 
 #
 # def test_mljar(get_df_example: artifacts.Dataset, split_op: DataSplitter,

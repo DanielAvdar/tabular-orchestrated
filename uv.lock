@@ -2770,11 +2770,8 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.13b0.post17.dev0+c53cc38"
+version = "0.0.14b0.post12.dev0+3777c8e"
 source = { editable = "." }
-dependencies = [
-    { name = "setuptools" },
-]
 
 [package.optional-dependencies]
 deepchecks = [
@@ -2783,9 +2780,7 @@ deepchecks = [
     { name = "pandas-pyarrow" },
 ]
 editor = [
-    { name = "kfp" },
     { name = "ml-orchestrator", extra = ["editor"] },
-    { name = "pandas-pyarrow" },
 ]
 mljar = [
     { name = "ml-orchestrator" },
@@ -2803,8 +2798,6 @@ dev = [
     { name = "debugpy" },
     { name = "google-cloud-aiplatform" },
     { name = "hypothesis" },
-    { name = "matplotlib" },
-    { name = "ml-orchestrator", extra = ["editor"] },
     { name = "mypy" },
     { name = "pandas-stubs" },
     { name = "pre-commit" },
@@ -2818,19 +2811,15 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eh-tabular-deepchecks", marker = "extra == 'deepchecks'", specifier = ">=0.0.4b0" },
-    { name = "kfp", marker = "extra == 'editor'", specifier = ">=2" },
     { name = "ml-orchestrator", marker = "extra == 'deepchecks'" },
-    { name = "ml-orchestrator", marker = "extra == 'editor'" },
     { name = "ml-orchestrator", marker = "extra == 'mljar'" },
     { name = "ml-orchestrator", marker = "extra == 'spliter'" },
     { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.5b0" },
     { name = "mljar-supervised", marker = "extra == 'mljar'", specifier = "==1.1.14" },
     { name = "pandas-pyarrow", marker = "extra == 'deepchecks'" },
-    { name = "pandas-pyarrow", marker = "extra == 'editor'" },
     { name = "pandas-pyarrow", marker = "extra == 'mljar'" },
     { name = "pandas-pyarrow", marker = "extra == 'spliter'" },
     { name = "scikit-learn", marker = "extra == 'spliter'", specifier = ">=1.3.0" },
-    { name = "setuptools", specifier = ">=75.6.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -2838,8 +2827,6 @@ dev = [
     { name = "debugpy", specifier = "==1.8.10" },
     { name = "google-cloud-aiplatform" },
     { name = "hypothesis", specifier = ">=6.23.3" },
-    { name = "matplotlib", specifier = "<3.9.4" },
-    { name = "ml-orchestrator", extras = ["editor"] },
     { name = "mypy", specifier = "==1.13.0" },
     { name = "pandas-stubs" },
     { name = "pre-commit", specifier = ">=2.20.0" },

@@ -2,14 +2,14 @@ import dataclasses
 from abc import ABC, abstractmethod
 from typing import Any, List
 
-from tabular_orchestrated.tab_comp import ModelComp
-
 from deepchecks.tabular import Dataset as DC_Dataset
 from deepchecks.tabular.suites import data_integrity, full_suite, model_evaluation, train_test_validation
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
 from pandas_pyarrow import convert_to_numpy
+
+from tabular_orchestrated.tab_comp import ModelComp
 
 
 @dataclasses.dataclass
