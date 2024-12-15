@@ -11,7 +11,7 @@ on:
 jobs:
 
   tests-imports:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         extra: [ 'mljar','spliter','deepchecks','editor']
