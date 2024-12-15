@@ -11,16 +11,14 @@ readme = "README.md"
 keywords = [
     "python",
 ]
-dependencies = [
-    "setuptools>=75.6.0",
-]
+dependencies = []
 
 [tool.hatch.build.targets.sdist]
 only-include = ["tabular_orchestrated_kfp", "tabular_orchestrated"]
 
 [project.optional-dependencies]
 editor = [
-    "kfp>=2","ml-orchestrator",
+
         "ml-orchestrator[editor]>=0.0.5b0",
 
 ]

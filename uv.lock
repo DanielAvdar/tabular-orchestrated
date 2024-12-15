@@ -2770,11 +2770,8 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.13b0.post18.dev0+39726c7"
+version = "0.0.14b0.post1.dev0+651d9c7"
 source = { editable = "." }
-dependencies = [
-    { name = "setuptools" },
-]
 
 [package.optional-dependencies]
 deepchecks = [
@@ -2783,7 +2780,6 @@ deepchecks = [
     { name = "pandas-pyarrow" },
 ]
 editor = [
-    { name = "kfp" },
     { name = "ml-orchestrator", extra = ["editor"] },
 ]
 mljar = [
@@ -2817,9 +2813,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eh-tabular-deepchecks", marker = "extra == 'deepchecks'", specifier = ">=0.0.4b0" },
-    { name = "kfp", marker = "extra == 'editor'", specifier = ">=2" },
     { name = "ml-orchestrator", marker = "extra == 'deepchecks'" },
-    { name = "ml-orchestrator", marker = "extra == 'editor'" },
     { name = "ml-orchestrator", marker = "extra == 'mljar'" },
     { name = "ml-orchestrator", marker = "extra == 'spliter'" },
     { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.5b0" },
@@ -2828,7 +2822,6 @@ requires-dist = [
     { name = "pandas-pyarrow", marker = "extra == 'mljar'" },
     { name = "pandas-pyarrow", marker = "extra == 'spliter'" },
     { name = "scikit-learn", marker = "extra == 'spliter'", specifier = ">=1.3.0" },
-    { name = "setuptools", specifier = ">=75.6.0" },
 ]
 
 [package.metadata.requires-dev]
