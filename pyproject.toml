@@ -1,9 +1,9 @@
 [project]
 name = "tabular-orchestrated"
 authors = [
-    {name = "DanielAvdar", email = "66269169+DanielAvdar@users.noreply.github.com"},
+    { name = "DanielAvdar", email = "66269169+DanielAvdar@users.noreply.github.com" },
 ]
-license = {text = "MIT"}
+license = { text = "MIT" }
 requires-python = "<=3.12,>=3.9"
 dynamic = ["version"]
 description = ""
@@ -19,8 +19,7 @@ only-include = ["tabular_orchestrated_kfp", "tabular_orchestrated"]
 [project.optional-dependencies]
 editor = [
 
-        "ml-orchestrator[editor]>=0.0.5b0",
-
+    "ml-orchestrator[editor]>=0.0.5b0",
 ]
 
 
@@ -29,15 +28,15 @@ editor = [
 #]
 
 spliter = [
-    "scikit-learn>=1.3.0","ml-orchestrator", "pandas-pyarrow"
+    "scikit-learn>=1.3.0", "ml-orchestrator", "pandas-pyarrow"
 ]
 
 mljar = [
-    "mljar-supervised==1.1.14","ml-orchestrator", "pandas-pyarrow"
+    "mljar-supervised==1.1.14", "ml-orchestrator", "pandas-pyarrow"
 ]
 
 deepchecks = [
-    "eh-tabular-deepchecks>=0.0.4b","ml-orchestrator", "pandas-pyarrow"
+    "eh-tabular-deepchecks>=0.0.4b", "ml-orchestrator", "pandas-pyarrow"
 ]
 
 [dependency-groups]
@@ -73,8 +72,9 @@ fixable = ["ALL"]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
-section-order = ["future", "standard-library", "first-party", "local-folder", "third-party"]
-
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+case-sensitive = true
+classes = ["SVC"]
 [tool.mypy]
 python_version = "3.11"
 disallow_untyped_defs = true

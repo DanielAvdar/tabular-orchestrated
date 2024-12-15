@@ -1,9 +1,9 @@
 # flake8: noqa: F403, F405, B006
 
+from kfp.dsl import pipeline
+
 from tabular_kfp.gcp_comp import bq_read
 from tabular_kfp.pipeline import mljar_pipeline
-
-from kfp.dsl import pipeline
 
 
 @pipeline(name="MLJAR Pipeline", description="A pipeline that performs data splitting, MLJAR training, and evaluation.")
