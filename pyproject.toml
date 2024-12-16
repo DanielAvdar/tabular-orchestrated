@@ -15,6 +15,13 @@ dependencies = []
 
 [tool.hatch.build.targets.sdist]
 only-include = ["tabular_orchestrated_kfp", "tabular_orchestrated"]
+source = "."
+
+[tool.hatch.build.targets.wheel]
+only-include = ["tabular_orchestrated_kfp", "tabular_orchestrated"]
+source = "."
+
+
 
 [project.optional-dependencies]
 editor = [
