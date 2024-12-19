@@ -13,7 +13,7 @@ test:
 check:
 	uv run pre-commit run --all-files --show-diff-on-failure
 
-build-kfp:
+comps:
 	uv run python -m main
 	uv run pre-commit run --all-files
 

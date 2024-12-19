@@ -1449,11 +1449,11 @@ wheels = [
 
 [[package]]
 name = "ml-orchestrator"
-version = "0.0.12b0"
+version = "0.0.13b0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/2c/d0/2ad85b803366a985ac98b2e0b23403e758c5ea7349bfe27fcbdd69c77dab/ml_orchestrator-0.0.12b0.tar.gz", hash = "sha256:0f22656adf8027c1e04eee6459711a3a576645d3b198a71414bad5006f530787", size = 6164 }
+sdist = { url = "https://files.pythonhosted.org/packages/85/aa/50eaa0e07667f0fe1ef5f9ab39627ea3fec2c6f171d7fbf19d3a0901bdae/ml_orchestrator-0.0.13b0.tar.gz", hash = "sha256:cbbac249690d7a63800ebc2e4dec51a641c3f45e93cc7f31a4b5ad1f0dee6692", size = 6267 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/90/e6/d1c970fba8eff04ee9df9d809d564b171f46fffdab1c0fa01652084b186e/ml_orchestrator-0.0.12b0-py3-none-any.whl", hash = "sha256:4a6ab48d44d21e57a1b843ef38a55e933bb37e1c9af5322336c3e28ac66c02d9", size = 9418 },
+    { url = "https://files.pythonhosted.org/packages/8b/85/03834d75d47a538a10cdc0d5d48651fcc7502e193c44b6afc62ec1e154c1/ml_orchestrator-0.0.13b0-py3-none-any.whl", hash = "sha256:dac73e014ba20d275a42b341f345add34bbcda01317539784ff84bdd3622a831", size = 9599 },
 ]
 
 [package.optional-dependencies]
@@ -2770,7 +2770,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.15b0"
+version = "0.0.15b0.post1.dev0+cbb1a91"
 source = { editable = "." }
 
 [package.optional-dependencies]
@@ -2814,7 +2814,7 @@ requires-dist = [
     { name = "ml-orchestrator", marker = "extra == 'deepchecks'" },
     { name = "ml-orchestrator", marker = "extra == 'mljar'" },
     { name = "ml-orchestrator", marker = "extra == 'spliter'" },
-    { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.5b0" },
+    { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.13b0" },
     { name = "mljar-supervised", marker = "extra == 'mljar'", specifier = "==1.1.14" },
     { name = "pandas-pyarrow", marker = "extra == 'deepchecks'" },
     { name = "pandas-pyarrow", marker = "extra == 'mljar'" },

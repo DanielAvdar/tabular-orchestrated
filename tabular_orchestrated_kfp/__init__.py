@@ -10,7 +10,7 @@ from kfp.dsl import *
 )
 def mljartraining(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     dataset: Input[Dataset] = None,
     model: Output[Model] = None,
     mljar_automl_params: Dict = {
@@ -41,9 +41,9 @@ def datasplitter(
     dataset: Input[Dataset] = None,
     train_dataset: Output[Dataset] = None,
     test_dataset: Output[Dataset] = None,
-    test_size: float = None,
-    random_state: int = None,
-    shuffle: bool = None,
+    test_size: float = 0.2,
+    random_state: int = 42,
+    shuffle: bool = True,
 ):
     from tabular_orchestrated.components import DataSplitter
 
@@ -63,7 +63,7 @@ def datasplitter(
 )
 def evaluatemljar(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     test_dataset: Input[Dataset] = None,
     model: Input[Model] = None,
     metrics: Output[Metrics] = None,
@@ -88,7 +88,7 @@ def evaluatemljar(
 )
 def dctraintestcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,
@@ -113,7 +113,7 @@ def dctraintestcomp(
 )
 def dcdatacomp(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     dataset: Input[Dataset] = None,
@@ -136,7 +136,7 @@ def dcdatacomp(
 )
 def mljardcmodelcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,
@@ -163,7 +163,7 @@ def mljardcmodelcomp(
 )
 def mljardcfullcomp(
     exclude_columns: List[str] = [],
-    target_column: str = "None",
+    target_column: str = "target",
     report: Output[HTML] = None,
     failed_checks: Output[Metrics] = None,
     train_dataset: Input[Dataset] = None,

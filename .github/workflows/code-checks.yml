@@ -16,7 +16,7 @@ jobs:
       - run: uv python install 3.11
       - run: make
       - run: make check
-      - run: make build-kfp
+      - run: make comps
         continue-on-error: true
 
       - name: Check for changes
