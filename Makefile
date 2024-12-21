@@ -1,7 +1,7 @@
 .PHONY: help
 
 install:
-	uv sync --all-extras --frozen
+	uv sync --all-extras --all-groups --frozen
 	uv tool install pre-commit --with pre-commit-uv --force-reinstall
 
 .PHONY: default
@@ -13,7 +13,7 @@ test:
 check:
 	uv run pre-commit run --all-files --show-diff-on-failure
 
-build-kfp:
+comps:
 	uv run python -m main
 	uv run pre-commit run --all-files
 
@@ -24,4 +24,11 @@ coverage:
 	uv run pytest --cov=ml_orchestrator --cov-report=xml
 
 clear:
-	uv venv --python 3.11
+	uv venv --python 3.10
+
+update:
+	uv lock
+	uvx pre-commit autoupdate
+
+mypy:
+	uv run mypy . --config-file pyproject.toml

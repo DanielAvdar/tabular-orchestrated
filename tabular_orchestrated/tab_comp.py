@@ -3,41 +3,33 @@ import pickle
 from typing import Any, Dict, List, Union
 
 import pandas as pd
-from ml_orchestrator import MetaComponent
 from ml_orchestrator.artifacts import HTML, Dataset, Metrics, Model
 from ml_orchestrator.env_params import EnvironmentParams
+from ml_orchestrator.meta_comp import MetaComponentV2
 
 
 @dataclasses.dataclass
-class TabComponent(MetaComponent):
-    @property
-    def env(self) -> EnvironmentParams:
+class TabComponent(MetaComponentV2):
+    self_package_name = "tabular-orchestrated"
+    extra_packages = []  # type: List[str]
+    self_package_version = "{version('tabular-orchestrated')}"
+
+    @classmethod
+    def env(cls) -> EnvironmentParams:
         return EnvironmentParams(
             packages_to_install=[
-                self.self_package,
+                cls.self_package(),
             ],
             base_image="python:3.11",
         )
 
-    @property
-    def self_package(self) -> str:
-        package_name = self.self_package_name
+    @classmethod
+    def self_package(cls) -> str:
+        package_name = cls.self_package_name
         extras = ""
-        if self.extra_packages:
-            extras = f"[{','.join(self.extra_packages)}]"
-        return f"{package_name}{extras}=={self.self_package_version}"
-
-    @property
-    def extra_packages(self) -> List[str]:
-        return []
-
-    @property
-    def self_package_version(self) -> str:
-        return "{version('tabular-orchestrated')}"
-
-    @property
-    def self_package_name(self) -> str:
-        return "tabular-orchestrated"
+        if cls.extra_packages:
+            extras = f"[{','.join(cls.extra_packages)}]"
+        return f"{package_name}{extras}=={cls.self_package_version}"
 
     @staticmethod
     def save_df(df: pd.DataFrame, dataset: Dataset) -> None:
@@ -72,3 +64,7 @@ class TabComponent(MetaComponent):
 class ModelComp(TabComponent):
     exclude_columns: List[str] = dataclasses.field(default_factory=lambda: [])
     target_column: str = "target"
+
+    @property
+    def excluded_columns(self) -> List[str]:
+        return self.exclude_columns

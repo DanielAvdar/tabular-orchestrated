@@ -13,10 +13,10 @@ jobs:
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
-      - run: uv python install 3.11
+      - run: uv python install 3.10
       - run: make
       - run: make check
-      - run: make build-kfp
+      - run: make comps
         continue-on-error: true
 
       - name: Check for changes
@@ -30,4 +30,4 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           exit 1
-      - run: uv run mypy . --config-file pyproject.toml
+      - run: make mypy
