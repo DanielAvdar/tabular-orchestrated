@@ -1,6 +1,6 @@
 import dataclasses
 from abc import ABC, abstractmethod
-from typing import Any, List
+from typing import Any
 
 from deepchecks.tabular import Dataset as DC_Dataset
 from ml_orchestrator import artifacts
@@ -13,12 +13,9 @@ from tabular_orchestrated.tab_comp import ModelComp
 
 @dataclasses.dataclass
 class DCMetaComp(ModelComp, ABC):
+    extra_packages = ["deepchecks"]
     report: Output[artifacts.HTML] = None
     failed_checks: Output[artifacts.Metrics] = None
-
-    @property
-    def extra_packages(self) -> List[str]:
-        return ["deepchecks"]
 
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)

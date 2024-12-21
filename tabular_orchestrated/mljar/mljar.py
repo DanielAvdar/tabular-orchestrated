@@ -1,6 +1,6 @@
 import dataclasses
 from pathlib import Path
-from typing import Dict, List, Union
+from typing import Dict, Union
 
 import pandas as pd
 from ml_orchestrator import artifacts
@@ -15,6 +15,7 @@ from tabular_orchestrated.tab_comp import ModelComp
 
 @dataclasses.dataclass
 class MLJARTraining(ModelComp):
+    extra_packages = ["mljar"]
     dataset: Input[artifacts.Dataset] = None
     model: Output[artifacts.Model] = None
     mljar_automl_params: Dict = dataclasses.field(
@@ -78,21 +79,23 @@ class MLJARTraining(ModelComp):
             folder.mkdir()
         return folder
 
-    @property
-    def extra_packages(self) -> List[str]:
-        return ["mljar"]
+    # @property
+    # def extra_packages(self) -> List[str]:
+    #     return ["mljar"]
 
 
 @dataclasses.dataclass
 class EvaluateMLJAR(ModelComp):
+    extra_packages = ["mljar"]
+
     test_dataset: Input[artifacts.Dataset] = None
     model: Input[artifacts.Model] = None
     metrics: Output[artifacts.Metrics] = None
     report: Output[artifacts.HTML] = None
 
-    @property
-    def extra_packages(self) -> List[str]:
-        return ["mljar"]
+    # @property
+    # def extra_packages(self) -> List[str]:
+    #     return ["mljar"]
 
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)

@@ -10,15 +10,13 @@ from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp, MljarDC
 def parse_components(file_path: str) -> None:
     parser = ComponentParser()
     comp_list = [
-        MLJARTraining(),
-        DataSplitter(),
-        EvaluateMLJAR(),
-        DCTrainTestComp(),
-        DCDataComp(),
-        DCModelCompV2(),
-        # DCModelComp(),
-        # DCFullComp(),
-        MljarDCModelComp(),
-        MljarDCFullComp(),
+        MLJARTraining,
+        DataSplitter,
+        EvaluateMLJAR,
+        DCTrainTestComp,
+        DCDataComp,
+        DCModelCompV2,
+        MljarDCModelComp,
+        MljarDCFullComp,
     ]
     parser.parse_components_to_file(comp_list, file_path)

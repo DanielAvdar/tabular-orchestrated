@@ -1,5 +1,5 @@
 import dataclasses
-from typing import List, Tuple
+from typing import Tuple
 
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
@@ -11,6 +11,7 @@ from tabular_orchestrated.tab_comp import TabComponent
 
 @dataclasses.dataclass
 class DataSplitter(TabComponent):
+    extra_packages = ["spliter"]
     dataset: Input[artifacts.Dataset] = None
     train_dataset: Output[artifacts.Dataset] = None
     test_dataset: Output[artifacts.Dataset] = None
@@ -27,7 +28,3 @@ class DataSplitter(TabComponent):
     def split_dataframe(self, df: DataFrame) -> Tuple[DataFrame, DataFrame]:
         df1, df2 = train_test_split(df, test_size=self.test_size, random_state=self.random_state, shuffle=self.shuffle)
         return df1, df2
-
-    @property
-    def extra_packages(self) -> List[str]:
-        return ["spliter"]

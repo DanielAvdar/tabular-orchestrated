@@ -26,7 +26,7 @@ source = "."
 [project.optional-dependencies]
 editor = [
 
-    "ml-orchestrator[editor]>=0.0.13b0",
+    "ml-orchestrator[editor]>=0.0.14b0",
 ]
 
 
