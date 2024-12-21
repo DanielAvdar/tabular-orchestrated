@@ -43,3 +43,18 @@ def test_split_deepchecks(
         return (tmp_files_folder / x).as_posix()
 
     assert Path(func("deepchecks_train_test.html")).exists()
+
+
+def test_model_v2_deepchecks(
+    get_df_example: artifacts.Dataset,
+    deepchecks_model_v2_op: DCTrainTestComp,
+) -> None:
+    if deepchecks_model_v2_op is None:
+        assert True
+        return
+    tmp_files_folder = Path(get_df_example.uri).parent
+
+    def func(x):
+        return (tmp_files_folder / x).as_posix()
+
+    assert Path(func("deepchecks_train_test.html")).exists()

@@ -94,7 +94,7 @@ def dctraintestcomp(
     train_dataset: Input[Dataset] = None,
     test_dataset: Input[Dataset] = None,
 ):
-    from tabular_orchestrated.deepchecks import DCTrainTestComp
+    from tabular_orchestrated.dc.dc_data import DCTrainTestComp
 
     comp = DCTrainTestComp(
         exclude_columns=exclude_columns,
@@ -118,7 +118,7 @@ def dcdatacomp(
     failed_checks: Output[Metrics] = None,
     dataset: Input[Dataset] = None,
 ):
-    from tabular_orchestrated.deepchecks import DCDataComp
+    from tabular_orchestrated.dc.dc_data import DCDataComp
 
     comp = DCDataComp(
         exclude_columns=exclude_columns,
@@ -126,6 +126,35 @@ def dcdatacomp(
         report=report,
         failed_checks=failed_checks,
         dataset=dataset,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
+)
+def dcmodelcompv2(
+    exclude_columns: List[str] = [],
+    target_column: str = "target",
+    report: Output[HTML] = None,
+    failed_checks: Output[Metrics] = None,
+    train_dataset: Input[Dataset] = None,
+    test_dataset: Input[Dataset] = None,
+    pred_column: str = "pred_column",
+    proba_column: str = "None",
+):
+    from tabular_orchestrated.dc.dc_model_v2 import DCModelCompV2
+
+    comp = DCModelCompV2(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        pred_column=pred_column,
+        proba_column=proba_column,
     )
     comp.execute()
 

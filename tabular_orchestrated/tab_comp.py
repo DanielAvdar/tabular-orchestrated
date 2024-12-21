@@ -72,3 +72,7 @@ class TabComponent(MetaComponent):
 class ModelComp(TabComponent):
     exclude_columns: List[str] = dataclasses.field(default_factory=lambda: [])
     target_column: str = "target"
+
+    @property
+    def excluded_columns(self) -> List[str]:
+        return self.exclude_columns
