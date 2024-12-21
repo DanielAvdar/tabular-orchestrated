@@ -94,7 +94,7 @@ def dctraintestcomp(
     train_dataset: Input[Dataset] = None,
     test_dataset: Input[Dataset] = None,
 ):
-    from tabular_orchestrated.deepchecks import DCTrainTestComp
+    from tabular_orchestrated.dc.dc_data import DCTrainTestComp
 
     comp = DCTrainTestComp(
         exclude_columns=exclude_columns,
@@ -118,7 +118,7 @@ def dcdatacomp(
     failed_checks: Output[Metrics] = None,
     dataset: Input[Dataset] = None,
 ):
-    from tabular_orchestrated.deepchecks import DCDataComp
+    from tabular_orchestrated.dc.dc_data import DCDataComp
 
     comp = DCDataComp(
         exclude_columns=exclude_columns,

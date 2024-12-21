@@ -11,7 +11,8 @@ from pandas_pyarrow import convert_to_pyarrow
 from sklearn import datasets
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.deepchecks import DCDataComp, DCFullComp, DCTrainTestComp
+from tabular_orchestrated.dc.dc_data import DCDataComp
+from tabular_orchestrated.dc.dc_model import DCFullComp, DCTrainTestComp
 from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 

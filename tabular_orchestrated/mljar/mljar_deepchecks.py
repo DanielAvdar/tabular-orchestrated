@@ -1,7 +1,7 @@
 import dataclasses
 from typing import List
 
-from tabular_orchestrated.deepchecks import DCFullComp, DCModelComp
+from tabular_orchestrated.dc.dc_model import DCFullComp, DCModelComp
 
 
 @dataclasses.dataclass
