@@ -11,7 +11,7 @@ from ml_orchestrator.meta_comp import MetaComponentV2
 @dataclasses.dataclass
 class TabComponent(MetaComponentV2):
     self_package_name = "tabular-orchestrated"
-    extra_packages = []
+    extra_packages = []  # type: List[str]
     self_package_version = "{version('tabular-orchestrated')}"
 
     @classmethod

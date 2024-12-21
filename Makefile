@@ -29,3 +29,6 @@ clear:
 update:
 	uv lock
 	uvx pre-commit autoupdate
+
+mypy:
+	uv run mypy . --config-file pyproject.toml

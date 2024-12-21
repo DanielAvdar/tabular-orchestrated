@@ -30,4 +30,4 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           exit 1
-      - run: uv run mypy . --config-file pyproject.toml
+      - run: make mypy
