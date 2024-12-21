@@ -23,6 +23,7 @@ jobs:
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
+      - run: uv python install ${{ matrix.python-version }}
       - run: make
       - run: make test
     continue-on-error: true

@@ -1,9 +1,9 @@
 from tabular_orchestrated.dc.dc_data import DCDataComp, DCTrainTestComp
-from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp, MljarDCModelComp
+from tabular_orchestrated.dc.dc_model import DCFullComp, DCModelComp
 
 __all__ = [
     "DCDataComp",
     "DCTrainTestComp",
-    "MljarDCModelComp",
-    "MljarDCFullComp",
+    "DCModelComp",
+    "DCFullComp",
 ]
