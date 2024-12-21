@@ -24,4 +24,8 @@ coverage:
 	uv run pytest --cov=ml_orchestrator --cov-report=xml
 
 clear:
-	uv venv --python 3.11
+	uv venv --python 3.10
+
+update:
+	uv lock
+	uvx pre-commit autoupdate

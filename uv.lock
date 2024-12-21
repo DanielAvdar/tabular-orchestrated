@@ -3331,7 +3331,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.0.15b0.post7.dev0+4a5e6ca"
+version = "0.0.15b0.post8.dev0+0530fdf"
 source = { editable = "." }
 
 [package.optional-dependencies]
