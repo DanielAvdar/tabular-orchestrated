@@ -43,4 +43,7 @@ jobs:
       - run: uv python install 3.11
       - run: uv sync --extra ${{ matrix.extra }} --frozen
       - run: uv run pytest tests/imports_checks/test_${{ matrix.extra }}_imports.py
+      - name: test-mljar-imports
+        if: matrix.extra == 'mljar'
+        run: uv run pytest tests/comp/mljar
     continue-on-error: true
