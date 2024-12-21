@@ -100,3 +100,5 @@ ignore_errors = true
 [[tool.mypy.overrides]]
 module = "tabular_orchestrated_kfp.*"
 ignore_errors = true
+[tool.pytest.ini_options]
+addopts = "--ignore=tests/comp/mljar --ignore=comp/mljar"

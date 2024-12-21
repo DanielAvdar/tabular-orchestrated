@@ -3,7 +3,9 @@ name: Publish Package
 on:
   release:
     types: [ published ]
-#  pull_request:
+  pull_request:
+    branches:
+      - main
 
 
 permissions:
