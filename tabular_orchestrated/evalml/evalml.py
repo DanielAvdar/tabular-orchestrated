@@ -17,6 +17,7 @@ class EvalMLComp(ModelComp):
         env.base_image = "python:3.10"
         return env
 
-    def load_df(self, dataset: Dataset) -> pd.DataFrame:
+    @staticmethod
+    def load_df(dataset: Dataset) -> pd.DataFrame:
         df = super().load_df(dataset)
-        return self.internal_feature_prep(df)
+        return EvalMLComp.internal_feature_prep(df)

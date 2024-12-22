@@ -13,7 +13,18 @@ from tabular_orchestrated.tab_comp import ModelComp
 
 
 @dataclasses.dataclass
-class MLJARTraining(ModelComp):
+class MLJARModelComp(ModelComp):
+    def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+        for c in data.columns:
+            if repr(data[c].dtype).startswith("halffloat"):
+                data[c] = data[c].astype("double[pyarrow]")
+        if not is_numeric_dtype(data[self.target_column]):
+            data[self.target_column] = data[self.target_column].astype("category").cat.codes
+        return super().internal_feature_prep(data)
+
+
+@dataclasses.dataclass
+class MLJARTraining(MLJARModelComp):
     extra_packages = ["mljar"]
     dataset: Input[artifacts.Dataset]
     model: Output[artifacts.Model]
@@ -42,7 +53,9 @@ class MLJARTraining(ModelComp):
 
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        mljar_df = self.internal_feature_prep(df, self.target_column)
+        mljar_df = self.mljar_feature_prep(
+            df,
+        )
         x = mljar_df[mljar_df.columns.difference(self.exclude_columns + [self.target_column])]
         y = mljar_df[self.target_column]
         automl.fit(x, y)
@@ -69,7 +82,9 @@ class EvaluateMLJAR(ModelComp):
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
-        regulated_df = MLJARTraining.internal_feature_prep(test_df, self.target_column)
+        regulated_df = self.mljar_feature_prep(
+            test_df,
+        )
         metrics = self.evaluate_model(regulated_df, model)
         self.create_report(model)
         for m in metrics:
@@ -88,8 +103,3 @@ class EvaluateMLJAR(ModelComp):
     def create_report(self, model: AutoML) -> None:
         report = model.report()
         self.save_html(self.report, report.data)
-
-    def internal_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
-        super().internal_feature_prep(data)
-        if not is_numeric_dtype(data[self.target_column]):
-            data[self.target_column] = data[self.target_column].astype("category").cat.codes

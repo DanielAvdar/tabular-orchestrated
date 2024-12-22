@@ -72,7 +72,8 @@ class ModelComp(TabComponent):
     def excluded_columns(self) -> List[str]:
         return self.exclude_columns
 
-    def internal_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def internal_feature_prep(data: pd.DataFrame) -> pd.DataFrame:
         data = convert_to_numpy(data)
 
         for c in data.columns:
