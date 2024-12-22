@@ -15,9 +15,6 @@ from tabular_orchestrated.tab_comp import ModelComp
 @dataclasses.dataclass
 class MLJARModelComp(ModelComp):
     def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
-        for c in data.columns:
-            if repr(data[c].dtype).startswith("halffloat"):
-                data[c] = data[c].astype("double[pyarrow]")
         if not is_numeric_dtype(data[self.target_column]):
             data[self.target_column] = data[self.target_column].astype("category").cat.codes
         return super().internal_feature_prep(data)
@@ -71,7 +68,7 @@ class MLJARTraining(MLJARModelComp):
 
 
 @dataclasses.dataclass
-class EvaluateMLJAR(ModelComp):
+class EvaluateMLJAR(MLJARModelComp):
     extra_packages = ["mljar"]
 
     test_dataset: Input[artifacts.Dataset] = None
