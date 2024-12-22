@@ -10,7 +10,7 @@ from tabular_orchestrated.dc.dc_main import DCMetaComp
 
 @dataclasses.dataclass
 class DCDataComp(DCMetaComp):
-    dataset: Input[artifacts.Dataset] = None
+    dataset: Input[artifacts.Dataset]
 
     def prepare_suite(self) -> Any:
         data = self.load_df(self.dataset)
@@ -21,8 +21,8 @@ class DCDataComp(DCMetaComp):
 
 @dataclasses.dataclass
 class DCTrainTestComp(DCMetaComp):
-    train_dataset: Input[artifacts.Dataset] = None
-    test_dataset: Input[artifacts.Dataset] = None
+    train_dataset: Input[artifacts.Dataset]
+    test_dataset: Input[artifacts.Dataset]
 
     def prepare_suite(self) -> Any:
         train_data = self.load_df(self.train_dataset)

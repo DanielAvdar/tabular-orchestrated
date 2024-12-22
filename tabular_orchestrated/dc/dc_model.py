@@ -10,7 +10,7 @@ from tabular_orchestrated.dc.dc_data import DCTrainTestComp
 
 @dataclasses.dataclass
 class DCModelComp(DCTrainTestComp):
-    model: Input[artifacts.Model] = None
+    model: Input[artifacts.Model]
 
     def prepare_suite(self) -> Any:
         model = self.load_model(self.model)
