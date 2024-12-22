@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        extra: [ 'mljar','spliter','deepchecks','editor']
+        extra: [ 'mljar','spliter','deepchecks','editor','evalml']
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v4
