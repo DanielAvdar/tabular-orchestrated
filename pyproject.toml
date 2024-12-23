@@ -34,7 +34,7 @@ base = [
 
 
 evalml = [
-    "evalml>=0.83.0","tabular-orchestrated[base]"
+    "eh-evalml","tabular-orchestrated[base]"
 ]
 
 spliter = [
@@ -42,7 +42,7 @@ spliter = [
 ]
 
 mljar = [
-    "mljar-supervised==1.1.14", "tabular-orchestrated[base]"
+    "mljar-supervised", "tabular-orchestrated[base]"
 ]
 
 deepchecks = [
