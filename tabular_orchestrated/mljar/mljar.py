@@ -7,6 +7,7 @@ from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
 from pandas.core.dtypes.common import is_numeric_dtype
+from pandas_pyarrow import convert_to_numpy
 from supervised import AutoML
 
 from tabular_orchestrated.tab_comp import ModelComp
@@ -15,6 +16,8 @@ from tabular_orchestrated.tab_comp import ModelComp
 @dataclasses.dataclass
 class MLJARModelComp(ModelComp):
     def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+        data = convert_to_numpy(data)
+
         if not is_numeric_dtype(data[self.target_column]):
             data[self.target_column] = data[self.target_column].astype("category").cat.codes
         return super().internal_feature_prep(data)
@@ -71,10 +74,10 @@ class MLJARTraining(MLJARModelComp):
 class EvaluateMLJAR(MLJARModelComp):
     extra_packages = ["mljar"]
 
-    test_dataset: Input[artifacts.Dataset] = None
-    model: Input[artifacts.Model] = None
-    metrics: Output[artifacts.Metrics] = None
-    report: Output[artifacts.HTML] = None
+    test_dataset: Input[artifacts.Dataset]
+    model: Input[artifacts.Model]
+    metrics: Output[artifacts.Metrics]
+    report: Output[artifacts.HTML]
 
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)

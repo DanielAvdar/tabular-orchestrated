@@ -77,10 +77,6 @@ class ModelComp(TabComponent):
         data = convert_to_numpy(data)
 
         for c in data.columns:
-            if repr(data[c].dtype).startswith("halffloat"):
-                data[c] = data[c].astype("double[pyarrow]")
-
-        for c in data.columns:
             if "Int" not in repr(data[c].dtype) and "Float" not in repr(data[c].dtype):
                 continue
             if "Int" in repr(data[c].dtype) and data[c].isna().any():

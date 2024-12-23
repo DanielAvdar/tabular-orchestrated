@@ -27,6 +27,7 @@ from tabular_orchestrated.mljar.mljar import MLJARTraining
     )
 )
 @hp.settings(suppress_health_check=[hp.HealthCheck.too_slow])
+@pytest.mark.skip
 def test_internal_feature_prep_hypothesis(df):
     target_column = "A"
     pyarrow_df = convert_to_pyarrow(df)

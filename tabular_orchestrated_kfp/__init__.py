@@ -64,10 +64,10 @@ def datasplitter(
 def evaluatemljar(
     exclude_columns: List[str],
     target_column: str,
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
-    metrics: Output[Metrics] = None,
-    report: Output[HTML] = None,
+    test_dataset: Input[Dataset],
+    model: Input[Model],
+    metrics: Output[Metrics],
+    report: Output[HTML],
 ):
     from tabular_orchestrated.mljar.mljar import EvaluateMLJAR
 
