@@ -12,9 +12,8 @@ from sklearn import datasets
 
 from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.dc.dc_data import DCDataComp
-from tabular_orchestrated.dc.dc_model import DCFullComp, DCTrainTestComp
+from tabular_orchestrated.dc.dc_model import DCTrainTestComp
 from tabular_orchestrated.dc.dc_model_v2 import _DCModelCompV2
-from tabular_orchestrated.mljar.mljar import MLJARTraining
 
 
 @dc.dataclass
@@ -62,6 +61,14 @@ def test_directory() -> Path:
     folder_path = Path(__file__).parent
     assert folder_path.exists()
     return folder_path
+
+
+@pytest.fixture(scope="session")
+def model_params() -> dict:
+    return dict(
+        exclude_columns=[],
+        target_column="target",
+    )
 
 
 @pytest.fixture(scope="session")
@@ -118,27 +125,11 @@ def split_op(get_df_example: artifacts.Dataset) -> DataSplitter:
 
 
 @pytest.fixture(scope="session")
-def deepchecks_op(
-    get_df_example: artifacts.Dataset, split_op: DataSplitter, mljar_training_op: MLJARTraining
-) -> DCFullComp:
-    tmp_files_folder = Path(get_df_example.uri).parent
-
-    def func(x):
-        return (tmp_files_folder / x).as_posix()
-
-    deepchecks_op = DCFullComp(
-        train_dataset=split_op.train_dataset,
-        test_dataset=split_op.test_dataset,
-        model=mljar_training_op.model,
-        report=artifacts.HTML(uri=func("deepchecks")),
-        failed_checks=artifacts.Metrics(uri=func("failed_checks")),
-    )
-    deepchecks_op.execute()
-    return deepchecks_op
-
-
-@pytest.fixture(scope="session")
-def deepchecks_data_op(get_df_example: artifacts.Dataset, split_op: DataSplitter) -> DCDataComp:
+def deepchecks_data_op(
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    model_params: dict,
+) -> DCDataComp:
     tmp_files_folder = Path(get_df_example.uri).parent
 
     def func(x):
@@ -148,13 +139,18 @@ def deepchecks_data_op(get_df_example: artifacts.Dataset, split_op: DataSplitter
         dataset=split_op.train_dataset,
         report=artifacts.HTML(uri=func("deepchecks_data")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_data")),
+        **model_params,
     )
     deepchecks_data_op.execute()
     return deepchecks_data_op
 
 
 @pytest.fixture(scope="session")
-def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSplitter) -> DCTrainTestComp:
+def deepchecks_train_test_op(
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    model_params: dict,
+) -> DCTrainTestComp:
     tmp_files_folder = Path(get_df_example.uri).parent
 
     def func(x):
@@ -165,6 +161,7 @@ def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSp
         test_dataset=split_op.test_dataset,
         report=artifacts.HTML(uri=func("deepchecks_train_test")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
+        **model_params,
     )
     try:
         deepchecks_train_test_op.execute()
@@ -174,7 +171,11 @@ def deepchecks_train_test_op(get_df_example: artifacts.Dataset, split_op: DataSp
 
 
 @pytest.fixture(scope="session")
-def deepchecks_model_v2_op(get_df_example: artifacts.Dataset, split_op: DataSplitter) -> DCTrainTestComp:
+def deepchecks_model_v2_op(
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    model_params: dict,
+) -> _DCModelCompV2:
     tmp_files_folder = Path(get_df_example.uri).parent
 
     def func(x):
@@ -186,6 +187,7 @@ def deepchecks_model_v2_op(get_df_example: artifacts.Dataset, split_op: DataSpli
         test_dataset=split_op.test_dataset,
         report=artifacts.HTML(uri=func("deepchecks_train_test")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
+        **model_params,
     )
     try:
         deepchecks_train_test_op.execute()

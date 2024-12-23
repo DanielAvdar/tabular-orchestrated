@@ -14,10 +14,20 @@ from tabular_orchestrated.tab_comp import ModelComp
 
 
 @dataclasses.dataclass
-class MLJARTraining(ModelComp):
+class MLJARModelComp(ModelComp):
+    def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+        data = convert_to_numpy(data)
+
+        if not is_numeric_dtype(data[self.target_column]):
+            data[self.target_column] = data[self.target_column].astype("category").cat.codes
+        return super().internal_feature_prep(data)
+
+
+@dataclasses.dataclass
+class MLJARTraining(MLJARModelComp):
     extra_packages = ["mljar"]
-    dataset: Input[artifacts.Dataset] = None
-    model: Output[artifacts.Model] = None
+    dataset: Input[artifacts.Dataset]
+    model: Output[artifacts.Model]
     mljar_automl_params: Dict = dataclasses.field(
         default_factory=lambda: dict(
             total_time_limit=12 * 60 * 60,
@@ -41,31 +51,11 @@ class MLJARTraining(ModelComp):
         model = self.train_model(df)
         self.save_model(model, self.model)
 
-    @staticmethod
-    def internal_feature_prep(data: pd.DataFrame, target_column: str) -> pd.DataFrame:
-        for c in data.columns:
-            if repr(data[c].dtype).startswith("halffloat"):
-                data[c] = data[c].astype("double[pyarrow]")
-
-        data = convert_to_numpy(data)
-        if not is_numeric_dtype(data[target_column]):
-            data[target_column] = data[target_column].astype("category").cat.codes
-
-        for c in data.columns:
-            if "Int" not in repr(data[c].dtype) and "Float" not in repr(data[c].dtype):
-                continue
-            if "Int" in repr(data[c].dtype) and data[c].isna().any():
-                data[c] = data[c].astype("float64")
-                continue
-            type_str = str(data[c].dtype).lower()
-            data[c] = data[c].astype(type_str)  # type: ignore
-            # data[c] = data[c].values  # type: ignore
-
-        return data
-
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        mljar_df = self.internal_feature_prep(df, self.target_column)
+        mljar_df = self.mljar_feature_prep(
+            df,
+        )
         x = mljar_df[mljar_df.columns.difference(self.exclude_columns + [self.target_column])]
         y = mljar_df[self.target_column]
         automl.fit(x, y)
@@ -79,28 +69,22 @@ class MLJARTraining(ModelComp):
             folder.mkdir()
         return folder
 
-    # @property
-    # def extra_packages(self) -> List[str]:
-    #     return ["mljar"]
-
 
 @dataclasses.dataclass
-class EvaluateMLJAR(ModelComp):
+class EvaluateMLJAR(MLJARModelComp):
     extra_packages = ["mljar"]
 
-    test_dataset: Input[artifacts.Dataset] = None
-    model: Input[artifacts.Model] = None
-    metrics: Output[artifacts.Metrics] = None
-    report: Output[artifacts.HTML] = None
-
-    # @property
-    # def extra_packages(self) -> List[str]:
-    #     return ["mljar"]
+    test_dataset: Input[artifacts.Dataset]
+    model: Input[artifacts.Model]
+    metrics: Output[artifacts.Metrics]
+    report: Output[artifacts.HTML]
 
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
-        regulated_df = MLJARTraining.internal_feature_prep(test_df, self.target_column)
+        regulated_df = self.mljar_feature_prep(
+            test_df,
+        )
         metrics = self.evaluate_model(regulated_df, model)
         self.create_report(model)
         for m in metrics:

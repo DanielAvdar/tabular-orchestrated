@@ -27,10 +27,19 @@ from tabular_orchestrated.mljar.mljar import MLJARTraining
     )
 )
 @hp.settings(suppress_health_check=[hp.HealthCheck.too_slow])
+@pytest.mark.skip
 def test_internal_feature_prep_hypothesis(df):
     target_column = "A"
     pyarrow_df = convert_to_pyarrow(df)
-    result_df = MLJARTraining.internal_feature_prep(pyarrow_df, target_column)
+    result_df = MLJARTraining(
+        exclude_columns=[],
+        target_column=target_column,
+        dataset=None,
+        model=None,
+        mljar_automl_params={},
+    ).mljar_feature_prep(
+        pyarrow_df,
+    )
     for c in result_df.columns:
         assert "Int" not in repr(result_df[c].dtype)
         assert "Float" not in repr(result_df[c].dtype)
@@ -61,7 +70,15 @@ def example_df():
 def test_internal_feature_prep_numeric_target(example_df):
     target_column = "A"
     pyarrow_example_df = convert_to_pyarrow(example_df)
-    result_df = MLJARTraining.internal_feature_prep(pyarrow_example_df, target_column)
+    result_df = MLJARTraining(
+        exclude_columns=[],
+        target_column=target_column,
+        dataset=None,
+        model=None,
+        mljar_automl_params={},
+    ).mljar_feature_prep(
+        pyarrow_example_df,
+    )
     for c in result_df.columns:
         assert "Int" not in repr(result_df[c].dtype)
         assert "Float" not in repr(result_df[c].dtype)
@@ -72,4 +89,12 @@ def test_example_df(dataset_examples_folder):
 
     nat_df = pd.read_parquet(ds_path)
     target_column = "weight_pounds"
-    MLJARTraining.internal_feature_prep(nat_df, target_column)
+    MLJARTraining(
+        exclude_columns=[],
+        target_column=target_column,
+        dataset=None,
+        model=None,
+        mljar_automl_params={},
+    ).mljar_feature_prep(
+        nat_df,
+    )

@@ -9,10 +9,10 @@ from kfp.dsl import *
     base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
 )
 def mljartraining(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    dataset: Input[Dataset] = None,
-    model: Output[Model] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    dataset: Input[Dataset],
+    model: Output[Model],
     mljar_automl_params: Dict = {
         "total_time_limit": 43200,
         "algorithms": ["Linear", "Random Forest", "Extra Trees", "LightGBM", "Xgboost", "CatBoost"],
@@ -62,12 +62,12 @@ def datasplitter(
     base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
 )
 def evaluatemljar(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
-    metrics: Output[Metrics] = None,
-    report: Output[HTML] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    test_dataset: Input[Dataset],
+    model: Input[Model],
+    metrics: Output[Metrics],
+    report: Output[HTML],
 ):
     from tabular_orchestrated.mljar.mljar import EvaluateMLJAR
 
@@ -87,12 +87,12 @@ def evaluatemljar(
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dctraintestcomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
 ):
     from tabular_orchestrated.dc.dc_data import DCTrainTestComp
 
@@ -112,11 +112,11 @@ def dctraintestcomp(
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dcdatacomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    dataset: Input[Dataset] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    dataset: Input[Dataset],
 ):
     from tabular_orchestrated.dc.dc_data import DCDataComp
 
@@ -135,12 +135,12 @@ def dcdatacomp(
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dcmodelcompv2(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
     pred_column: str = "pred_column",
     proba_column: str = "None",
 ):
@@ -164,13 +164,13 @@ def dcmodelcompv2(
     packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
 )
 def mljardcmodelcomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
+    model: Input[Model],
 ):
     from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCModelComp
 
@@ -191,13 +191,13 @@ def mljardcmodelcomp(
     packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
 )
 def mljardcfullcomp(
-    exclude_columns: List[str] = [],
-    target_column: str = "target",
-    report: Output[HTML] = None,
-    failed_checks: Output[Metrics] = None,
-    train_dataset: Input[Dataset] = None,
-    test_dataset: Input[Dataset] = None,
-    model: Input[Model] = None,
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
+    model: Input[Model],
 ):
     from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp
 
@@ -209,5 +209,75 @@ def mljardcfullcomp(
         train_dataset=train_dataset,
         test_dataset=test_dataset,
         model=model,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlpredict(
+    exclude_columns: List[str],
+    target_column: str,
+    model: Input[Model],
+    test_dataset: Input[Dataset],
+    predictions: Output[Dataset],
+    pred_column: str = "pred_column",
+    proba_column: str = "None",
+):
+    from tabular_orchestrated.evalml.pipeline import EvalMLPredict
+
+    comp = EvalMLPredict(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        model=model,
+        test_dataset=test_dataset,
+        predictions=predictions,
+        pred_column=pred_column,
+        proba_column=proba_column,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlsearch(
+    exclude_columns: List[str],
+    target_column: str,
+    dataset: Input[Dataset],
+    automl: Output[Model],
+    search_params: dict = {},
+):
+    from tabular_orchestrated.evalml.search import EvalMLSearch
+
+    comp = EvalMLSearch(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        dataset=dataset,
+        automl=automl,
+        search_params=search_params,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlselectpipeline(
+    exclude_columns: List[str],
+    target_column: str,
+    automl: Input[Model] = None,
+    model: Output[Model] = None,
+    pipeline_id: int = -1,
+):
+    from tabular_orchestrated.evalml.pipeline import EvalMLSelectPipeline
+
+    comp = EvalMLSelectPipeline(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        automl=automl,
+        model=model,
+        pipeline_id=pipeline_id,
     )
     comp.execute()

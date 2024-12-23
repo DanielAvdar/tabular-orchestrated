@@ -14,8 +14,8 @@ from tabular_orchestrated.tab_comp import ModelComp
 @dataclasses.dataclass
 class DCMetaComp(ModelComp, ABC):
     extra_packages = ["deepchecks"]
-    report: Output[artifacts.HTML] = None
-    failed_checks: Output[artifacts.Metrics] = None
+    report: Output[artifacts.HTML]
+    failed_checks: Output[artifacts.Metrics]
 
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)

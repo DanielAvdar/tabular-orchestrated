@@ -11,15 +11,18 @@ from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCModelComp
 
 
 @pytest.fixture(scope="session")
-def mljar_training_op(get_df_example: artifacts.Dataset, split_op: DataSplitter) -> MLJARTraining:
+def mljar_training_op(
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    model_params: dict,
+) -> MLJARTraining:
     tmp_files_folder = Path(get_df_example.uri).parent
 
     def func(x):
         return (tmp_files_folder / x).as_posix()
 
     mljar_training_op = MLJARTraining(
-        dataset=split_op.train_dataset,
-        model=artifacts.Model(uri=func("model")),
+        dataset=split_op.train_dataset, model=artifacts.Model(uri=func("model")), **model_params
     )
     mljar_training_op.execute()
     return mljar_training_op
@@ -27,7 +30,10 @@ def mljar_training_op(get_df_example: artifacts.Dataset, split_op: DataSplitter)
 
 @pytest.fixture(scope="session")
 def eval_mljar_op(
-    get_df_example: artifacts.Dataset, split_op: DataSplitter, mljar_training_op: MLJARTraining
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    mljar_training_op: MLJARTraining,
+    model_params: dict,
 ) -> EvaluateMLJAR:
     tmp_files_folder = Path(get_df_example.uri).parent
 
@@ -39,6 +45,7 @@ def eval_mljar_op(
         model=mljar_training_op.model,
         metrics=artifacts.Metrics(uri=func("metrics")),
         report=artifacts.HTML(uri=func("report")),
+        **model_params,
     )
     eval_mljar_op.execute()
     return eval_mljar_op
@@ -46,7 +53,10 @@ def eval_mljar_op(
 
 @pytest.fixture(scope="session")
 def deepchecks_model_op(
-    get_df_example: artifacts.Dataset, split_op: DataSplitter, mljar_training_op: MLJARTraining
+    get_df_example: artifacts.Dataset,
+    split_op: DataSplitter,
+    mljar_training_op: MLJARTraining,
+    model_params: dict,
 ) -> DCModelComp:
     tmp_files_folder = Path(get_df_example.uri).parent
 
@@ -59,6 +69,7 @@ def deepchecks_model_op(
         model=mljar_training_op.model,
         report=artifacts.HTML(uri=func("deepchecks_model")),
         failed_checks=artifacts.Metrics(uri=func("failed_checks_model")),
+        **model_params,
     )
     try:
         deepchecks_model_op.execute()
