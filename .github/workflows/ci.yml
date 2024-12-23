@@ -21,7 +21,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install ${{ matrix.python-version }}
-      - run: make
+      - run: uv sync --frozen --extra evalml --extra editor --extra deepchecks
       - run: make test
     continue-on-error: true
   tests-imports:
@@ -46,7 +46,7 @@ jobs:
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
-      - run: uv python install 3.11
+      - run: uv python install 3.12
       - run: uv sync --extra mljar --extra deepchecks --frozen
       - run: uv run pytest tests/comp/mljar
 

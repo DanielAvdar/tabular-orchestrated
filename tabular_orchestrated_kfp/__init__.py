@@ -6,7 +6,7 @@ from kfp.dsl import *
 
 
 @component(
-    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
 )
 def mljartraining(
     exclude_columns: List[str],
@@ -35,7 +35,7 @@ def mljartraining(
 
 
 @component(
-    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[spliter]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[spliter]=={version('tabular-orchestrated')}"]
 )
 def datasplitter(
     dataset: Input[Dataset] = None,
@@ -59,7 +59,7 @@ def datasplitter(
 
 
 @component(
-    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[mljar]=={version('tabular-orchestrated')}"]
 )
 def evaluatemljar(
     exclude_columns: List[str],
@@ -83,7 +83,7 @@ def evaluatemljar(
 
 
 @component(
-    base_image="python:3.11",
+    base_image="python:3.12",
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dctraintestcomp(
@@ -108,7 +108,7 @@ def dctraintestcomp(
 
 
 @component(
-    base_image="python:3.11",
+    base_image="python:3.12",
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dcdatacomp(
@@ -131,7 +131,7 @@ def dcdatacomp(
 
 
 @component(
-    base_image="python:3.11",
+    base_image="python:3.12",
     packages_to_install=[f"tabular-orchestrated[deepchecks]=={version('tabular-orchestrated')}"],
 )
 def dcmodelcompv2(
@@ -160,7 +160,7 @@ def dcmodelcompv2(
 
 
 @component(
-    base_image="python:3.11",
+    base_image="python:3.12",
     packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
 )
 def mljardcmodelcomp(
@@ -187,7 +187,7 @@ def mljardcmodelcomp(
 
 
 @component(
-    base_image="python:3.11",
+    base_image="python:3.12",
     packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
 )
 def mljardcfullcomp(
@@ -214,7 +214,7 @@ def mljardcfullcomp(
 
 
 @component(
-    base_image="python:3.10", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
 def evalmlpredict(
     exclude_columns: List[str],
@@ -240,7 +240,7 @@ def evalmlpredict(
 
 
 @component(
-    base_image="python:3.10", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
 def evalmlsearch(
     exclude_columns: List[str],
@@ -262,7 +262,7 @@ def evalmlsearch(
 
 
 @component(
-    base_image="python:3.10", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+    base_image="python:3.12", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
 def evalmlselectpipeline(
     exclude_columns: List[str],

@@ -21,7 +21,7 @@ class TabComponent(MetaComponentV2):
             packages_to_install=[
                 cls.self_package(),
             ],
-            base_image="python:3.11",
+            base_image="python:3.12",
         )
 
     @classmethod

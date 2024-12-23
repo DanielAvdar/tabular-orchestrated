@@ -103,4 +103,4 @@ ignore_errors = true
 module = "tabular_orchestrated_kfp.*"
 ignore_errors = true
 [tool.pytest.ini_options]
-addopts = "--ignore=tests/comp/mljar --ignore=comp/mljar"
+addopts = "--ignore=tests/comp/mljar --ignore=comp/mljar --ignore=tests/imports_checks --ignore=imports_checks"
