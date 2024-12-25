@@ -2,7 +2,7 @@ name: Codecov
 on:
   pull_request:
     paths:
-      - 'ml_orchestrator/**'
+      - 'tabular_orchestrated/**'
       - 'tests/**'
       - '.github/workflows/codecov.yml'
   push:
@@ -17,7 +17,7 @@ jobs:
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
-      - run: uv python install 3.10
+      - run: uv python install 3.11
       - run: uv sync --all-extras --frozen
 
       - run: make coverage
