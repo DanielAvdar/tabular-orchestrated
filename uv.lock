@@ -303,7 +303,7 @@ name = "click"
 version = "8.1.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "colorama", marker = "platform_system == 'Windows'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/96/d3/f04c7bfcf5c1862a2a5b845c6b2b360488cf47af55dfa79c98f6a6bf98b5/click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de", size = 336121 }
 wheels = [
@@ -683,7 +683,7 @@ dependencies = [
     { name = "dask" },
     { name = "distributed" },
     { name = "featuretools", extra = ["dask"] },
-    { name = "graphviz", marker = "sys_platform != 'win32'" },
+    { name = "graphviz", marker = "platform_system != 'Windows'" },
     { name = "holidays" },
     { name = "imbalanced-learn" },
     { name = "ipywidgets" },
@@ -1104,7 +1104,7 @@ name = "importlib-metadata"
 version = "8.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp" },
+    { name = "zipp", marker = "python_full_version < '3.13'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/cd/12/33e59336dca5be0c398a7482335911a33aa0e20776128f038019f1a95f1b/importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7", size = 55304 }
 wheels = [
@@ -1134,7 +1134,7 @@ name = "ipykernel"
 version = "6.29.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "appnope", marker = "sys_platform == 'darwin'" },
+    { name = "appnope", marker = "platform_system == 'Darwin'" },
     { name = "comm" },
     { name = "debugpy" },
     { name = "ipython" },
@@ -3111,17 +3111,19 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.1.0b0.post9.dev0+c1b0ad4"
+version = "0.2.0b0"
 source = { editable = "." }
 
 [package.optional-dependencies]
 base = [
     { name = "ml-orchestrator" },
+    { name = "numpy" },
     { name = "pandas-pyarrow" },
 ]
 deepchecks = [
     { name = "eh-tabular-deepchecks" },
     { name = "ml-orchestrator" },
+    { name = "numpy" },
     { name = "pandas-pyarrow" },
 ]
 editor = [
@@ -3130,15 +3132,18 @@ editor = [
 evalml = [
     { name = "eh-evalml" },
     { name = "ml-orchestrator" },
+    { name = "numpy" },
     { name = "pandas-pyarrow" },
 ]
 mljar = [
     { name = "ml-orchestrator" },
     { name = "mljar-supervised" },
+    { name = "numpy" },
     { name = "pandas-pyarrow" },
 ]
 spliter = [
     { name = "ml-orchestrator" },
+    { name = "numpy" },
     { name = "pandas-pyarrow" },
     { name = "scikit-learn" },
 ]
@@ -3168,6 +3173,11 @@ requires-dist = [
     { name = "ml-orchestrator", marker = "extra == 'spliter'" },
     { name = "ml-orchestrator", extras = ["editor"], marker = "extra == 'editor'", specifier = ">=0.0.14b0" },
     { name = "mljar-supervised", marker = "extra == 'mljar'" },
+    { name = "numpy", marker = "extra == 'base'", specifier = "<2.0.0" },
+    { name = "numpy", marker = "extra == 'deepchecks'", specifier = "<2.0.0" },
+    { name = "numpy", marker = "extra == 'evalml'", specifier = "<2.0.0" },
+    { name = "numpy", marker = "extra == 'mljar'", specifier = "<2.0.0" },
+    { name = "numpy", marker = "extra == 'spliter'", specifier = "<2.0.0" },
     { name = "pandas-pyarrow", marker = "extra == 'base'" },
     { name = "pandas-pyarrow", marker = "extra == 'deepchecks'" },
     { name = "pandas-pyarrow", marker = "extra == 'evalml'" },
@@ -3178,16 +3188,16 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "debugpy", specifier = "==1.8.10" },
+    { name = "debugpy", specifier = ">=1.8.10" },
     { name = "hypothesis", specifier = ">=6.23.3" },
-    { name = "mypy", specifier = "==1.13.0" },
+    { name = "mypy", specifier = ">=1.13.0" },
     { name = "pandas-stubs" },
     { name = "pre-commit", specifier = ">=2.20.0" },
     { name = "pre-commit-uv", specifier = ">=4" },
     { name = "pytest", specifier = ">=7.1.2" },
     { name = "pytest-cov", specifier = ">=4.0.0" },
-    { name = "pytest-parametrization", specifier = ">=2022,<2023" },
-    { name = "ruff", specifier = ">=0.8.2,<1.0.0" },
+    { name = "pytest-parametrization" },
+    { name = "ruff" },
 ]
 
 [[package]]
@@ -3327,7 +3337,7 @@ name = "tqdm"
 version = "4.67.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "colorama", marker = "platform_system == 'Windows'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz", hash = "sha256:f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2", size = 169737 }
 wheels = [
@@ -3516,7 +3526,7 @@ version = "2.1.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
-    { name = "nvidia-nccl-cu12", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "nvidia-nccl-cu12", marker = "platform_machine != 'aarch64' and platform_system == 'Linux'" },
     { name = "scipy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/48/b0/131ffc4a15fd3acee9be3a7baa6b2fa6faa479799c51b880de9fc3ddf550/xgboost-2.1.3.tar.gz", hash = "sha256:7699ec4226156887d3afc665c63ab87469db9d46e361c702ba9fccd22535730c", size = 1090326 }

@@ -57,18 +57,3 @@ def evalml_predict_op(
     )
     predict_op.execute()
     return predict_op
-
-
-def test_evalml_search_op(evalml_search_op: EvalMLSearch):
-    assert Path(evalml_search_op.automl.uri + ".pkl").exists()
-
-
-def test_evalml_select_pipeline_op(evalml_select_pipeline_op: EvalMLSelectPipeline):
-    assert Path(evalml_select_pipeline_op.model.uri + ".pkl").exists()
-
-
-# def test_evalml_evaluate_pipeline_op(evalml_evaluate_pipeline_op: EvalMLEvaluatePipeline):
-#     assert Path(evalml_evaluate_pipeline_op.metrics.uri+
-
-# def test_evalml_predict_op(evalml_predict_op: EvalMLPredict):
-#     assert Path(evalml_predict_op.predictions.uri+'.parquet').exists()

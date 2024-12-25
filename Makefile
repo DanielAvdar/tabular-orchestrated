@@ -11,7 +11,7 @@ test:
 	uv run pytest
 
 check:
-	uv run pre-commit run --all-files
+	uvx pre-commit run --all-files
 
 comps:
 	uv run python -m main

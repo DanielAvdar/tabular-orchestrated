@@ -36,4 +36,5 @@ class EvalMLPredict(EvalMLComp):
                 test_df[test_df.columns.difference([self.target_column] + self.excluded_columns)]
             )
             predictions[self.proba_column] = proba
-        self.save_df(predictions, self.predictions)
+        test_df[self.pred_column] = predictions
+        self.save_df(test_df, self.predictions)

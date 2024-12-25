@@ -21,7 +21,8 @@ source = "."
 only-include = ["tabular_orchestrated_kfp", "tabular_orchestrated"]
 source = "."
 
-
+[tool.uv.sources]
+tabular-orchestrated = { path = "."}
 
 [project.optional-dependencies]
 editor = [
@@ -29,7 +30,7 @@ editor = [
     "ml-orchestrator[editor]>=0.0.14b0",
 ]
 base = [
-    "ml-orchestrator", "pandas-pyarrow"
+    "ml-orchestrator", "pandas-pyarrow","numpy<2.0.0",
 ]
 
 
@@ -51,15 +52,15 @@ deepchecks = [
 
 [dependency-groups]
 dev = [
-    "debugpy==1.8.10",
+    "debugpy>=1.8.10",
     "pytest>=7.1.2",
     "hypothesis>=6.23.3",
     "pre-commit>=2.20.0",
     "pre-commit-uv>=4",
     "pytest-cov>=4.0.0",
-    "mypy==1.13.0",
-    "pytest-parametrization<2023,>=2022",
-    "ruff<1.0.0,>=0.8.2",
+    "mypy>=1.13.0",
+    "pytest-parametrization",
+    "ruff",
     "pandas-stubs",
 ]
 

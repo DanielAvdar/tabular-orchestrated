@@ -37,17 +37,17 @@ class TabComponent(MetaComponentV2):
         path = dataset.path
         df.to_parquet(path + ".parquet", engine="pyarrow")
 
-    @staticmethod
-    def load_df(dataset: Dataset) -> pd.DataFrame:
+    @classmethod
+    def load_df(cls, dataset: Dataset) -> pd.DataFrame:
         return pd.read_parquet(dataset.path + ".parquet", engine="pyarrow")
 
-    @staticmethod
-    def save_model(model: Any, model_path: Model) -> None:
+    @classmethod
+    def save_model(cls, model: Any, model_path: Model) -> None:
         with open(model_path.path + ".pkl", "wb") as f:
             pickle.dump(model, f)
 
-    @staticmethod
-    def load_model(model_path: Model) -> Any:
+    @classmethod
+    def load_model(cls, model_path: Model) -> Any:
         with open(model_path.path + ".pkl", "rb") as f:
             return pickle.load(f)
 
