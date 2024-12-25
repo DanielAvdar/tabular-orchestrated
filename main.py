@@ -7,7 +7,6 @@ from tabular_orchestrated.dc import DCDataComp, DCTrainTestComp
 from tabular_orchestrated.dc.dc_model_v2 import DCModelCompV2
 from tabular_orchestrated.evalml import EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
 from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
-from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp, MljarDCModelComp
 
 
 def parse_components(file_path: str) -> None:
@@ -19,8 +18,6 @@ def parse_components(file_path: str) -> None:
         DCTrainTestComp,
         DCDataComp,
         DCModelCompV2,
-        MljarDCModelComp,
-        MljarDCFullComp,
         EvalMLPredict,
         EvalMLSearch,
         EvalMLSelectPipeline,
