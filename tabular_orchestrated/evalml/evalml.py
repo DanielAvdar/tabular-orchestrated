@@ -10,7 +10,7 @@ from tabular_orchestrated.tab_comp import ModelComp
 class EvalMLComp(ModelComp):
     extra_packages = ["evalml"]
 
-    @staticmethod
-    def load_df(dataset: Dataset) -> pd.DataFrame:
+    @classmethod
+    def load_df(cls, dataset: Dataset) -> pd.DataFrame:
         df = super().load_df(dataset)
         return EvalMLComp.internal_feature_prep(df)

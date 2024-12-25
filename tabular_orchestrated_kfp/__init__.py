@@ -160,60 +160,6 @@ def dcmodelcompv2(
 
 
 @component(
-    base_image="python:3.11",
-    packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
-)
-def mljardcmodelcomp(
-    exclude_columns: List[str],
-    target_column: str,
-    report: Output[HTML],
-    failed_checks: Output[Metrics],
-    train_dataset: Input[Dataset],
-    test_dataset: Input[Dataset],
-    model: Input[Model],
-):
-    from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCModelComp
-
-    comp = MljarDCModelComp(
-        exclude_columns=exclude_columns,
-        target_column=target_column,
-        report=report,
-        failed_checks=failed_checks,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        model=model,
-    )
-    comp.execute()
-
-
-@component(
-    base_image="python:3.11",
-    packages_to_install=[f"tabular-orchestrated[deepchecks,mljar]=={version('tabular-orchestrated')}"],
-)
-def mljardcfullcomp(
-    exclude_columns: List[str],
-    target_column: str,
-    report: Output[HTML],
-    failed_checks: Output[Metrics],
-    train_dataset: Input[Dataset],
-    test_dataset: Input[Dataset],
-    model: Input[Model],
-):
-    from tabular_orchestrated.mljar.mljar_deepchecks import MljarDCFullComp
-
-    comp = MljarDCFullComp(
-        exclude_columns=exclude_columns,
-        target_column=target_column,
-        report=report,
-        failed_checks=failed_checks,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        model=model,
-    )
-    comp.execute()
-
-
-@component(
     base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
 def evalmlpredict(

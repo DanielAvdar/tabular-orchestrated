@@ -2,7 +2,6 @@ import dataclasses as dc
 import shutil
 from pathlib import Path
 
-import deepchecks
 import numpy as np
 import pandas as pd
 import pytest
@@ -11,9 +10,6 @@ from pandas_pyarrow import convert_to_pyarrow
 from sklearn import datasets
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.dc.dc_data import DCDataComp
-from tabular_orchestrated.dc.dc_model import DCTrainTestComp
-from tabular_orchestrated.dc.dc_model_v2 import _DCModelCompV2
 
 
 @dc.dataclass
@@ -122,76 +118,3 @@ def split_op(get_df_example: artifacts.Dataset) -> DataSplitter:
     )
     split_op.execute()
     return split_op
-
-
-@pytest.fixture(scope="session")
-def deepchecks_data_op(
-    get_df_example: artifacts.Dataset,
-    split_op: DataSplitter,
-    model_params: dict,
-) -> DCDataComp:
-    tmp_files_folder = Path(get_df_example.uri).parent
-
-    def func(x):
-        return (tmp_files_folder / x).as_posix()
-
-    deepchecks_data_op = DCDataComp(
-        dataset=split_op.train_dataset,
-        report=artifacts.HTML(uri=func("deepchecks_data")),
-        failed_checks=artifacts.Metrics(uri=func("failed_checks_data")),
-        **model_params,
-    )
-    deepchecks_data_op.execute()
-    return deepchecks_data_op
-
-
-@pytest.fixture(scope="session")
-def deepchecks_train_test_op(
-    get_df_example: artifacts.Dataset,
-    split_op: DataSplitter,
-    model_params: dict,
-) -> DCTrainTestComp:
-    tmp_files_folder = Path(get_df_example.uri).parent
-
-    def func(x):
-        return (tmp_files_folder / x).as_posix()
-
-    deepchecks_train_test_op = DCTrainTestComp(
-        train_dataset=split_op.train_dataset,
-        test_dataset=split_op.test_dataset,
-        report=artifacts.HTML(uri=func("deepchecks_train_test")),
-        failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
-        **model_params,
-    )
-    try:
-        deepchecks_train_test_op.execute()
-    except deepchecks.core.errors.DatasetValidationError:
-        return None
-    return deepchecks_train_test_op
-
-
-@pytest.fixture(scope="session")
-def deepchecks_model_v2_op(
-    get_df_example: artifacts.Dataset,
-    split_op: DataSplitter,
-    model_params: dict,
-) -> _DCModelCompV2:
-    tmp_files_folder = Path(get_df_example.uri).parent
-
-    def func(x):
-        return (tmp_files_folder / x).as_posix()
-
-    deepchecks_train_test_op = _DCModelCompV2(
-        pred_column="target",
-        train_dataset=split_op.train_dataset,
-        test_dataset=split_op.test_dataset,
-        report=artifacts.HTML(uri=func("deepchecks_train_test")),
-        failed_checks=artifacts.Metrics(uri=func("failed_checks_train_test")),
-        **model_params,
-    )
-    try:
-        deepchecks_train_test_op.execute()
-    except deepchecks.core.errors.DatasetValidationError as e:
-        print(e)
-        return None
-    return deepchecks_train_test_op
