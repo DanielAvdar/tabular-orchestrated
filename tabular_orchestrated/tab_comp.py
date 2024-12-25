@@ -35,6 +35,9 @@ class TabComponent(MetaComponentV2):
     @staticmethod
     def save_df(df: pd.DataFrame, dataset: Dataset) -> None:
         path = dataset.path
+        dataset.metadata["number_of_rows"] = len(df)
+        dataset.metadata["number_of_columns"] = len(df.columns)
+        dataset.metadata["unique_dtypes"] = str(df.dtypes.nunique())
         df.to_parquet(path + ".parquet", engine="pyarrow")
 
     @classmethod
@@ -43,6 +46,7 @@ class TabComponent(MetaComponentV2):
 
     @classmethod
     def save_model(cls, model: Any, model_path: Model) -> None:
+        model_path.metadata["model_type"] = str(type(model))
         with open(model_path.path + ".pkl", "wb") as f:
             pickle.dump(model, f)
 
@@ -51,9 +55,10 @@ class TabComponent(MetaComponentV2):
         with open(model_path.path + ".pkl", "rb") as f:
             return pickle.load(f)
 
-    def save_html(self, html: HTML, path: str) -> None:
+    def save_html(self, html: HTML, str_html: str) -> None:
+        html.metadata["length"] = len(str_html)
         with open(html.path, "w") as f:
-            f.write(path)
+            f.write(str_html)
 
     def save_metrics(self, artifact: Metrics, metrics: Dict[str, Union[float, str, bool, int]]) -> None:
         for k, v in metrics.items():

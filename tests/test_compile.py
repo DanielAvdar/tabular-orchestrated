@@ -23,7 +23,6 @@ from tabular_orchestrated_kfp import (
     evalmlsearch,
     evalmlselectpipeline,
     evaluatemljar,
-    mljardcmodelcomp,
     mljartraining,
 )
 
@@ -32,7 +31,6 @@ components = [
     dcdatacomp,
     dctraintestcomp,
     evaluatemljar,
-    mljardcmodelcomp,
     mljartraining,
     evalmlsearch,
     evalmlselectpipeline,
