@@ -17,7 +17,7 @@ repos:
       - id: ruff
         args: [ --preview, --fix,--unsafe-fixes, --config=pyproject.toml ]
 
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.5.11
-    hooks:
-      - id: uv-lock
+#  - repo: https://github.com/astral-sh/uv-pre-commit
+#    rev: 0.5.11
+#    hooks:
+#      - id: uv-lock
