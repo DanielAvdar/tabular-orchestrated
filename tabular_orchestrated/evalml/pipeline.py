@@ -24,7 +24,7 @@ class EvalMLPredict(EvalMLComp):
     test_dataset: Input[artifacts.Dataset]
     predictions: Output[artifacts.Dataset]
     pred_column: str = "pred_column"
-    proba_column: str = None
+    proba_column: str = ""
 
     def execute(self) -> None:
         model = self.load_model(self.model)

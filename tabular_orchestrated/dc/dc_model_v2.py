@@ -9,7 +9,7 @@ from tabular_orchestrated.dc import DCTrainTestComp
 @dataclasses.dataclass
 class _DCModelCompV2(DCTrainTestComp):
     pred_column: str = "pred_column"
-    proba_column: str = None
+    proba_column: str = ""
     as_widget: bool = True
 
     def prepare_suite(self) -> Any:
