@@ -16,7 +16,7 @@ class DCDataComp(DCMetaComp):
     def prepare_suite(self) -> Any:
         data = self.load_df(self.dataset)
         suite = data_integrity()
-        dc_data = self.transform_dataframe(data)
+        dc_data = self.model_input(data)
         return suite.run(dc_data)
 
 
@@ -30,6 +30,6 @@ class DCTrainTestComp(DCMetaComp):
         train_data = self.load_df(self.train_dataset)
         test_data = self.load_df(self.test_dataset)
         suite = train_test_validation()
-        dc_train_dataset = self.transform_dataframe(train_data)
-        dc_test_dataset = self.transform_dataframe(test_data)
+        dc_train_dataset = self.model_input(train_data)
+        dc_test_dataset = self.model_input(test_data)
         return suite.run(dc_train_dataset, dc_test_dataset)

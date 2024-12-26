@@ -21,7 +21,7 @@ class DCMetaComp(ModelComp, ABC):
     @abstractmethod
     def as_widget(self) -> bool: ...
 
-    def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
+    def model_input(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)
         final_df = converted_df[converted_df.columns.difference(self.excluded_columns)]
         return DC_Dataset(df=final_df, label=self.target_column)

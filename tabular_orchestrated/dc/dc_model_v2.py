@@ -16,18 +16,23 @@ class _DCModelCompV2(DCTrainTestComp):
         train_data = self.load_df(self.train_dataset)
         test_data = self.load_df(self.test_dataset)
         suite = model_evaluation()
-        dc_train_dataset = self.transform_dataframe(train_data)
-        dc_test_dataset = self.transform_dataframe(test_data)
+        dc_train_dataset = self.model_input(train_data)
+        dc_test_dataset = self.model_input(test_data)
         y_pred_train = train_data[self.pred_column].values
         y_pred_test = test_data[self.pred_column].values
+        proba = dict(
+            y_proba_train=train_data[self.proba_column].values if self.proba_column in train_data.columns else None,
+            y_proba_test=test_data[self.proba_column].values if self.proba_column in test_data.columns else None,
+        )
 
         return suite.run(
             dc_train_dataset,
             dc_test_dataset,
             y_pred_train=y_pred_train,
             y_pred_test=y_pred_test,
-            y_proba_train=train_data[self.proba_column].values if self.proba_column else None,
-            y_proba_test=test_data[self.proba_column].values if self.proba_column else None,
+            **proba,
+            # y_proba_train=train_data[self.proba_column].values if self.proba_column else None,
+            # y_proba_test=test_data[self.proba_column].values if self.proba_column else None,
         )
 
 
