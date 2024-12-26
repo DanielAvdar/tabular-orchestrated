@@ -47,7 +47,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install 3.11
-      - run: uv sync --extra mljar --extra deepchecks --frozen
+      - run: uv sync --extra mljar  --frozen
       - run: uv run pytest tests/comp/mljar
 
     continue-on-error: true
