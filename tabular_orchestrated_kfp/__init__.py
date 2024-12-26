@@ -147,7 +147,7 @@ def dcmodelcompv2(
     test_dataset: Input[Dataset],
     as_widget: bool = True,
     pred_column: str = "pred_column",
-    proba_column: str = "",
+    proba_column: str = "proba_column",
 ):
     from tabular_orchestrated.dc.dc_model_v2 import DCModelCompV2
 
@@ -175,7 +175,7 @@ def evalmlpredict(
     test_dataset: Input[Dataset],
     predictions: Output[Dataset],
     pred_column: str = "pred_column",
-    proba_column: str = "",
+    proba_column: str = "proba_column",
 ):
     from tabular_orchestrated.evalml.pipeline import EvalMLPredict
 
