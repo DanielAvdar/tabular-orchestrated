@@ -49,7 +49,7 @@ mljar = [
 ]
 
 deepchecks = [
-    "deepchecks", "ml-orchestrator", "numpy<2.0.0",
+    "deepchecks", "ml-orchestrator", "numpy<2.0.0", "setuptools",
 ]
 
 [dependency-groups]
