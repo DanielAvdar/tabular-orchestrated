@@ -3,8 +3,7 @@ from pathlib import Path
 from ml_orchestrator import artifacts
 
 from tabular_orchestrated.components import DataSplitter
-from tabular_orchestrated.dc.dc_data import DCDataComp
-from tabular_orchestrated.dc.dc_model import DCTrainTestComp
+from tabular_orchestrated.dc import DCDataComp, DCTrainTestComp
 
 
 def test_split(get_df_example: artifacts.Dataset, split_op: DataSplitter) -> None:

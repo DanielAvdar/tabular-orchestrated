@@ -10,6 +10,7 @@ from tabular_orchestrated.dc import DCTrainTestComp
 class _DCModelCompV2(DCTrainTestComp):
     pred_column: str = "pred_column"
     proba_column: str = None
+    as_widget: bool = True
 
     def prepare_suite(self) -> Any:
         train_data = self.load_df(self.train_dataset)

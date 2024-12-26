@@ -93,6 +93,7 @@ def dctraintestcomp(
     failed_checks: Output[Metrics],
     train_dataset: Input[Dataset],
     test_dataset: Input[Dataset],
+    as_widget: bool = True,
 ):
     from tabular_orchestrated.dc.dc_data import DCTrainTestComp
 
@@ -103,6 +104,7 @@ def dctraintestcomp(
         failed_checks=failed_checks,
         train_dataset=train_dataset,
         test_dataset=test_dataset,
+        as_widget=as_widget,
     )
     comp.execute()
 
@@ -117,6 +119,7 @@ def dcdatacomp(
     report: Output[HTML],
     failed_checks: Output[Metrics],
     dataset: Input[Dataset],
+    as_widget: bool = True,
 ):
     from tabular_orchestrated.dc.dc_data import DCDataComp
 
@@ -126,6 +129,7 @@ def dcdatacomp(
         report=report,
         failed_checks=failed_checks,
         dataset=dataset,
+        as_widget=as_widget,
     )
     comp.execute()
 
@@ -141,6 +145,7 @@ def dcmodelcompv2(
     failed_checks: Output[Metrics],
     train_dataset: Input[Dataset],
     test_dataset: Input[Dataset],
+    as_widget: bool = True,
     pred_column: str = "pred_column",
     proba_column: str = "None",
 ):
@@ -153,6 +158,7 @@ def dcmodelcompv2(
         failed_checks=failed_checks,
         train_dataset=train_dataset,
         test_dataset=test_dataset,
+        as_widget=as_widget,
         pred_column=pred_column,
         proba_column=proba_column,
     )
