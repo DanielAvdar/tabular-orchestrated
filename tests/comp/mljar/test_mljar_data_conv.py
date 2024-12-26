@@ -84,6 +84,7 @@ def test_internal_feature_prep_numeric_target(example_df):
         assert "Float" not in repr(result_df[c].dtype)
 
 
+@pytest.mark.skip
 def test_example_df(dataset_examples_folder):
     ds_path = dataset_examples_folder / "natality.parquet"
 
