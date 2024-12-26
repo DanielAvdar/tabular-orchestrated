@@ -6,7 +6,7 @@ import pandas as pd
 from ml_orchestrator.artifacts import HTML, Dataset, Metrics, Model
 from ml_orchestrator.env_params import EnvironmentParams
 from ml_orchestrator.meta_comp import MetaComponentV2
-from pandas_pyarrow import convert_to_numpy
+from pandas_pyarrow import convert_to_numpy, convert_to_pyarrow
 
 
 @dataclasses.dataclass
@@ -37,8 +37,10 @@ class TabComponent(MetaComponentV2):
         path = dataset.path
         dataset.metadata["number_of_rows"] = len(df)
         dataset.metadata["number_of_columns"] = len(df.columns)
-        dataset.metadata["unique_dtypes"] = str(set(df.dtypes))
-        df.to_parquet(path + ".parquet", engine="pyarrow")
+        dataset.metadata["original_unique_dtypes"] = str(set(df.dtypes))
+        arrow_df = convert_to_pyarrow(df)
+        dataset.metadata["pyarrow_unique_dtypes"] = str(set(arrow_df.dtypes))
+        arrow_df.to_parquet(path + ".parquet", engine="pyarrow")
 
     @classmethod
     def load_df(cls, dataset: Dataset) -> pd.DataFrame:

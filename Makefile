@@ -21,14 +21,17 @@ build:
 	uv build
 
 coverage:
-	uv run pytest --cov=ml_orchestrator --cov-report=xml
+	uv run pytest --cov=tabular_orchestrated --cov-report=xml
 
 clear:
 	uv venv --python 3.10
 
 update:
 	uv lock
+
 	uvx pre-commit autoupdate
+	$(MAKE) install
+
 
 mypy:
 	uv run mypy . --config-file pyproject.toml

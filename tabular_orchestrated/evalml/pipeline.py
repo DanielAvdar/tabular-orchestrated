@@ -16,6 +16,7 @@ class EvalMLSelectPipeline(EvalMLComp):
         automl = self.load_model(self.automl)
         pipeline = automl.get_pipeline(self.pipeline_id) if self.pipeline_id != -1 else automl.best_pipeline
         self.save_model(pipeline, self.model)
+        self.model.metadata["problem_type"] = self.automl.metadata["problem_type"]
 
 
 @dataclasses.dataclass
@@ -24,14 +25,14 @@ class EvalMLPredict(EvalMLComp):
     test_dataset: Input[artifacts.Dataset]
     predictions: Output[artifacts.Dataset]
     pred_column: str = "pred_column"
-    proba_column: str = ""
+    proba_column: str = "proba_column"
 
     def execute(self) -> None:
         model = self.load_model(self.model)
         test_df = self.load_df(self.test_dataset)
         predictions = model.predict(test_df[test_df.columns.difference([self.target_column] + self.excluded_columns)])
         predictions[self.pred_column] = predictions
-        if self.proba_column:
+        if self.model.metadata["problem_type"] == "binary":
             proba = model.predict_proba(
                 test_df[test_df.columns.difference([self.target_column] + self.excluded_columns)]
             )

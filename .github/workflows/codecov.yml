@@ -18,8 +18,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install 3.11
-      - run: uv sync --all-extras --frozen
-
+      - run: make
       - run: make coverage
       - uses: codecov/codecov-action@v4
         with:

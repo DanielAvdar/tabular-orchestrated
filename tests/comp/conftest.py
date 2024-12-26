@@ -37,19 +37,8 @@ dataset_importers = [
     datasets.load_diabetes,
     datasets.load_breast_cancer,
     datasets.load_wine,
+    datasets.load_digits,
 ]
-
-
-@pytest.fixture(scope="session")
-def test_cleaner():
-    funcs = []
-
-    def add_func(func):
-        funcs.append(func)
-
-    yield add_func
-    for func in funcs:
-        func()
 
 
 @pytest.fixture(scope="session")
@@ -94,7 +83,7 @@ def get_df_example(request, tmp_files_folder) -> artifacts.Dataset:
     data = dataset_func()
     df = pd.DataFrame(data.data, columns=data.feature_names)
     df["target"] = data.target
-    ds = artifacts.Dataset(uri=(folder_path / ds_name).as_posix())
+    ds = artifacts.Dataset(uri=(folder_path / ds_name).as_posix(), name=ds_name)
     adf = convert_to_pyarrow(df)
     adf.to_parquet(ds.path + ".parquet", engine="pyarrow")
 
