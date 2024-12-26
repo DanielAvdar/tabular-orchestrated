@@ -28,7 +28,10 @@ clear:
 
 update:
 	uv lock
+
 	uvx pre-commit autoupdate
+	$(MAKE) install
+
 
 mypy:
 	uv run mypy . --config-file pyproject.toml
