@@ -37,7 +37,7 @@ class TabComponent(MetaComponentV2):
         path = dataset.path
         dataset.metadata["number_of_rows"] = len(df)
         dataset.metadata["number_of_columns"] = len(df.columns)
-        dataset.metadata["unique_dtypes"] = str(df.dtypes.nunique())
+        dataset.metadata["unique_dtypes"] = str(set(df.dtypes))
         df.to_parquet(path + ".parquet", engine="pyarrow")
 
     @classmethod
