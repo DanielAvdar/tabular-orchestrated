@@ -2274,15 +2274,15 @@ wheels = [
 
 [[package]]
 name = "pandas-pyarrow"
-version = "0.1.10"
+version = "0.1.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pandas" },
     { name = "pyarrow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6b/8a/ed7d70c32489e2601933e2c64ffbcef658eaa1827be568c22c089c15021b/pandas_pyarrow-0.1.10.tar.gz", hash = "sha256:371b2e0be8386bb5754093483e1e6cc8b3efc32105d5956e5d51e85434661586", size = 7888 }
+sdist = { url = "https://files.pythonhosted.org/packages/ec/8b/7b5a9cc8243da12bc2a1b97b8922f29f81e0f814935e05925aef9ddc2400/pandas_pyarrow-0.1.11.tar.gz", hash = "sha256:c4e73aa37d4ca877cfbfdcae298661ec99e7d4074d28d4f15904ffa6a50c70cd", size = 7843 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/34/20/78c4ab143aea7887124cfbad5023ee686d2af26bd335af6826262268884b/pandas_pyarrow-0.1.10-py3-none-any.whl", hash = "sha256:00a887b6ab82d71fc0cf4c3452b12535f6844d086674fb7d324dd9a5fc96f2f4", size = 8065 },
+    { url = "https://files.pythonhosted.org/packages/01/2b/46b1deb1b77a17bd342b6c30ddb418f46bf5252f313c137731f4ed10933a/pandas_pyarrow-0.1.11-py3-none-any.whl", hash = "sha256:17d293fc533e7670c8ce3fa84529efcc93785c6864d4ca970e246d0b6a5ec092", size = 8019 },
 ]
 
 [[package]]
@@ -3579,7 +3579,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.3.0b0.post5.dev0+ef3af97"
+version = "0.3.1b0.post3.dev0+b6a0ec3"
 source = { editable = "." }
 dependencies = [
     { name = "pandas-pyarrow" },
@@ -3645,7 +3645,7 @@ requires-dist = [
     { name = "numpy", marker = "extra == 'evalml'", specifier = "<2.0.0" },
     { name = "numpy", marker = "extra == 'mljar'", specifier = "<2.0.0" },
     { name = "numpy", marker = "extra == 'spliter'", specifier = "<2.0.0" },
-    { name = "pandas-pyarrow", specifier = ">=0.1.10" },
+    { name = "pandas-pyarrow", specifier = ">=0.1.11" },
     { name = "scikit-learn", marker = "extra == 'spliter'", specifier = ">=1.3.0" },
     { name = "setuptools", marker = "extra == 'deepchecks'" },
 ]
