@@ -17,6 +17,10 @@ class DCMetaComp(ModelComp, ABC):
     report: Output[artifacts.HTML]
     failed_checks: Output[artifacts.Metrics]
 
+    @property
+    @abstractmethod
+    def as_widget(self) -> bool: ...
+
     def transform_dataframe(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)
         final_df = converted_df[converted_df.columns.difference(self.excluded_columns)]
@@ -34,5 +38,5 @@ class DCMetaComp(ModelComp, ABC):
     def execute(self) -> None:
         suite_result = self.prepare_suite()
         metrics = self.summarize_results(suite_result)
-        suite_result.save_as_html(self.report.path)
+        suite_result.save_as_html(self.report.path, as_widget=self.as_widget, connected=self.as_widget)
         self.save_metrics(self.failed_checks, metrics)

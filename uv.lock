@@ -3579,7 +3579,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.3.0b0.post3.dev0+8e3c26e"
+version = "0.3.0b0.post5.dev0+ef3af97"
 source = { editable = "." }
 dependencies = [
     { name = "pandas-pyarrow" },
@@ -3631,7 +3631,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "deepchecks", marker = "extra == 'deepchecks'" },
+    { name = "deepchecks", marker = "extra == 'deepchecks'", specifier = ">=0.19.1" },
     { name = "eh-evalml", marker = "extra == 'evalml'" },
     { name = "ml-orchestrator", marker = "extra == 'base'" },
     { name = "ml-orchestrator", marker = "extra == 'deepchecks'" },
