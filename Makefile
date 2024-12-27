@@ -15,7 +15,7 @@ check:
 
 comps:
 	uv run python -m main
-	uv run pre-commit run --all-files
+	uv tool run pre-commit run --all-files
 
 build:
 	uv build
@@ -34,4 +34,4 @@ update:
 
 
 mypy:
-	uv run mypy . --config-file pyproject.toml
+	uv tool run mypy . --config-file pyproject.toml

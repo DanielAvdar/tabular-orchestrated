@@ -70,8 +70,6 @@ class TabComponent(MetaComponentV2):
 
 @dataclasses.dataclass
 class ModelComp(TabComponent):
-    # exclude_columns: List[str] = dataclasses.field(default_factory=lambda: [])
-    # target_column: str = "target"
     exclude_columns: List[str]
     target_column: str
 
@@ -79,18 +77,7 @@ class ModelComp(TabComponent):
     def excluded_columns(self) -> List[str]:
         return self.exclude_columns
 
-    @staticmethod
-    def internal_feature_prep(data: pd.DataFrame) -> pd.DataFrame:
-        data = convert_to_numpy(data)
-
-        for c in data.columns:
-            if "Int" not in repr(data[c].dtype) and "Float" not in repr(data[c].dtype):
-                continue
-            if "Int" in repr(data[c].dtype) and data[c].isna().any():
-                data[c] = data[c].astype("float64")
-                continue
-            type_str = str(data[c].dtype).lower()
-            data[c] = data[c].astype(type_str)  # type: ignore
-            # data[c] = data[c].values  # type: ignore
-
-        return data
+    @classmethod
+    def load_df(cls, dataset: Dataset) -> pd.DataFrame:
+        df = super().load_df(dataset)
+        return convert_to_numpy(df)

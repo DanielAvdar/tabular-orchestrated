@@ -233,3 +233,32 @@ def evalmlselectpipeline(
         pipeline_id=pipeline_id,
     )
     comp.execute()
+
+
+@component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks,evalml]=={version('tabular-orchestrated')}"],
+)
+def dcmodelcomp(
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
+    as_widget: bool = True,
+    model: Input[Model] = None,
+):
+    from tabular_orchestrated.dc.dc_model import DCModelComp
+
+    comp = DCModelComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        as_widget=as_widget,
+        model=model,
+    )
+    comp.execute()
