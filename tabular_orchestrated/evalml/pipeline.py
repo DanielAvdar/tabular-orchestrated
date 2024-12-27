@@ -30,12 +30,10 @@ class EvalMLPredict(EvalMLComp):
     def execute(self) -> None:
         model = self.load_model(self.model)
         test_df = self.load_df(self.test_dataset)
-        predictions = model.predict(test_df[test_df.columns.difference([self.target_column] + self.excluded_columns)])
+        predictions = model.predict(test_df[self.model_columns(test_df)])
         predictions[self.pred_column] = predictions
         if self.model.metadata["problem_type"] == "binary":
-            proba = model.predict_proba(
-                test_df[test_df.columns.difference([self.target_column] + self.excluded_columns)]
-            )
+            proba = model.predict_proba(test_df[self.model_columns(test_df)])
             predictions[self.proba_column] = proba
         test_df[self.pred_column] = predictions
         self.save_df(test_df, self.predictions)

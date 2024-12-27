@@ -32,3 +32,6 @@ def evalml_dc_op(
 
 def test_model_deepchecks(evalml_dc_op: DCModelComp) -> None:
     assert Path(evalml_dc_op.report.uri).exists()
+    html_str = Path(evalml_dc_op.report.uri).read_text()
+    assert "Got error when trying to predict with model on dataset" not in html_str
+    # assert "_DummyModel should either be a classifier to be used" not in html_str

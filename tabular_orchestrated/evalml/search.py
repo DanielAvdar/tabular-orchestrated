@@ -18,7 +18,7 @@ class EvalMLSearch(EvalMLComp):
     search_params: dict = dataclasses.field(default_factory=dict)
 
     def create_search(self, df: DataFrame) -> AutoMLSearch:
-        x = df[df.columns.difference([self.target_column] + self.excluded_columns)]
+        x = df[self.model_columns(df)]
         y = df[self.target_column]
         problem_type = self.problem_type(y)
         self.automl.metadata["problem_type"] = str(problem_type)

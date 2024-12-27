@@ -74,8 +74,11 @@ class ModelComp(TabComponent):
     target_column: str
 
     @property
-    def excluded_columns(self) -> List[str]:
-        return self.exclude_columns
+    def _excluded_columns(self) -> List[str]:
+        return self.exclude_columns + [self.target_column]
+
+    def model_columns(self, df: pd.DataFrame) -> List[str]:
+        return df.columns.difference(self._excluded_columns).sort_values().tolist()
 
     @classmethod
     def load_df(cls, dataset: Dataset) -> pd.DataFrame:
