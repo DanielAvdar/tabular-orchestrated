@@ -9,16 +9,6 @@ from supervised import AutoML
 
 from tabular_orchestrated.tab_comp import ModelComp
 
-# @dataclasses.dataclass
-# class MLJARModelComp(ModelComp):
-#     def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
-#         data = convert_to_numpy(data)
-#
-#         if not is_numeric_dtype(data[self.target_column]):
-#             data[self.target_column] = data[self.target_column].astype("category").cat.codes
-#         return super().internal_feature_prep(data)
-#
-
 
 @dataclasses.dataclass
 class MLJARTraining(ModelComp):
@@ -50,9 +40,7 @@ class MLJARTraining(ModelComp):
 
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        # mljar_df = self.mljar_feature_prep(
-        #     df,
-        # )
+
         x = df[df.columns.difference(self.exclude_columns + [self.target_column])]
         y = df[self.target_column]
         automl.fit(x, y)
@@ -79,9 +67,7 @@ class EvaluateMLJAR(ModelComp):
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
-        # regulated_df = self.mljar_feature_prep(
-        #     test_df,
-        # )
+
         metrics = self.evaluate_model(test_df, model)
         self.create_report(model)
         for m in metrics:

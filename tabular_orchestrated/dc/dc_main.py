@@ -23,8 +23,7 @@ class DCMetaComp(ModelComp, ABC):
 
     def prepare_dataset(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)
-        final_df = converted_df[converted_df.columns.difference(self.excluded_columns).sort_values()]
-        return DC_Dataset(df=final_df, label=self.target_column)
+        return DC_Dataset(df=converted_df, label=self.target_column, features=self.model_columns(converted_df))
 
     def summarize_results(self, suite_result: Any) -> dict:
         suite_list = [t.header for t in suite_result.get_not_passed_checks() if t.header is not None]
