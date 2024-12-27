@@ -3094,7 +3094,7 @@ wheels = [
 
 [[package]]
 name = "tabular-orchestrated"
-version = "0.3.2b0.post6.dev0+1a20a84"
+version = "0.4.0b0.post3.dev0+ce416e0"
 source = { editable = "." }
 dependencies = [
     { name = "pandas-pyarrow" },

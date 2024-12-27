@@ -236,6 +236,30 @@ def evalmlselectpipeline(
 
 
 @component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlanalysis(
+    exclude_columns: List[str],
+    target_column: str,
+    model: Input[Model],
+    test_dataset: Input[Dataset],
+    analysis: Output[HTML],
+    metrics: Output[Metrics],
+):
+    from tabular_orchestrated.evalml.analysis import EvalMLAnalysis
+
+    comp = EvalMLAnalysis(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        model=model,
+        test_dataset=test_dataset,
+        analysis=analysis,
+        metrics=metrics,
+    )
+    comp.execute()
+
+
+@component(
     base_image="python:3.11",
     packages_to_install=[f"tabular-orchestrated[deepchecks,evalml]=={version('tabular-orchestrated')}"],
 )
