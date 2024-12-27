@@ -16,9 +16,11 @@ def test_cleaner():
         func()
 
 
+folder_path = Path(__file__).parent
+
+
 @pytest.fixture(scope="session")
 def test_directory() -> Path:
-    folder_path = Path(__file__).parent
     assert folder_path.exists()
     return folder_path
 

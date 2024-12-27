@@ -21,9 +21,9 @@ class DCMetaComp(ModelComp, ABC):
     @abstractmethod
     def as_widget(self) -> bool: ...
 
-    def model_input(self, df: DataFrame) -> DC_Dataset:
+    def prepare_dataset(self, df: DataFrame) -> DC_Dataset:
         converted_df = convert_to_numpy(df)
-        final_df = converted_df[converted_df.columns.difference(self.excluded_columns)]
+        final_df = converted_df[converted_df.columns.difference(self.excluded_columns).sort_values()]
         return DC_Dataset(df=final_df, label=self.target_column)
 
     def summarize_results(self, suite_result: Any) -> dict:

@@ -2,29 +2,26 @@ import dataclasses
 from pathlib import Path
 from typing import Dict, Union
 
-import pandas as pd
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
-from pandas.core.dtypes.common import is_numeric_dtype
-from pandas_pyarrow import convert_to_numpy
 from supervised import AutoML
 
 from tabular_orchestrated.tab_comp import ModelComp
 
+# @dataclasses.dataclass
+# class MLJARModelComp(ModelComp):
+#     def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
+#         data = convert_to_numpy(data)
+#
+#         if not is_numeric_dtype(data[self.target_column]):
+#             data[self.target_column] = data[self.target_column].astype("category").cat.codes
+#         return super().internal_feature_prep(data)
+#
+
 
 @dataclasses.dataclass
-class MLJARModelComp(ModelComp):
-    def mljar_feature_prep(self, data: pd.DataFrame) -> pd.DataFrame:
-        data = convert_to_numpy(data)
-
-        if not is_numeric_dtype(data[self.target_column]):
-            data[self.target_column] = data[self.target_column].astype("category").cat.codes
-        return super().internal_feature_prep(data)
-
-
-@dataclasses.dataclass
-class MLJARTraining(MLJARModelComp):
+class MLJARTraining(ModelComp):
     extra_packages = ["mljar"]
     dataset: Input[artifacts.Dataset]
     model: Output[artifacts.Model]
@@ -53,11 +50,11 @@ class MLJARTraining(MLJARModelComp):
 
     def train_model(self, df: DataFrame) -> AutoML:
         automl = AutoML(results_path=self.get_mljar_path.as_posix(), **self.mljar_automl_params)
-        mljar_df = self.mljar_feature_prep(
-            df,
-        )
-        x = mljar_df[mljar_df.columns.difference(self.exclude_columns + [self.target_column])]
-        y = mljar_df[self.target_column]
+        # mljar_df = self.mljar_feature_prep(
+        #     df,
+        # )
+        x = df[df.columns.difference(self.exclude_columns + [self.target_column])]
+        y = df[self.target_column]
         automl.fit(x, y)
         return automl
 
@@ -71,7 +68,7 @@ class MLJARTraining(MLJARModelComp):
 
 
 @dataclasses.dataclass
-class EvaluateMLJAR(MLJARModelComp):
+class EvaluateMLJAR(ModelComp):
     extra_packages = ["mljar"]
 
     test_dataset: Input[artifacts.Dataset]
@@ -82,10 +79,10 @@ class EvaluateMLJAR(MLJARModelComp):
     def execute(self) -> None:
         test_df = self.load_df(self.test_dataset)
         model = self.load_model(self.model)
-        regulated_df = self.mljar_feature_prep(
-            test_df,
-        )
-        metrics = self.evaluate_model(regulated_df, model)
+        # regulated_df = self.mljar_feature_prep(
+        #     test_df,
+        # )
+        metrics = self.evaluate_model(test_df, model)
         self.create_report(model)
         for m in metrics:
             self.metrics.log_metric(

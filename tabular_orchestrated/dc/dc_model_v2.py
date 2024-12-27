@@ -16,8 +16,8 @@ class _DCModelCompV2(DCTrainTestComp):
         train_data = self.load_df(self.train_dataset)
         test_data = self.load_df(self.test_dataset)
         suite = model_evaluation()
-        dc_train_dataset = self.model_input(train_data)
-        dc_test_dataset = self.model_input(test_data)
+        dc_train_dataset = self.prepare_dataset(train_data)
+        dc_test_dataset = self.prepare_dataset(test_data)
         y_pred_train = train_data[self.pred_column].values
         y_pred_test = test_data[self.pred_column].values
         proba = dict(

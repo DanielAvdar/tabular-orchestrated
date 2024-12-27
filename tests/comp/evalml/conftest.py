@@ -52,7 +52,6 @@ def evalml_predict_op(
         test_dataset=get_df_example,
         predictions=artifacts.Dataset(uri=func("predictions")),
         pred_column="pred_column",
-        proba_column=None,
         **model_params,
     )
     predict_op.execute()
