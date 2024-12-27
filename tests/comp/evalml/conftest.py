@@ -3,11 +3,7 @@ from pathlib import Path
 import pytest
 from ml_orchestrator import artifacts
 
-from tabular_orchestrated.evalml import (
-    EvalMLPredict,
-    EvalMLSearch,
-    EvalMLSelectPipeline,
-)
+from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
 
 
 @pytest.fixture(scope="session")
@@ -56,3 +52,23 @@ def evalml_predict_op(
     )
     predict_op.execute()
     return predict_op
+
+
+@pytest.fixture(scope="session")
+def evalml_analysis_op(
+    evalml_select_pipeline_op: EvalMLSelectPipeline, get_df_example: artifacts.Dataset, model_params: dict
+) -> EvalMLAnalysis:
+    tmp_files_folder = Path(evalml_select_pipeline_op.automl.uri).parent
+
+    def func(x):
+        return (tmp_files_folder / x).as_posix()
+
+    analysis_op = EvalMLAnalysis(
+        model=evalml_select_pipeline_op.model,
+        test_dataset=get_df_example,
+        analysis=artifacts.HTML(uri=func("analysis")),
+        metrics=artifacts.Metrics(uri=func("metrics")),
+        **model_params,
+    )
+    analysis_op.execute()
+    return analysis_op

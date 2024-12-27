@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tabular_orchestrated.evalml import EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
+from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
 
 
 def test_evalml_search_op(evalml_search_op: EvalMLSearch):
@@ -21,3 +21,7 @@ def test_evalml_select_pipeline_op(evalml_select_pipeline_op: EvalMLSelectPipeli
 
 def test_evalml_predict_op(evalml_predict_op: EvalMLPredict):
     assert Path(evalml_predict_op.predictions.uri + ".parquet").exists()
+
+
+def test_evalml_analysis_op(evalml_analysis_op: EvalMLAnalysis):
+    assert Path(evalml_analysis_op.analysis.uri).exists

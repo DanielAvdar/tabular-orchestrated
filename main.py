@@ -4,7 +4,7 @@ from ml_orchestrator import ComponentParser
 
 from tabular_orchestrated.components import DataSplitter
 from tabular_orchestrated.dc import DCDataComp, DCModelComp, DCModelCompV2, DCTrainTestComp
-from tabular_orchestrated.evalml import EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
+from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
 from tabular_orchestrated.mljar.mljar import EvaluateMLJAR, MLJARTraining
 
 
@@ -20,6 +20,7 @@ def parse_components(file_path: str) -> None:
         EvalMLPredict,
         EvalMLSearch,
         EvalMLSelectPipeline,
+        EvalMLAnalysis,
         DCModelComp,
     ]
     parser.parse_components_to_file(comp_list, file_path)

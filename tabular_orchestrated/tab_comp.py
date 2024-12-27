@@ -59,7 +59,7 @@ class TabComponent(MetaComponentV2):
 
     def save_html(self, html: HTML, str_html: str) -> None:
         html.metadata["length"] = len(str_html)
-        with open(html.path, "w") as f:
+        with open(html.path, "w", encoding="utf-8") as f:
             f.write(str_html)
 
     def save_metrics(self, artifact: Metrics, metrics: Dict[str, Union[float, str, bool, int]]) -> None:
