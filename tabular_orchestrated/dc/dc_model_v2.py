@@ -31,16 +31,14 @@ class _DCModelCompV2(DCTrainTestComp):
             y_pred_train=y_pred_train,
             y_pred_test=y_pred_test,
             **proba,
-            # y_proba_train=train_data[self.proba_column].values if self.proba_column else None,
-            # y_proba_test=test_data[self.proba_column].values if self.proba_column else None,
         )
 
 
 @dataclasses.dataclass
 class DCModelCompV2(_DCModelCompV2):
     @property
-    def excluded_columns(self) -> List[str]:
-        ex_cols = super().excluded_columns + [self.pred_column]
+    def _excluded_columns(self) -> List[str]:
+        ex_cols = super()._excluded_columns + [self.pred_column]
         if self.proba_column:
             ex_cols.append(self.proba_column)
         return ex_cols
