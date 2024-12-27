@@ -1,5 +1,7 @@
 import dataclasses
+from typing import Union
 
+import pandas as pd
 from evalml.model_understanding import (
     confusion_matrix,
     graph_confusion_matrix,
@@ -19,10 +21,18 @@ from evalml.objectives import (
     Recall,
     RootMeanSquaredError,
 )
+from evalml.pipelines import (
+    BinaryClassificationPipeline,
+    MulticlassClassificationPipeline,
+    PipelineBase,
+    RegressionPipeline,
+)
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 
 from tabular_orchestrated.evalml.evalml import EvalMLComp
+
+EvalMLModel = Union[PipelineBase, BinaryClassificationPipeline, RegressionPipeline, MulticlassClassificationPipeline]
 
 
 @dataclasses.dataclass
@@ -36,9 +46,9 @@ class EvalMLAnalysis(EvalMLComp):
         model = self.load_model(self.model)
         test_df = self.load_df(self.test_dataset)
         self.create_charts(model, test_df)
-        self.metrics = self.create_metrics(model, test_df)
+        self.create_metrics(model, test_df)
 
-    def create_charts(self, model, test_df):
+    def create_charts(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
         charts = []
         labels = test_df[self.target_column]
         fimp = model.graph_feature_importance()
@@ -61,7 +71,7 @@ class EvalMLAnalysis(EvalMLComp):
         html_str = "<br>".join(str_charts)
         self.save_html(self.analysis, html_str)
 
-    def create_metrics(self, model, test_df):
+    def create_metrics(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
         y_pred = model.predict(test_df[self.model_columns(test_df)])
         problem_type = self.model.metadata["problem_type"]
         y_pred_proba = None
