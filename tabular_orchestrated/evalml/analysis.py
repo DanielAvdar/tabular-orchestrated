@@ -69,21 +69,34 @@ class EvalMLAnalysis(EvalMLComp):
     def execute(self) -> None:
         model = self.load_model(self.model)
         test_df = self.load_df(self.test_dataset)
+        self.analyze(model, test_df)
+
+    def analyze(self, model, test_df):
+        model.predict(test_df[self.model_columns(test_df)])
+
         self.create_charts(model, test_df)
         self.create_metrics(model, test_df)
 
     def create_charts(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
-        charts = []
-        labels = test_df[self.target_column]
-        fimp = model.graph_feature_importance()
-        charts.append(fimp)
-        y_pred = model.predict(test_df[self.model_columns(test_df)])
         problem_type = self.model.metadata["problem_type"]
+        labels = test_df[self.target_column]
+        y_pred = model.predict(test_df[self.model_columns(test_df)])
+        y_pred_proba = (
+            model.predict_proba(test_df[self.model_columns(test_df)]) if problem_type != "regression" else None
+        )
+        charts = self.create_metric_charts(labels, problem_type, y_pred, y_pred_proba)
+
+        charts.append(model.graph_feature_importance())
+        str_charts = [chart.to_html() for chart in charts]
+        html_str = "<br>".join(str_charts)
+        self.save_html(self.analysis, html_str)
+
+    def create_metric_charts(self, labels, problem_type, y_pred, y_pred_proba):
+        charts = []
         if problem_type == "binary":
-            y_pred_proba = model.predict_proba(test_df[self.model_columns(test_df)])
-            roc = graph_roc_curve(test_df[self.target_column], y_pred_proba)
-            prc = graph_precision_recall_curve(test_df[self.target_column], y_pred_proba)
-            confusion = graph_confusion_matrix(test_df[self.target_column], y_pred)
+            roc = graph_roc_curve(labels, y_pred_proba)
+            prc = graph_precision_recall_curve(labels, y_pred_proba)
+            confusion = graph_confusion_matrix(labels, y_pred)
             charts.extend([roc, prc, confusion])
         elif problem_type == "regression":
             pred_vs_true = graph_prediction_vs_actual(labels, y_pred, outlier_threshold=50)
@@ -91,9 +104,7 @@ class EvalMLAnalysis(EvalMLComp):
         elif problem_type == "multiclass":
             confusion = confusion_matrix(labels, y_pred)
             charts.append(confusion)
-        str_charts = [chart.to_html() for chart in charts]
-        html_str = "<br>".join(str_charts)
-        self.save_html(self.analysis, html_str)
+        return charts
 
     def create_metrics(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
         y_pred = model.predict(test_df[self.model_columns(test_df)])
