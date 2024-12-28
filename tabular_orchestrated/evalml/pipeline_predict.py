@@ -23,6 +23,7 @@ class EvalMLPredict(EvalMLComp):
             test_df[[f"{self.proba_column_prefix}_{col}" for col in proba.columns]] = proba
         test_df[self.pred_column] = predictions
         self.save_df(test_df, self.predictions)
+        self.predictions.metadata["problem_type"] = self.model.metadata["problem_type"]
 
 
 @dataclasses.dataclass

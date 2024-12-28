@@ -24,7 +24,7 @@ class EvalMLAnalysis(EvalMLComp):
         test_df = self.load_df(self.test_dataset)
         self.analyze(model, test_df)
 
-    def analyze(self, model: EvalMLModel, test_df):
+    def analyze(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
         y_pred = model.predict(test_df[self.model_columns(test_df)])
         y_pred_proba = (
             model.predict_proba(test_df[self.model_columns(test_df)]) if self.problem_type != "regression" else None
@@ -38,7 +38,9 @@ class EvalMLAnalysis(EvalMLComp):
         self.save_html(self.analysis, html_str)
         self.analysis.metadata["number of charts"] = len(str_charts)
 
-    def create_charts(self, model: EvalMLModel, labels: pd.Series, y_pred, y_pred_proba) -> list[str]:
+    def create_charts(
+        self, model: EvalMLModel, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame | None
+    ) -> list[str]:
         charts = EvalMLAnalysisUtils.create_metric_charts(labels, y_pred, y_pred_proba)
 
         charts.append(model.graph_feature_importance())

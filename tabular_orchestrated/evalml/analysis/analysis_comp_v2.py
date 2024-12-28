@@ -21,26 +21,26 @@ class EvalMLAnalysisV2(EvalMLComp):
         return self.predictions.metadata["problem_type"]
 
     def execute(self) -> None:
-        predictions_df = self.load_df(self.predictions)
+        predictions_df: pd.DataFrame = self.load_df(self.predictions)
         self.analyze(predictions_df)
 
-    def analyze(self, predictions_df):
+    def analyze(self, predictions_df: pd.DataFrame) -> None:
         y_pred = predictions_df[self.pred_column]
         y_pred_proba = None
         if self.detect_problem_type(predictions_df[self.target_column]) != "regression":
             y_pred_proba = EvalMLAnalysisUtils.get_proba(predictions_df, self.proba_column_prefix)
 
-        labels = predictions_df[self.target_column]
-        str_charts = self.create_charts(labels, y_pred, y_pred_proba)
-        metrics = EvalMLAnalysisUtils.create_metrics(labels, y_pred, y_pred_proba)
+        labels: pd.Series = predictions_df[self.target_column]
+        str_charts: list[str] = self.create_charts(labels, y_pred, y_pred_proba)
+        metrics: dict[str, float] = EvalMLAnalysisUtils.create_metrics(labels, y_pred, y_pred_proba)
         for metric_name, metric_value in metrics.items():
             self.metrics.log_metric(metric_name, metric_value)
-        html_str = "<br>".join(str_charts)
+        html_str: str = "<br>".join(str_charts)
         self.save_html(self.analysis, html_str)
         self.analysis.metadata["number of charts"] = len(str_charts)
 
-    def create_charts(self, labels: pd.Series, y_pred, y_pred_proba) -> list[str]:
+    def create_charts(self, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame | None) -> list[str]:
         charts = EvalMLAnalysisUtils.create_metric_charts(labels, y_pred, y_pred_proba)
 
-        str_charts = [chart.to_html() for chart in charts]
+        str_charts: list[str] = [chart.to_html() for chart in charts]
         return str_charts

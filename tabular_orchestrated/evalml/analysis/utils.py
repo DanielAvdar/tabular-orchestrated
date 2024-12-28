@@ -74,7 +74,7 @@ class EvalMLAnalysisUtils:
         return df[get_proba_cols]
 
     @classmethod
-    def create_metrics(cls, labels: pd.Series, y_pred, y_pred_proba) -> dict[str, float]:
+    def create_metrics(cls, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> dict[str, float]:
         metrics = {}
         problem_type = cls.detect_problem_type(labels)
         if problem_type == "binary":
@@ -87,7 +87,7 @@ class EvalMLAnalysisUtils:
         return metrics
 
     @staticmethod
-    def multiclass_metrics(target_series, y_pred, y_pred_proba):
+    def multiclass_metrics(target_series: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> dict[str, float]:
         return {
             "Log Loss": LogLossMulticlass().score(target_series, y_pred_proba),
             "AUC": AUCWeighted().score(target_series, y_pred_proba),
@@ -106,7 +106,7 @@ class EvalMLAnalysisUtils:
         }
 
     @staticmethod
-    def regression_metrics(target_series, y_pred):
+    def regression_metrics(target_series: pd.Series, y_pred: pd.Series) -> dict[str, float]:
         return {
             "R2": R2().score(target_series, y_pred),
             "RMSE": RootMeanSquaredError().score(target_series, y_pred),
@@ -122,7 +122,7 @@ class EvalMLAnalysisUtils:
         }
 
     @staticmethod
-    def binary_metrics(target_series, y_pred, y_pred_proba):
+    def binary_metrics(target_series: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> dict[str, float]:
         return {
             "AUC": AUC().score(target_series, y_pred),
             "F1": F1().score(target_series, y_pred),
@@ -136,7 +136,7 @@ class EvalMLAnalysisUtils:
         }
 
     @classmethod
-    def create_metric_charts(cls, labels, y_pred, y_pred_proba):
+    def create_metric_charts(cls, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> list:
         charts = []
         problem_type = cls.detect_problem_type(labels)
         if problem_type == "binary":
