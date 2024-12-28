@@ -99,31 +99,32 @@ class EvalMLAnalysis(EvalMLComp):
         y_pred = model.predict(test_df[self.model_columns(test_df)])
         problem_type = self.model.metadata["problem_type"]
         y_pred_proba = None
+        target_series = test_df[self.target_column]
         if problem_type == "binary" or problem_type == "multiclass":
             y_pred_proba = model.predict_proba(test_df[self.model_columns(test_df)])
 
         if problem_type == "binary":
-            self.binary_metrics(test_df, y_pred, y_pred_proba)
+            self.binary_metrics(target_series, y_pred, y_pred_proba)
         elif problem_type == "regression":
-            self.regression_metrics(test_df, y_pred)
+            self.regression_metrics(target_series, y_pred)
         elif problem_type == "multiclass":
-            self.multiclass_metrics(test_df, y_pred, y_pred_proba)
+            self.multiclass_metrics(target_series, y_pred, y_pred_proba)
 
-    def multiclass_metrics(self, test_df, y_pred, y_pred_proba):
-        logloss = LogLossMulticlass().score(test_df[self.target_column], y_pred_proba)
-        auc = AUCWeighted().score(test_df[self.target_column], y_pred_proba)
-        auc_micro = AUCMicro().score(test_df[self.target_column], y_pred_proba)
-        auc_macro = AUCMacro().score(test_df[self.target_column], y_pred_proba)
-        mccmulticlass = MCCMulticlass().score(test_df[self.target_column], y_pred)
-        precision = PrecisionWeighted().score(test_df[self.target_column], y_pred)
-        recall = RecallWeighted().score(test_df[self.target_column], y_pred)
-        recall_micro = RecallMicro().score(test_df[self.target_column], y_pred)
-        recall_macro = RecallMacro().score(test_df[self.target_column], y_pred)
-        accuracy_multiclass = AccuracyMulticlass().score(test_df[self.target_column], y_pred)
-        balanced_accuracy_multiclass = BalancedAccuracyMulticlass().score(test_df[self.target_column], y_pred)
-        f1weighted = F1Weighted().score(test_df[self.target_column], y_pred)
-        f1macro = F1Macro().score(test_df[self.target_column], y_pred)
-        f1micro = F1Micro().score(test_df[self.target_column], y_pred)
+    def multiclass_metrics(self, target_series, y_pred, y_pred_proba):
+        logloss = LogLossMulticlass().score(target_series, y_pred_proba)
+        auc = AUCWeighted().score(target_series, y_pred_proba)
+        auc_micro = AUCMicro().score(target_series, y_pred_proba)
+        auc_macro = AUCMacro().score(target_series, y_pred_proba)
+        mccmulticlass = MCCMulticlass().score(target_series, y_pred)
+        precision = PrecisionWeighted().score(target_series, y_pred)
+        recall = RecallWeighted().score(target_series, y_pred)
+        recall_micro = RecallMicro().score(target_series, y_pred)
+        recall_macro = RecallMacro().score(target_series, y_pred)
+        accuracy_multiclass = AccuracyMulticlass().score(target_series, y_pred)
+        balanced_accuracy_multiclass = BalancedAccuracyMulticlass().score(target_series, y_pred)
+        f1weighted = F1Weighted().score(target_series, y_pred)
+        f1macro = F1Macro().score(target_series, y_pred)
+        f1micro = F1Micro().score(target_series, y_pred)
 
         self.metrics.log_metric("Log Loss", logloss)
         self.metrics.log_metric("AUC", auc)
@@ -140,18 +141,18 @@ class EvalMLAnalysis(EvalMLComp):
         self.metrics.log_metric("F1 Macro", f1macro)
         self.metrics.log_metric("F1 Micro", f1micro)
 
-    def regression_metrics(self, test_df, y_pred):
-        r2 = R2().score(test_df[self.target_column], y_pred)
-        rmse = RootMeanSquaredError().score(test_df[self.target_column], y_pred)
-        mae = MAE().score(test_df[self.target_column], y_pred)
-        mse = MSE().score(test_df[self.target_column], y_pred)
-        mape = MAPE().score(test_df[self.target_column], y_pred)
-        smape = SMAPE().score(test_df[self.target_column], y_pred)
-        msle = MeanSquaredLogError().score(test_df[self.target_column], y_pred)
-        rmsle = RootMeanSquaredLogError().score(test_df[self.target_column], y_pred)
-        max_error = MaxError().score(test_df[self.target_column], y_pred)
-        exp_var = ExpVariance().score(test_df[self.target_column], y_pred)
-        median_ae = MedianAE().score(test_df[self.target_column], y_pred)
+    def regression_metrics(self, target_series, y_pred):
+        r2 = R2().score(target_series, y_pred)
+        rmse = RootMeanSquaredError().score(target_series, y_pred)
+        mae = MAE().score(target_series, y_pred)
+        mse = MSE().score(target_series, y_pred)
+        mape = MAPE().score(target_series, y_pred)
+        smape = SMAPE().score(target_series, y_pred)
+        msle = MeanSquaredLogError().score(target_series, y_pred)
+        rmsle = RootMeanSquaredLogError().score(target_series, y_pred)
+        max_error = MaxError().score(target_series, y_pred)
+        exp_var = ExpVariance().score(target_series, y_pred)
+        median_ae = MedianAE().score(target_series, y_pred)
 
         self.metrics.log_metric("R2", r2)
         self.metrics.log_metric("RMSE", rmse)
@@ -165,16 +166,16 @@ class EvalMLAnalysis(EvalMLComp):
         self.metrics.log_metric("Exp Var", exp_var)
         self.metrics.log_metric("Median Absolute Error", median_ae)
 
-    def binary_metrics(self, test_df, y_pred, y_pred_proba):
-        auc = AUC().score(test_df[self.target_column], y_pred)
-        f1 = F1().score(test_df[self.target_column], y_pred)
-        logloss = LogLossBinary().score(test_df[self.target_column], y_pred)
-        precision = Precision().score(test_df[self.target_column], y_pred)
-        recall = Recall().score(test_df[self.target_column], y_pred)
-        balanced_accuracy = BalancedAccuracyBinary().score(test_df[self.target_column], y_pred)
-        accuracy_binary = AccuracyBinary().score(test_df[self.target_column], y_pred)
-        mccbinary = MCCBinary().score(test_df[self.target_column], y_pred)
-        gini = Gini().score(test_df[self.target_column], y_pred)
+    def binary_metrics(self, target_series, y_pred, y_pred_proba):
+        auc = AUC().score(target_series, y_pred)
+        f1 = F1().score(target_series, y_pred)
+        logloss = LogLossBinary().score(target_series, y_pred)
+        precision = Precision().score(target_series, y_pred)
+        recall = Recall().score(target_series, y_pred)
+        balanced_accuracy = BalancedAccuracyBinary().score(target_series, y_pred)
+        accuracy_binary = AccuracyBinary().score(target_series, y_pred)
+        mccbinary = MCCBinary().score(target_series, y_pred)
+        gini = Gini().score(target_series, y_pred)
 
         self.metrics.log_metric("AUC", auc)
         self.metrics.log_metric("F1", f1)
