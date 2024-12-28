@@ -6,6 +6,7 @@ from ml_orchestrator import artifacts
 from tabular_orchestrated.evalml import (
     EvalMLAnalysis,
     EvalMLAnalysisV2,
+    EvalMLFineTune,
     EvalMLPredict,
     EvalMLSearch,
     EvalMLSelectPipeline,
@@ -95,3 +96,22 @@ def evalml_analysis_v2_op(evalml_predict_op: EvalMLPredict, model_params: dict) 
     )
     analysis_op.execute()
     return analysis_op
+
+
+@pytest.fixture(scope="session")
+def evalml_fine_tune_op(
+    get_df_example: artifacts.Dataset, evalml_select_pipeline_op, model_params: dict
+) -> EvalMLFineTune:  # Add fine tune fixture
+    tmp_files_folder = Path(get_df_example.uri).parent
+
+    def func(x):
+        return (tmp_files_folder / x).as_posix()
+
+    fine_tune_op = EvalMLFineTune(  # Add fine tune fixture
+        model=evalml_select_pipeline_op.model,  # Getting model from the select pipeline fixture
+        train_dataset=get_df_example,  # Using the example df for fine-tuning
+        fine_tuned_model=artifacts.Model(uri=func("fine_tuned_model")),  # Defining where to store
+        **model_params,
+    )
+    fine_tune_op.execute()  # Executing fine-tuning operation
+    return fine_tune_op  # Returning the fine_tuned model

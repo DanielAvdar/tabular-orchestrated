@@ -3,6 +3,7 @@ from pathlib import Path
 from tabular_orchestrated.evalml import (
     EvalMLAnalysis,
     EvalMLAnalysisV2,
+    EvalMLFineTune,
     EvalMLPredict,
     EvalMLSearch,
     EvalMLSelectPipeline,
@@ -15,6 +16,7 @@ def test_evalml_search_op(evalml_search_op: EvalMLSearch):
     for k, v in automl_metadata.items():
         assert isinstance(v, (int, float, bool, str)), f"Type {type(v)} invalid in {k}"
         assert isinstance(k, str), f"Type {type(k)} is not a valid metric name"
+    assert len(automl_metadata) > 1, "Automl metadata is empty"
 
 
 def test_evalml_select_pipeline_op(evalml_select_pipeline_op: EvalMLSelectPipeline):
@@ -52,3 +54,11 @@ def test_evalml_analysis_v2_op(evalml_analysis_v2_op: EvalMLAnalysisV2):
     analysis_metadata = evalml_analysis_v2_op.analysis.metadata
     assert metrics, "Metrics are empty"
     assert analysis_metadata["number of charts"] > 0, "No charts were generated"
+
+
+def test_evalml_fine_tune_op(evalml_fine_tune_op: EvalMLFineTune):  # utilize the fixture here
+    assert Path(evalml_fine_tune_op.fine_tuned_model.uri + ".pkl").exists()  # check the fine-tuned model exists
+    model_metadata = evalml_fine_tune_op.fine_tuned_model.metadata  # get the metadata
+    for k, v in model_metadata.items():
+        assert isinstance(v, (int, float, bool, str)), f"Type {type(v)} invalid in {k}"  # Regular metadata checks
+        assert isinstance(k, str), f"Type {type(k)} is not a valid metric name"

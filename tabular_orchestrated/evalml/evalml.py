@@ -12,4 +12,5 @@ class EvalMLComp(ModelComp):
 
     @staticmethod
     def detect_problem_type(y: pd.Series) -> str:
-        return detect_problem_type(y)
+        pt = detect_problem_type(y)
+        return str(pt)

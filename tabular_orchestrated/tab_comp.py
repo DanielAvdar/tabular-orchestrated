@@ -46,17 +46,6 @@ class TabComponent(MetaComponentV2):
     def load_df(cls, dataset: Dataset) -> pd.DataFrame:
         return pd.read_parquet(dataset.path + ".parquet", engine="pyarrow")
 
-    @classmethod
-    def save_model(cls, model: Any, model_path: Model) -> None:
-        model_path.metadata["model_type"] = str(type(model))
-        with open(model_path.path + ".pkl", "wb") as f:
-            pickle.dump(model, f)
-
-    @classmethod
-    def load_model(cls, model_path: Model) -> Any:
-        with open(model_path.path + ".pkl", "rb") as f:
-            return pickle.load(f)
-
     def save_html(self, html: HTML, str_html: str) -> None:
         html.metadata["length"] = len(str_html)
         with open(html.path, "w", encoding="utf-8") as f:
@@ -84,3 +73,28 @@ class ModelComp(TabComponent):
     def load_df(cls, dataset: Dataset) -> pd.DataFrame:
         df = super().load_df(dataset)
         return convert_to_numpy(df)
+
+    @classmethod
+    def save_model(cls, model: Any, model_path: Model) -> None:
+        model_path.metadata["model_type"] = str(type(model))
+        with open(model_path.path + ".pkl", "wb") as f:
+            pickle.dump(model, f)
+        metadata = cls.log_metadata(model)
+        for key, value in metadata.items():
+            model_path.metadata[key] = value
+
+    @classmethod
+    def load_model(cls, model_path: Model) -> Any:
+        with open(model_path.path + ".pkl", "rb") as f:
+            return pickle.load(f)
+
+    @classmethod
+    def log_metadata(cls, model: Any) -> dict[str, Union[str, bool, int, float]]:
+        # Log attributes of automl of types str, bool, int, and float into metadata
+        metadata = {}
+        for attr in dir(model):
+            if not attr.startswith("_"):  # Skip private and protected attributes
+                value = getattr(model, attr, None)
+                if isinstance(value, (str, bool, int, float)):
+                    metadata[attr] = value
+        return metadata

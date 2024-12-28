@@ -31,5 +31,4 @@ class EvalMLSearch(EvalMLComp):
         automl = self.create_search(df)
 
         automl.search(interactive_plot=False)
-
         self.save_model(automl, self.automl)

@@ -16,4 +16,4 @@ class EvalMLSelectPipeline(EvalMLComp):
         automl = self.load_model(self.automl)
         pipeline = automl.get_pipeline(self.pipeline_id) if self.pipeline_id != -1 else automl.best_pipeline
         self.save_model(pipeline, self.model)
-        self.model.metadata["problem_type"] = self.automl.metadata["problem_type"]
+        self.model.metadata["problem_type"] = str(automl.problem_type)

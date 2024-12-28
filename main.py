@@ -7,6 +7,7 @@ from tabular_orchestrated.dc import DCDataComp, DCModelComp, DCModelCompV2, DCTr
 from tabular_orchestrated.evalml import (
     EvalMLAnalysis,
     EvalMLAnalysisV2,
+    EvalMLFineTune,
     EvalMLPredict,
     EvalMLSearch,
     EvalMLSelectPipeline,
@@ -23,12 +24,13 @@ def parse_components(file_path: str) -> None:
         DCTrainTestComp,
         DCDataComp,
         DCModelCompV2,
+        DCModelComp,
         EvalMLPredict,
         EvalMLSearch,
         EvalMLSelectPipeline,
         EvalMLAnalysis,
         EvalMLAnalysisV2,
-        DCModelComp,
+        EvalMLFineTune,
     ]
     parser.parse_components_to_file(comp_list, file_path)
 

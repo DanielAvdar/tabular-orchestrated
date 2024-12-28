@@ -23,3 +23,17 @@ class EvalMLPredict(EvalMLComp):
             test_df[[f"{self.proba_column_prefix}_{col}" for col in proba.columns]] = proba
         test_df[self.pred_column] = predictions
         self.save_df(test_df, self.predictions)
+
+
+@dataclasses.dataclass
+class EvalMLFineTune(EvalMLComp):
+    model: Input[artifacts.Model]
+    train_dataset: Input[artifacts.Dataset]
+    fine_tuned_model: Output[artifacts.Model]
+
+    def execute(self) -> None:
+        model = self.load_model(self.model)
+        train_df = self.load_df(self.train_dataset)
+        model.fit(train_df[self.model_columns(train_df)], train_df[self.target_column])
+        self.save_model(model, self.fine_tuned_model)
+        self.fine_tuned_model.metadata["problem_type"] = self.detect_problem_type(train_df[self.target_column])
