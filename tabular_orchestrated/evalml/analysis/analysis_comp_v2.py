@@ -16,10 +16,6 @@ class EvalMLAnalysisV2(EvalMLComp):
     pred_column: str = "pred_column"
     proba_column_prefix: str = "proba_column"
 
-    @property
-    def problem_type(self) -> str:
-        return self.predictions.metadata["problem_type"]
-
     def execute(self) -> None:
         predictions_df: pd.DataFrame = self.load_df(self.predictions)
         self.analyze(predictions_df)

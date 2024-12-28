@@ -1,9 +1,10 @@
 import dataclasses
 from typing import Union
 
+# Set default Plotly template to dark mode
 import pandas as pd
+import plotly.io as plt_io
 from evalml.model_understanding import (
-    confusion_matrix,
     graph_confusion_matrix,
     graph_precision_recall_curve,
     graph_prediction_vs_actual,
@@ -37,6 +38,8 @@ from evalml.objectives import (
     MeanSquaredLogError,
     MedianAE,
     Precision,
+    PrecisionMacro,
+    PrecisionMicro,
     PrecisionWeighted,
     Recall,
     RecallMacro,
@@ -52,6 +55,9 @@ from evalml.pipelines import (
     RegressionPipeline,
 )
 from evalml.problem_types import detect_problem_type
+from plotly.graph_objs import Figure
+
+plt_io.templates.default = "plotly_dark"
 
 EvalMLModel = Union[PipelineBase, BinaryClassificationPipeline, RegressionPipeline, MulticlassClassificationPipeline]
 
@@ -103,6 +109,9 @@ class EvalMLAnalysisUtils:
             "F1 Weighted": F1Weighted().score(target_series, y_pred),
             "F1 Macro": F1Macro().score(target_series, y_pred),
             "F1 Micro": F1Micro().score(target_series, y_pred),
+            "Precision Weighted": PrecisionWeighted().score(target_series, y_pred),
+            "Precision Macro": PrecisionMacro().score(target_series, y_pred),
+            "Precision Micro": PrecisionMicro().score(target_series, y_pred),
         }
 
     @staticmethod
@@ -136,18 +145,26 @@ class EvalMLAnalysisUtils:
         }
 
     @classmethod
-    def create_metric_charts(cls, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> list:
+    def create_metric_charts(cls, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> list[Figure]:
         charts = []
         problem_type = cls.detect_problem_type(labels)
         if problem_type == "binary":
             roc = graph_roc_curve(labels, y_pred_proba)
             prc = graph_precision_recall_curve(labels, y_pred_proba)
             confusion = graph_confusion_matrix(labels, y_pred)
-            charts.extend([roc, prc, confusion])
+            charts.extend([
+                roc,
+                prc,
+                confusion,
+            ])
         elif problem_type == "regression":
             pred_vs_true = graph_prediction_vs_actual(labels, y_pred, outlier_threshold=50)
-            charts.append(pred_vs_true)
+
+            charts.extend([pred_vs_true])
         elif problem_type == "multiclass":
-            confusion = confusion_matrix(labels, y_pred)
-            charts.append(confusion)
+            confusion = graph_confusion_matrix(labels, y_pred)
+            charts.extend([
+                confusion,
+            ])
+
         return charts
