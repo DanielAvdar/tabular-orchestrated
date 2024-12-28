@@ -26,4 +26,6 @@ def test_evalml_predict_op(evalml_predict_op: EvalMLPredict):
 def test_evalml_analysis_op(evalml_analysis_op: EvalMLAnalysis):
     assert Path(evalml_analysis_op.analysis.uri).exists
     metrics = evalml_analysis_op.metrics.metadata
+    analysis_metadata = evalml_analysis_op.analysis.metadata
     assert metrics, "Metrics are empty"
+    assert analysis_metadata["number of charts"] > 0, "No charts were generated"

@@ -51,12 +51,100 @@ from evalml.pipelines import (
     PipelineBase,
     RegressionPipeline,
 )
+from evalml.problem_types import detect_problem_type
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 
 from tabular_orchestrated.evalml.evalml import EvalMLComp
 
 EvalMLModel = Union[PipelineBase, BinaryClassificationPipeline, RegressionPipeline, MulticlassClassificationPipeline]
+
+
+@dataclasses.dataclass
+class EvalMLAnalysisUtils(EvalMLComp):
+    @staticmethod
+    def detect_problem_type(y: pd.Series) -> str:
+        pt = detect_problem_type(y)
+        return str(pt)
+
+    @classmethod
+    def create_metrics(cls, labels: pd.Series, y_pred, y_pred_proba) -> dict[str, float]:
+        metrics = {}
+        problem_type = cls.detect_problem_type(labels)
+        if problem_type == "binary":
+            metrics = cls.binary_metrics(labels, y_pred, y_pred_proba)
+        elif problem_type == "regression":
+            metrics = cls.regression_metrics(labels, y_pred)
+        elif problem_type == "multiclass":
+            metrics = cls.multiclass_metrics(labels, y_pred, y_pred_proba)
+
+        return metrics
+
+    @staticmethod
+    def multiclass_metrics(target_series, y_pred, y_pred_proba):
+        return {
+            "Log Loss": LogLossMulticlass().score(target_series, y_pred_proba),
+            "AUC": AUCWeighted().score(target_series, y_pred_proba),
+            "AUC Micro": AUCMicro().score(target_series, y_pred_proba),
+            "AUC Macro": AUCMacro().score(target_series, y_pred_proba),
+            "MCC Multiclass": MCCMulticlass().score(target_series, y_pred),
+            "Precision": PrecisionWeighted().score(target_series, y_pred),
+            "Recall": RecallWeighted().score(target_series, y_pred),
+            "Recall Micro": RecallMicro().score(target_series, y_pred),
+            "Recall Macro": RecallMacro().score(target_series, y_pred),
+            "Accuracy Multiclass": AccuracyMulticlass().score(target_series, y_pred),
+            "Balanced Accuracy Multiclass": BalancedAccuracyMulticlass().score(target_series, y_pred),
+            "F1 Weighted": F1Weighted().score(target_series, y_pred),
+            "F1 Macro": F1Macro().score(target_series, y_pred),
+            "F1 Micro": F1Micro().score(target_series, y_pred),
+        }
+
+    @staticmethod
+    def regression_metrics(target_series, y_pred):
+        return {
+            "R2": R2().score(target_series, y_pred),
+            "RMSE": RootMeanSquaredError().score(target_series, y_pred),
+            "MAE": MAE().score(target_series, y_pred),
+            "MSE": MSE().score(target_series, y_pred),
+            "MAPE": MAPE().score(target_series, y_pred),
+            "SMAPE": SMAPE().score(target_series, y_pred),
+            "MSLE": MeanSquaredLogError().score(target_series, y_pred),
+            "RMSLE": RootMeanSquaredLogError().score(target_series, y_pred),
+            "Max Error": MaxError().score(target_series, y_pred),
+            "Exp Var": ExpVariance().score(target_series, y_pred),
+            "Median Absolute Error": MedianAE().score(target_series, y_pred),
+        }
+
+    @staticmethod
+    def binary_metrics(target_series, y_pred, y_pred_proba):
+        return {
+            "AUC": AUC().score(target_series, y_pred),
+            "F1": F1().score(target_series, y_pred),
+            "Log Loss": LogLossBinary().score(target_series, y_pred),
+            "Precision": Precision().score(target_series, y_pred),
+            "Recall": Recall().score(target_series, y_pred),
+            "Balanced Accuracy": BalancedAccuracyBinary().score(target_series, y_pred),
+            "Accuracy Binary": AccuracyBinary().score(target_series, y_pred),
+            "MCC Binary": MCCBinary().score(target_series, y_pred),
+            "Gini": Gini().score(target_series, y_pred),
+        }
+
+    @classmethod
+    def create_metric_charts(cls, labels, y_pred, y_pred_proba):
+        charts = []
+        problem_type = cls.detect_problem_type(labels)
+        if problem_type == "binary":
+            roc = graph_roc_curve(labels, y_pred_proba)
+            prc = graph_precision_recall_curve(labels, y_pred_proba)
+            confusion = graph_confusion_matrix(labels, y_pred)
+            charts.extend([roc, prc, confusion])
+        elif problem_type == "regression":
+            pred_vs_true = graph_prediction_vs_actual(labels, y_pred, outlier_threshold=50)
+            charts.append(pred_vs_true)
+        elif problem_type == "multiclass":
+            confusion = confusion_matrix(labels, y_pred)
+            charts.append(confusion)
+        return charts
 
 
 @dataclasses.dataclass
@@ -81,86 +169,17 @@ class EvalMLAnalysis(EvalMLComp):
             model.predict_proba(test_df[self.model_columns(test_df)]) if self.problem_type != "regression" else None
         )
         labels = test_df[self.target_column]
-        self.create_charts(model, labels, y_pred, y_pred_proba)
-        self.create_metrics(labels, y_pred, y_pred_proba)
+        str_charts = self.create_charts(model, labels, y_pred, y_pred_proba)
+        metrics = EvalMLAnalysisUtils.create_metrics(labels, y_pred, y_pred_proba)
+        for metric_name, metric_value in metrics.items():
+            self.metrics.log_metric(metric_name, metric_value)
+        html_str = "<br>".join(str_charts)
+        self.save_html(self.analysis, html_str)
+        self.analysis.metadata["number of charts"] = len(str_charts)
 
-    def create_charts(self, model: EvalMLModel, labels: pd.Series, y_pred, y_pred_proba) -> None:
-        charts = self.create_metric_charts(labels, y_pred, y_pred_proba)
+    def create_charts(self, model: EvalMLModel, labels: pd.Series, y_pred, y_pred_proba) -> list[str]:
+        charts = EvalMLAnalysisUtils.create_metric_charts(labels, y_pred, y_pred_proba)
 
         charts.append(model.graph_feature_importance())
         str_charts = [chart.to_html() for chart in charts]
-        html_str = "<br>".join(str_charts)
-        self.save_html(self.analysis, html_str)
-
-    def create_metric_charts(self, labels, y_pred, y_pred_proba):
-        charts = []
-        if self.problem_type == "binary":
-            roc = graph_roc_curve(labels, y_pred_proba)
-            prc = graph_precision_recall_curve(labels, y_pred_proba)
-            confusion = graph_confusion_matrix(labels, y_pred)
-            charts.extend([roc, prc, confusion])
-        elif self.problem_type == "regression":
-            pred_vs_true = graph_prediction_vs_actual(labels, y_pred, outlier_threshold=50)
-            charts.append(pred_vs_true)
-        elif self.problem_type == "multiclass":
-            confusion = confusion_matrix(labels, y_pred)
-            charts.append(confusion)
-        return charts
-
-    def create_metrics(self, labels: pd.Series, y_pred, y_pred_proba) -> None:
-        metrics = {}
-        if self.problem_type == "binary":
-            metrics = self.binary_metrics(labels, y_pred, y_pred_proba)
-        elif self.problem_type == "regression":
-            metrics = self.regression_metrics(labels, y_pred)
-        elif self.problem_type == "multiclass":
-            metrics = self.multiclass_metrics(labels, y_pred, y_pred_proba)
-
-        for metric_name, metric_value in metrics.items():
-            self.metrics.log_metric(metric_name, metric_value)
-
-    def multiclass_metrics(self, target_series, y_pred, y_pred_proba):
-        return {
-            "Log Loss": LogLossMulticlass().score(target_series, y_pred_proba),
-            "AUC": AUCWeighted().score(target_series, y_pred_proba),
-            "AUC Micro": AUCMicro().score(target_series, y_pred_proba),
-            "AUC Macro": AUCMacro().score(target_series, y_pred_proba),
-            "MCC Multiclass": MCCMulticlass().score(target_series, y_pred),
-            "Precision": PrecisionWeighted().score(target_series, y_pred),
-            "Recall": RecallWeighted().score(target_series, y_pred),
-            "Recall Micro": RecallMicro().score(target_series, y_pred),
-            "Recall Macro": RecallMacro().score(target_series, y_pred),
-            "Accuracy Multiclass": AccuracyMulticlass().score(target_series, y_pred),
-            "Balanced Accuracy Multiclass": BalancedAccuracyMulticlass().score(target_series, y_pred),
-            "F1 Weighted": F1Weighted().score(target_series, y_pred),
-            "F1 Macro": F1Macro().score(target_series, y_pred),
-            "F1 Micro": F1Micro().score(target_series, y_pred),
-        }
-
-    def regression_metrics(self, target_series, y_pred):
-        return {
-            "R2": R2().score(target_series, y_pred),
-            "RMSE": RootMeanSquaredError().score(target_series, y_pred),
-            "MAE": MAE().score(target_series, y_pred),
-            "MSE": MSE().score(target_series, y_pred),
-            "MAPE": MAPE().score(target_series, y_pred),
-            "SMAPE": SMAPE().score(target_series, y_pred),
-            "MSLE": MeanSquaredLogError().score(target_series, y_pred),
-            "RMSLE": RootMeanSquaredLogError().score(target_series, y_pred),
-            "Max Error": MaxError().score(target_series, y_pred),
-            "Exp Var": ExpVariance().score(target_series, y_pred),
-            "Median Absolute Error": MedianAE().score(target_series, y_pred),
-        }
-
-    def binary_metrics(self, target_series, y_pred, y_pred_proba):
-        return {
-            "AUC": AUC().score(target_series, y_pred),
-            "F1": F1().score(target_series, y_pred),
-            "Log Loss": LogLossBinary().score(target_series, y_pred),
-            "Precision": Precision().score(target_series, y_pred),
-            "Recall": Recall().score(target_series, y_pred),
-            "Balanced Accuracy": BalancedAccuracyBinary().score(target_series, y_pred),
-            "Accuracy Binary": AccuracyBinary().score(target_series, y_pred),
-            "MCC Binary": MCCBinary().score(target_series, y_pred),
-            "Gini": Gini().score(target_series, y_pred),
-        }
+        return str_charts
