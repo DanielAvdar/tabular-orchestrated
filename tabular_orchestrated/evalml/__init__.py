@@ -1,6 +1,7 @@
-from tabular_orchestrated.evalml.analysis.analysis_comp import EvalMLAnalysis
-from tabular_orchestrated.evalml.analysis.analysis_comp_v2 import EvalMLAnalysisV2
-from tabular_orchestrated.evalml.pipeline import EvalMLPredict, EvalMLSelectPipeline
-from tabular_orchestrated.evalml.search import EvalMLSearch
+from .analysis.analysis_comp import EvalMLAnalysis
+from .analysis.analysis_comp_v2 import EvalMLAnalysisV2
+from .pipeline_predict import EvalMLPredict
+from .search import EvalMLSearch
+from .select_pipeline import EvalMLSelectPipeline
 
-__all__ = ["EvalMLSearch", "EvalMLSelectPipeline", "EvalMLPredict", "EvalMLAnalysis", "EvalMLAnalysisV2"]
+__all__ = ["EvalMLSearch", "EvalMLAnalysis", "EvalMLAnalysisV2", "EvalMLPredict", "EvalMLSelectPipeline"]

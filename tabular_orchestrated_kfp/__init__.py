@@ -177,7 +177,7 @@ def evalmlpredict(
     pred_column: str = "pred_column",
     proba_column_prefix: str = "proba_column",
 ):
-    from tabular_orchestrated.evalml.pipeline import EvalMLPredict
+    from tabular_orchestrated.evalml import EvalMLPredict
 
     comp = EvalMLPredict(
         exclude_columns=exclude_columns,
@@ -223,7 +223,7 @@ def evalmlselectpipeline(
     model: Output[Model] = None,
     pipeline_id: int = -1,
 ):
-    from tabular_orchestrated.evalml.pipeline import EvalMLSelectPipeline
+    from tabular_orchestrated.evalml import EvalMLSelectPipeline
 
     comp = EvalMLSelectPipeline(
         exclude_columns=exclude_columns,
