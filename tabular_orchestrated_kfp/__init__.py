@@ -166,6 +166,35 @@ def dcmodelcompv2(
 
 
 @component(
+    base_image="python:3.11",
+    packages_to_install=[f"tabular-orchestrated[deepchecks,evalml]=={version('tabular-orchestrated')}"],
+)
+def dcmodelcomp(
+    exclude_columns: List[str],
+    target_column: str,
+    report: Output[HTML],
+    failed_checks: Output[Metrics],
+    train_dataset: Input[Dataset],
+    test_dataset: Input[Dataset],
+    as_widget: bool = True,
+    model: Input[Model] = None,
+):
+    from tabular_orchestrated.dc.dc_model import DCModelComp
+
+    comp = DCModelComp(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        report=report,
+        failed_checks=failed_checks,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
+        as_widget=as_widget,
+        model=model,
+    )
+    comp.execute()
+
+
+@component(
     base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
 def evalmlpredict(
@@ -175,9 +204,9 @@ def evalmlpredict(
     test_dataset: Input[Dataset],
     predictions: Output[Dataset],
     pred_column: str = "pred_column",
-    proba_column: str = "proba_column",
+    proba_column_prefix: str = "proba_column",
 ):
-    from tabular_orchestrated.evalml.pipeline import EvalMLPredict
+    from tabular_orchestrated.evalml.pipeline_predict import EvalMLPredict
 
     comp = EvalMLPredict(
         exclude_columns=exclude_columns,
@@ -186,7 +215,7 @@ def evalmlpredict(
         test_dataset=test_dataset,
         predictions=predictions,
         pred_column=pred_column,
-        proba_column=proba_column,
+        proba_column_prefix=proba_column_prefix,
     )
     comp.execute()
 
@@ -223,7 +252,7 @@ def evalmlselectpipeline(
     model: Output[Model] = None,
     pipeline_id: int = -1,
 ):
-    from tabular_orchestrated.evalml.pipeline import EvalMLSelectPipeline
+    from tabular_orchestrated.evalml.select_pipeline import EvalMLSelectPipeline
 
     comp = EvalMLSelectPipeline(
         exclude_columns=exclude_columns,
@@ -246,7 +275,7 @@ def evalmlanalysis(
     analysis: Output[HTML],
     metrics: Output[Metrics],
 ):
-    from tabular_orchestrated.evalml.analysis import EvalMLAnalysis
+    from tabular_orchestrated.evalml.analysis.analysis_comp import EvalMLAnalysis
 
     comp = EvalMLAnalysis(
         exclude_columns=exclude_columns,
@@ -260,29 +289,48 @@ def evalmlanalysis(
 
 
 @component(
-    base_image="python:3.11",
-    packages_to_install=[f"tabular-orchestrated[deepchecks,evalml]=={version('tabular-orchestrated')}"],
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
 )
-def dcmodelcomp(
+def evalmlanalysisv2(
     exclude_columns: List[str],
     target_column: str,
-    report: Output[HTML],
-    failed_checks: Output[Metrics],
-    train_dataset: Input[Dataset],
-    test_dataset: Input[Dataset],
-    as_widget: bool = True,
-    model: Input[Model] = None,
+    predictions: Input[Dataset],
+    analysis: Output[HTML],
+    metrics: Output[Metrics],
+    pred_column: str = "pred_column",
+    proba_column_prefix: str = "proba_column",
 ):
-    from tabular_orchestrated.dc.dc_model import DCModelComp
+    from tabular_orchestrated.evalml.analysis.analysis_comp_v2 import EvalMLAnalysisV2
 
-    comp = DCModelComp(
+    comp = EvalMLAnalysisV2(
         exclude_columns=exclude_columns,
         target_column=target_column,
-        report=report,
-        failed_checks=failed_checks,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        as_widget=as_widget,
+        predictions=predictions,
+        analysis=analysis,
+        metrics=metrics,
+        pred_column=pred_column,
+        proba_column_prefix=proba_column_prefix,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlfinetune(
+    exclude_columns: List[str],
+    target_column: str,
+    model: Input[Model],
+    train_dataset: Input[Dataset],
+    fine_tuned_model: Output[Model],
+):
+    from tabular_orchestrated.evalml.pipeline_predict import EvalMLFineTune
+
+    comp = EvalMLFineTune(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
         model=model,
+        train_dataset=train_dataset,
+        fine_tuned_model=fine_tuned_model,
     )
     comp.execute()

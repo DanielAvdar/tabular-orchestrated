@@ -1,8 +1,6 @@
 import dataclasses
 
-import pandas as pd
 from evalml import AutoMLSearch
-from evalml.problem_types import detect_problem_type
 from ml_orchestrator import artifacts
 from ml_orchestrator.artifacts import Input, Output
 from pandas import DataFrame
@@ -20,7 +18,7 @@ class EvalMLSearch(EvalMLComp):
     def create_search(self, df: DataFrame) -> AutoMLSearch:
         x = df[self.model_columns(df)]
         y = df[self.target_column]
-        problem_type = self.problem_type(y)
+        problem_type = self.detect_problem_type(y)
         self.automl.metadata["problem_type"] = str(problem_type)
         search_params = self.search_params
         search_params["problem_type"] = problem_type
@@ -33,8 +31,4 @@ class EvalMLSearch(EvalMLComp):
         automl = self.create_search(df)
 
         automl.search(interactive_plot=False)
-
         self.save_model(automl, self.automl)
-
-    def problem_type(self, y: pd.Series) -> str:
-        return detect_problem_type(y)
