@@ -93,56 +93,77 @@ class EvalMLAnalysisUtils:
         return metrics
 
     @staticmethod
+    def compute_metrics(metrics_dict: dict, metric_name: str, scorer, *args):
+        try:
+            metrics_dict[metric_name] = scorer.score(*args)
+        except Exception as e:
+            metrics_dict[metric_name] = f"Error: {str(e)}"
+
+    @staticmethod
     def multiclass_metrics(target_series: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> dict[str, float]:
-        return {
-            "Log Loss": LogLossMulticlass().score(target_series, y_pred_proba),
-            "AUC": AUCWeighted().score(target_series, y_pred_proba),
-            "AUC Micro": AUCMicro().score(target_series, y_pred_proba),
-            "AUC Macro": AUCMacro().score(target_series, y_pred_proba),
-            "MCC Multiclass": MCCMulticlass().score(target_series, y_pred),
-            "Precision": PrecisionWeighted().score(target_series, y_pred),
-            "Recall": RecallWeighted().score(target_series, y_pred),
-            "Recall Micro": RecallMicro().score(target_series, y_pred),
-            "Recall Macro": RecallMacro().score(target_series, y_pred),
-            "Accuracy Multiclass": AccuracyMulticlass().score(target_series, y_pred),
-            "Balanced Accuracy Multiclass": BalancedAccuracyMulticlass().score(target_series, y_pred),
-            "F1 Weighted": F1Weighted().score(target_series, y_pred),
-            "F1 Macro": F1Macro().score(target_series, y_pred),
-            "F1 Micro": F1Micro().score(target_series, y_pred),
-            "Precision Weighted": PrecisionWeighted().score(target_series, y_pred),
-            "Precision Macro": PrecisionMacro().score(target_series, y_pred),
-            "Precision Micro": PrecisionMicro().score(target_series, y_pred),
+        metrics = {}
+        scorers = {
+            "Log Loss": LogLossMulticlass(),
+            "AUC": AUCWeighted(),
+            "AUC Micro": AUCMicro(),
+            "AUC Macro": AUCMacro(),
+            "MCC Multiclass": MCCMulticlass(),
+            "Precision": PrecisionWeighted(),
+            "Recall": RecallWeighted(),
+            "Recall Micro": RecallMicro(),
+            "Recall Macro": RecallMacro(),
+            "Accuracy Multiclass": AccuracyMulticlass(),
+            "Balanced Accuracy Multiclass": BalancedAccuracyMulticlass(),
+            "F1 Weighted": F1Weighted(),
+            "F1 Macro": F1Macro(),
+            "F1 Micro": F1Micro(),
+            "Precision Weighted": PrecisionWeighted(),
+            "Precision Macro": PrecisionMacro(),
+            "Precision Micro": PrecisionMicro(),
         }
+        for name, scorer in scorers.items():
+            args = (target_series, y_pred_proba if "AUC" in name or "Log Loss" in name else y_pred)
+            EvalMLAnalysisUtils.compute_metrics(metrics, name, scorer, *args)
+        return metrics
 
     @staticmethod
     def regression_metrics(target_series: pd.Series, y_pred: pd.Series) -> dict[str, float]:
-        return {
-            "R2": R2().score(target_series, y_pred),
-            "RMSE": RootMeanSquaredError().score(target_series, y_pred),
-            "MAE": MAE().score(target_series, y_pred),
-            "MSE": MSE().score(target_series, y_pred),
-            "MAPE": MAPE().score(target_series, y_pred),
-            "SMAPE": SMAPE().score(target_series, y_pred),
-            "MSLE": MeanSquaredLogError().score(target_series, y_pred),
-            "RMSLE": RootMeanSquaredLogError().score(target_series, y_pred),
-            "Max Error": MaxError().score(target_series, y_pred),
-            "Exp Var": ExpVariance().score(target_series, y_pred),
-            "Median Absolute Error": MedianAE().score(target_series, y_pred),
+        metrics = {}
+        scorers = {
+            "R2": R2(),
+            "RMSE": RootMeanSquaredError(),
+            "MAE": MAE(),
+            "MSE": MSE(),
+            "MAPE": MAPE(),
+            "SMAPE": SMAPE(),
+            "MSLE": MeanSquaredLogError(),
+            "RMSLE": RootMeanSquaredLogError(),
+            "Max Error": MaxError(),
+            "Exp Var": ExpVariance(),
+            "Median Absolute Error": MedianAE(),
         }
+        for name, scorer in scorers.items():
+            EvalMLAnalysisUtils.compute_metrics(metrics, name, scorer, target_series, y_pred)
+        return metrics
 
     @staticmethod
     def binary_metrics(target_series: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> dict[str, float]:
-        return {
-            "AUC": AUC().score(target_series, y_pred),
-            "F1": F1().score(target_series, y_pred),
-            "Log Loss": LogLossBinary().score(target_series, y_pred),
-            "Precision": Precision().score(target_series, y_pred),
-            "Recall": Recall().score(target_series, y_pred),
-            "Balanced Accuracy": BalancedAccuracyBinary().score(target_series, y_pred),
-            "Accuracy Binary": AccuracyBinary().score(target_series, y_pred),
-            "MCC Binary": MCCBinary().score(target_series, y_pred),
-            "Gini": Gini().score(target_series, y_pred),
+        metrics = {}
+        scorers = {
+            "AUC": AUC(),
+            "F1": F1(),
+            "Log Loss": LogLossBinary(),
+            "Precision": Precision(),
+            "Recall": Recall(),
+            "Balanced Accuracy": BalancedAccuracyBinary(),
+            "Accuracy Binary": AccuracyBinary(),
+            "MCC Binary": MCCBinary(),
+            "Gini": Gini(),
         }
+        for name, scorer in scorers.items():
+            args = (target_series, y_pred_proba if name == "Log Loss" else y_pred)
+            EvalMLAnalysisUtils.compute_metrics(metrics, name, scorer, *args)
+        return metrics
 
     @classmethod
     def create_metric_charts(cls, labels: pd.Series, y_pred: pd.Series, y_pred_proba: pd.DataFrame) -> list[Figure]:
