@@ -1,7 +1,12 @@
 from pathlib import Path
 
-from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
-from tabular_orchestrated.evalml.analysis import EvalMLAnalysisV2
+from tabular_orchestrated.evalml import (
+    EvalMLAnalysis,
+    EvalMLAnalysisV2,
+    EvalMLPredict,
+    EvalMLSearch,
+    EvalMLSelectPipeline,
+)
 
 
 def test_evalml_search_op(evalml_search_op: EvalMLSearch):

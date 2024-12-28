@@ -3,8 +3,13 @@ from pathlib import Path
 import pytest
 from ml_orchestrator import artifacts
 
-from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
-from tabular_orchestrated.evalml.analysis import EvalMLAnalysisV2
+from tabular_orchestrated.evalml import (
+    EvalMLAnalysis,
+    EvalMLAnalysisV2,
+    EvalMLPredict,
+    EvalMLSearch,
+    EvalMLSelectPipeline,
+)
 
 
 @pytest.fixture(scope="session")
