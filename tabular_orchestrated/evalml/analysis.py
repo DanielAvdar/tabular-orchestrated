@@ -66,61 +66,55 @@ class EvalMLAnalysis(EvalMLComp):
     analysis: Output[artifacts.HTML]
     metrics: Output[artifacts.Metrics]
 
+    @property
+    def problem_type(self) -> str:
+        return self.model.metadata["problem_type"]
+
     def execute(self) -> None:
         model = self.load_model(self.model)
         test_df = self.load_df(self.test_dataset)
         self.analyze(model, test_df)
 
     def analyze(self, model, test_df):
-        model.predict(test_df[self.model_columns(test_df)])
-
-        self.create_charts(model, test_df)
-        self.create_metrics(model, test_df)
-
-    def create_charts(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
-        problem_type = self.model.metadata["problem_type"]
-        labels = test_df[self.target_column]
         y_pred = model.predict(test_df[self.model_columns(test_df)])
         y_pred_proba = (
-            model.predict_proba(test_df[self.model_columns(test_df)]) if problem_type != "regression" else None
+            model.predict_proba(test_df[self.model_columns(test_df)]) if self.problem_type != "regression" else None
         )
-        charts = self.create_metric_charts(labels, problem_type, y_pred, y_pred_proba)
+        labels = test_df[self.target_column]
+        self.create_charts(model, labels, y_pred, y_pred_proba)
+        self.create_metrics(labels, y_pred, y_pred_proba)
+
+    def create_charts(self, model: EvalMLModel, labels: pd.Series, y_pred, y_pred_proba) -> None:
+        charts = self.create_metric_charts(labels, y_pred, y_pred_proba)
 
         charts.append(model.graph_feature_importance())
         str_charts = [chart.to_html() for chart in charts]
         html_str = "<br>".join(str_charts)
         self.save_html(self.analysis, html_str)
 
-    def create_metric_charts(self, labels, problem_type, y_pred, y_pred_proba):
+    def create_metric_charts(self, labels, y_pred, y_pred_proba):
         charts = []
-        if problem_type == "binary":
+        if self.problem_type == "binary":
             roc = graph_roc_curve(labels, y_pred_proba)
             prc = graph_precision_recall_curve(labels, y_pred_proba)
             confusion = graph_confusion_matrix(labels, y_pred)
             charts.extend([roc, prc, confusion])
-        elif problem_type == "regression":
+        elif self.problem_type == "regression":
             pred_vs_true = graph_prediction_vs_actual(labels, y_pred, outlier_threshold=50)
             charts.append(pred_vs_true)
-        elif problem_type == "multiclass":
+        elif self.problem_type == "multiclass":
             confusion = confusion_matrix(labels, y_pred)
             charts.append(confusion)
         return charts
 
-    def create_metrics(self, model: EvalMLModel, test_df: pd.DataFrame) -> None:
-        y_pred = model.predict(test_df[self.model_columns(test_df)])
-        problem_type = self.model.metadata["problem_type"]
-        y_pred_proba = None
-        target_series = test_df[self.target_column]
-        if problem_type == "binary" or problem_type == "multiclass":
-            y_pred_proba = model.predict_proba(test_df[self.model_columns(test_df)])
-
+    def create_metrics(self, labels: pd.Series, y_pred, y_pred_proba) -> None:
         metrics = {}
-        if problem_type == "binary":
-            metrics = self.binary_metrics(target_series, y_pred, y_pred_proba)
-        elif problem_type == "regression":
-            metrics = self.regression_metrics(target_series, y_pred)
-        elif problem_type == "multiclass":
-            metrics = self.multiclass_metrics(target_series, y_pred, y_pred_proba)
+        if self.problem_type == "binary":
+            metrics = self.binary_metrics(labels, y_pred, y_pred_proba)
+        elif self.problem_type == "regression":
+            metrics = self.regression_metrics(labels, y_pred)
+        elif self.problem_type == "multiclass":
+            metrics = self.multiclass_metrics(labels, y_pred, y_pred_proba)
 
         for metric_name, metric_value in metrics.items():
             self.metrics.log_metric(metric_name, metric_value)

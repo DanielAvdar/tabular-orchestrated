@@ -25,3 +25,5 @@ def test_evalml_predict_op(evalml_predict_op: EvalMLPredict):
 
 def test_evalml_analysis_op(evalml_analysis_op: EvalMLAnalysis):
     assert Path(evalml_analysis_op.analysis.uri).exists
+    metrics = evalml_analysis_op.metrics.metadata
+    assert metrics, "Metrics are empty"
