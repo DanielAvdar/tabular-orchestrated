@@ -175,7 +175,7 @@ def evalmlpredict(
     test_dataset: Input[Dataset],
     predictions: Output[Dataset],
     pred_column: str = "pred_column",
-    proba_column: str = "proba_column",
+    proba_column_prefix: str = "proba_column",
 ):
     from tabular_orchestrated.evalml.pipeline import EvalMLPredict
 
@@ -186,7 +186,7 @@ def evalmlpredict(
         test_dataset=test_dataset,
         predictions=predictions,
         pred_column=pred_column,
-        proba_column=proba_column,
+        proba_column_prefix=proba_column_prefix,
     )
     comp.execute()
 
@@ -255,6 +255,32 @@ def evalmlanalysis(
         test_dataset=test_dataset,
         analysis=analysis,
         metrics=metrics,
+    )
+    comp.execute()
+
+
+@component(
+    base_image="python:3.11", packages_to_install=[f"tabular-orchestrated[evalml]=={version('tabular-orchestrated')}"]
+)
+def evalmlanalysisv2(
+    exclude_columns: List[str],
+    target_column: str,
+    predictions: Input[Dataset],
+    analysis: Output[HTML],
+    metrics: Output[Metrics],
+    pred_column: str = "pred_column",
+    proba_column_prefix: str = "proba_column",
+):
+    from tabular_orchestrated.evalml.analysis import EvalMLAnalysisV2
+
+    comp = EvalMLAnalysisV2(
+        exclude_columns=exclude_columns,
+        target_column=target_column,
+        predictions=predictions,
+        analysis=analysis,
+        metrics=metrics,
+        pred_column=pred_column,
+        proba_column_prefix=proba_column_prefix,
     )
     comp.execute()
 

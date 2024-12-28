@@ -4,6 +4,7 @@ import pytest
 from ml_orchestrator import artifacts
 
 from tabular_orchestrated.evalml import EvalMLAnalysis, EvalMLPredict, EvalMLSearch, EvalMLSelectPipeline
+from tabular_orchestrated.evalml.analysis import EvalMLAnalysisV2
 
 
 @pytest.fixture(scope="session")
@@ -68,6 +69,23 @@ def evalml_analysis_op(
         test_dataset=get_df_example,
         analysis=artifacts.HTML(uri=func("analysis")),
         metrics=artifacts.Metrics(uri=func("metrics")),
+        **model_params,
+    )
+    analysis_op.execute()
+    return analysis_op
+
+
+@pytest.fixture(scope="session")
+def evalml_analysis_v2_op(evalml_predict_op: EvalMLPredict, model_params: dict) -> EvalMLAnalysisV2:
+    tmp_files_folder = Path(evalml_predict_op.predictions.uri).parent
+
+    def func(x):
+        return (tmp_files_folder / x).as_posix()
+
+    analysis_op = EvalMLAnalysisV2(
+        predictions=evalml_predict_op.predictions,
+        analysis=artifacts.HTML(uri=func("analysis_v2")),
+        metrics=artifacts.Metrics(uri=func("metrics_v2")),
         **model_params,
     )
     analysis_op.execute()
