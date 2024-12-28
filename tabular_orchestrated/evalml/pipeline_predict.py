@@ -35,6 +35,6 @@ class EvalMLFineTune(EvalMLComp):
     def execute(self) -> None:
         model = self.load_model(self.model)
         train_df = self.load_df(self.train_dataset)
-        model.fit(train_df[self.model_columns(train_df)], train_df[self.target_column])
-        self.save_model(model, self.fine_tuned_model)
+        fine_tuned_model = model.fit(train_df[self.model_columns(train_df)], train_df[self.target_column])
+        self.save_model(fine_tuned_model, self.fine_tuned_model)
         self.fine_tuned_model.metadata["problem_type"] = self.detect_problem_type(train_df[self.target_column])

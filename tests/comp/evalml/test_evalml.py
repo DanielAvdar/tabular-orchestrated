@@ -54,6 +54,8 @@ def test_evalml_analysis_v2_op(evalml_analysis_v2_op: EvalMLAnalysisV2):
     analysis_metadata = evalml_analysis_v2_op.analysis.metadata
     assert metrics, "Metrics are empty"
     assert analysis_metadata["number of charts"] > 0, "No charts were generated"
+    for k, _v in metrics.items():
+        assert "Error: " not in k, f"Invalid metric name: {k}"
 
 
 def test_evalml_fine_tune_op(evalml_fine_tune_op: EvalMLFineTune):  # utilize the fixture here

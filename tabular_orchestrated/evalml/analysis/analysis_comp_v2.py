@@ -1,8 +1,7 @@
 import dataclasses
 
 import pandas as pd
-from ml_orchestrator import artifacts
-from ml_orchestrator.artifacts import Input, Output
+from ml_orchestrator.artifacts import HTML, Dataset, Input, Metrics, Output
 
 from tabular_orchestrated.evalml.analysis.utils import EvalMLAnalysisUtils
 from tabular_orchestrated.evalml.evalml import EvalMLComp
@@ -10,9 +9,9 @@ from tabular_orchestrated.evalml.evalml import EvalMLComp
 
 @dataclasses.dataclass
 class EvalMLAnalysisV2(EvalMLComp):
-    predictions: Input[artifacts.Dataset]
-    analysis: Output[artifacts.HTML]
-    metrics: Output[artifacts.Metrics]
+    predictions: Input[Dataset]
+    analysis: Output[HTML]
+    metrics: Output[Metrics]
     pred_column: str = "pred_column"
     proba_column_prefix: str = "proba_column"
 
